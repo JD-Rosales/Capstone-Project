@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const { getFingerSpell, setFingerSpell, updateFingerSpell, deleteFingerSpell } = require('../../controllers/fingerspellController')
+const { protected } = require('../../middlewares/authMiddleware')
 
-router.get('/', getFingerSpell)
+router.get('/', protected, getFingerSpell)
 
-router.post('/', setFingerSpell)
+router.post('/', protected, setFingerSpell)
 
-router.put('/:id', updateFingerSpell)
+router.put('/:id', protected, updateFingerSpell)
 
-router.delete('/:id', deleteFingerSpell)
+router.delete('/:id', protected, deleteFingerSpell)
 
 module.exports = router

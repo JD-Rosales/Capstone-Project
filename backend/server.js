@@ -1,6 +1,5 @@
 const express = require('express')
 const dotenv = require('dotenv').config()
-const { errorHandler} = require('./middlewares/errorMiddleware')
 const connectDB = require('./config/db')
 const port = process.env.PORT || 8000
 
@@ -13,7 +12,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended : false}))
 
 app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
-
-app.use(errorHandler)
+app.use('/api/users', require('./routes/api/userRoutes'))
 
 app.listen(port, () => console.log(`Server running on PORT ${port}`))

@@ -1,4 +1,5 @@
 const Fingerspell = require('../models/fingerspellModel')
+const User = require('../models/userModel')
 
 //GET api/fingerspell
 const getFingerSpell = async (req, res) => {
@@ -16,12 +17,13 @@ const getFingerSpell = async (req, res) => {
 const setFingerSpell = async (req, res) => {
   //throw an error if either of the fields is empty
   if(!req.body.text || !req.body.difficulty){
-    res.status(400)
-    throw new Error('Please fill all the required fields')
+    res.status(400).json({ message: 'Please fill all the required fields'})
   }
 
   try {
     const fingerspell = await Fingerspell.create({
+      //user is from middleware token
+      user: req.user.id,
       text: req.body.text,
       difficulty: req.body.difficulty
     })
@@ -38,8 +40,18 @@ const updateFingerSpell = async (req, res) => {
     const fingerspell = await Fingerspell.findById(req.params.id)
 
     if(!fingerspell){
-      res.status(400)
-      throw new Error('ID not found!')
+      res.status(404).json({ message: 'ID not found!'})
+    }
+
+    //check for user
+    const user = await User.findById(req.user.id)
+    if(!user){
+      res.status(401).json({ message: 'User not fount'})
+    }
+
+    //make sure logged in user matches the fingerspell user
+    if(fingerspell.user.toString() !== user.id){
+      res.status(401).json({ message: 'User not authorized to update'})
     }
 
     const updatedFingerspell = await Fingerspell.findByIdAndUpdate(
@@ -60,8 +72,18 @@ const deleteFingerSpell = async (req, res) => {
     const fingerspell = await Fingerspell.findById(req.params.id)
 
     if(!fingerspell){
-      res.status(400)
-      throw new Error('ID not found!')
+      res.status(404).json({ message: 'ID not found!'})
+    }
+
+    //check for user
+    const user = await User.findById(req.user.id)
+    if(!user){
+      res.status(401).json({ message: 'User not fount'})
+    }
+
+    //make sure logged in user matches the fingerspell user
+    if(fingerspell.user.toString() !== user.id){
+      res.status(401).json({ message: 'User not authorized to update'})
     }
 
     await fingerspell.remove()
