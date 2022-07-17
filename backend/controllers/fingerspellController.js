@@ -1,7 +1,11 @@
+const Fingerspell = require('../models/fingerspellModel')
+
 //GET api/fingerspell
 const getFingerSpell = async (req, res) => {
   try {
-    res.status(200).json({ message: 'GET Finger Spell The Word'})
+    const fingerspell = await Fingerspell.find()
+
+    res.status(200).json(fingerspell)
   } catch (error) {
     console.log(error)
   }
@@ -17,7 +21,11 @@ const setFingerSpell = async (req, res) => {
   }
 
   try {
-    res.status(200).json({ message: 'SET Finger Spell The Word'})
+    const fingerspell = await Fingerspell.create({
+      text: req.body.text,
+      difficulty: req.body.difficulty
+    })
+    res.status(200).json(fingerspell)
   } catch (error) {
     console.log(error)
   }
@@ -27,7 +35,19 @@ const setFingerSpell = async (req, res) => {
 //PUT api/fingerspell/:id
 const updateFingerSpell = async (req, res) => {
   try {
-    res.status(200).json({ message: `UPDATE Finger Spell The Word ${req.params.id}`})
+    const fingerspell = await Fingerspell.findById(req.params.id)
+
+    if(!fingerspell){
+      res.status(400)
+      throw new Error('ID not found!')
+    }
+
+    const updatedFingerspell = await Fingerspell.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {new: true}
+      )
+    res.status(200).json(updatedFingerspell)
   } catch (error) {
     console.log(error)
   }
@@ -37,7 +57,15 @@ const updateFingerSpell = async (req, res) => {
 //DELETE api/fingerspell/:id
 const deleteFingerSpell = async (req, res) => {
   try {
-    res.status(200).json({ message: `DELETE Finger Spell The Word ${req.params.id}`})
+    const fingerspell = await Fingerspell.findById(req.params.id)
+
+    if(!fingerspell){
+      res.status(400)
+      throw new Error('ID not found!')
+    }
+
+    await fingerspell.remove()
+    res.status(200).json({ message: `item with an id of ${req.params.id} has been deleted` })
   } catch (error) {
     console.log(error)
   }
