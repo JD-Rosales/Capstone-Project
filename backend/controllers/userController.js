@@ -14,9 +14,9 @@ const registerUser = async (req, res) => {
     }
 
     //check if user already exists
-    const userExists = await User.findOne({password})
+    const userExists = await User.findOne({username})
     if(userExists){
-      res.status(409).json({ message: 'Username is already Taken'})
+      res.status(409).json({ message: 'Username is already taken'})
     }
 
     //hash the password
@@ -93,7 +93,7 @@ const getUser = async (req, res) => {
 //Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: '3d',
+    expiresIn: '1d',
   })
 }
 
