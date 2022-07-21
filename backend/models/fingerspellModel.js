@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 
 const fingerspellSchema = mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
-  },
-  text: {
+  // user: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  //   ref: 'User'
+  // },
+  word: {
     type: String,
     required: [true, 'Please add a text value']
   },

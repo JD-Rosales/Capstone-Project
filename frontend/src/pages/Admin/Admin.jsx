@@ -1,23 +1,34 @@
 import './Admin.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import Sidabar from '../../components/Sidebar/Sidebar'
+import Card from '../../components/Card/Card'
 
 const Admin = () => {
+
+  const [user, setUser] = useState('')
 
   const API_URL = 'http://localhost:5000/verifyJWT'
   const navigate = useNavigate()
 
+  const userData = JSON.parse(localStorage.getItem("userData"))
+
   useEffect(() => {
     const verifyJWT = async () => {
-      const userData = JSON.parse(localStorage.getItem("userData"))
     
       axios.get(API_URL, {
         headers: { Authorization: `Bearer ${userData.token}` }
       }).then((res) => {
-        console.log(res.data)
+        if(res.data.isAuthorized === true){
+          setUser(userData.username)
+        } else {
+          localStorage.clear()
+          navigate('/unauthorized')
+        }
       }).catch((err) => {
         console.log(err)
+        localStorage.clear()
         navigate('/unauthorized')
       })
     }
@@ -28,10 +39,19 @@ const Admin = () => {
       return () => verifyJWT()
     }
 
-  }, [navigate])
+  }, [navigate, userData.token, userData.username])
 
   return (
-    <div>Admin</div>
+    <div className='administrator'>
+      <Sidabar
+        isAdmin='true'
+        user={user}
+      />
+
+      <div className='main'>
+        <Card className='card'/>
+      </div>
+    </div>
   )
 }
 

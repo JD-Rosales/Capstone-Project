@@ -1,0 +1,97 @@
+.update-modal {
+  max-width: 100vw;
+  min-width: 100vw;
+  max-height: 100vh;
+  min-height: 100vh;
+  z-index: 999999;
+  position: fixed;
+  right: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(3px);
+  user-select: none;
+}
+
+.update-modal > .content {
+  height: 400px;
+  width: 360px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background-color: rgb(247, 241, 241);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-modal > .content > button {
+  border: none;
+  outline: none;
+  height: 35px;
+  width: 35px;
+  font-size: 15px;
+  font-weight: bold;
+  background-color: inherit;
+  cursor: pointer;
+  margin: 10px;
+  margin-left: auto;
+}
+
+.update-modal > .content > button:hover{
+  color: red;
+}
+
+.update-modal > .content > form {
+  height: 100%;
+  margin: 0 50px 20px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.update-modal > .content > form > h2 {
+  font-size: 1.6rem;
+}
+
+.update-modal > .content > form > h2 > span {
+  color: #799733;
+}
+
+.update-modal > .content > form > span {
+  font-size: .8rem;
+}
+
+.update-modal > .content > form > input {
+  width: 100%;
+  padding: 15px 20px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #e2e2e2;
+}
+
+.update-modal > .content > form > select {
+  width: 100%;
+  font-size: 1rem;
+  font-family: inherit;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  background-color: rgb(10, 10, 10);
+  color: #fff;
+}
+
+.update-modal > .content > form > button {
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 15px 20px;
+  font-family: inherit;
+  font-size: 1rem;
+  background-color: #718b97;
+  margin-top: 20px;
+}

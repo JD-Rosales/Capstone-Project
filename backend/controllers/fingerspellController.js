@@ -15,17 +15,13 @@ const getFingerSpell = async (req, res) => {
 
 //POST api/fingerspell/
 const setFingerSpell = async (req, res) => {
-  //throw an error if either of the fields is empty
-  if(!req.body.text || !req.body.difficulty){
-    res.status(400).json({ message: 'Please fill all the required fields'})
-  }
 
   try {
     const fingerspell = await Fingerspell.create({
       //user is from middleware token
-      user: req.user.id,
-      text: req.body.text,
-      difficulty: req.body.difficulty
+      // user: req.user.id,
+      word: req.body.addWord.toUpperCase(),
+      difficulty: req.body.addDifficulty
     })
     res.status(200).json(fingerspell)
   } catch (error) {

@@ -68,6 +68,12 @@
   margin-top: 30px;
 }
 
+.login > .form-container > form > .msg {
+  display: block;
+  text-align: center;
+  color: red;
+}
+
 .login > .form-container > form > input {
   margin: 12px 0;
   height: 50px;

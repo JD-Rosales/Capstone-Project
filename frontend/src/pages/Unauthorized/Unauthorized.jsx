@@ -9,7 +9,6 @@ const Unauthorized = () => {
         <a href="/login">Log<span>i</span>n</a>
         <p>&nbsp; as Administrator to Continue</p>
       </div>
-      
     </div>
   )
 }

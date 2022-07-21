@@ -6,6 +6,7 @@ import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Admin from "./pages/Admin/Admin";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import Fingerspell from "./pages/Fingerspell/Fingerspell";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/administrator" element={<Admin />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/administrator/finger-spell" element={<Fingerspell />} />
       </Routes>
       <ToastContainer
         autoClose={1500}

@@ -9,8 +9,9 @@ const Login = () => {
   const passwordRef = useRef()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [passwordShown, setPasswordShown] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState(null)
+  const [passwordShown, setPasswordShown] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const API_URL = 'http://localhost:5000/api/users/login'
   const navigate = useNavigate()
@@ -24,15 +25,18 @@ const Login = () => {
       password
 
     }).then((response) => {
-      console.log(response)
+      if(response.status === 200){
+        //save the response data to local storage
+        localStorage.clear()
+        localStorage.setItem('userData', JSON.stringify(response.data))
+        navigate('/administrator')
+        setIsLoading(false)
+      }
 
-      //save the response data to local storage
-      localStorage.clear()
-      localStorage.setItem('userData', JSON.stringify(response.data))
-      navigate('/administrator')
-      setIsLoading(false)
     }).catch((err) => {
-      console.log(err)
+      setUsername('')
+      setPassword('')
+      setMessage(err.response.data.message)
       localStorage.clear()
       setIsLoading(false)
     });
@@ -88,6 +92,8 @@ const Login = () => {
             <input type="checkbox" name="showPassword" onChange={() => {setPasswordShown(!passwordShown)}}/>
             <label htmlFor="showPassword">Show password</label>
           </div>
+
+          {message && username === '' && password === '' ? <span className='msg'>{message}</span>: ""}
 
            <button>Login</button>
         </form>
