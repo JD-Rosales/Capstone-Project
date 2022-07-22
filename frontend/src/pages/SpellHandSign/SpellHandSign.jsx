@@ -1,4 +1,4 @@
-import './Fingerspell.css'
+import './SpellHandSign.css'
 import { useEffect, useState } from 'react'
 import { useNavigate} from 'react-router-dom'
 import axios from 'axios'
@@ -8,9 +8,7 @@ import Spinner from '../../components/Spinner/Spinner'
 import UpdateModal from '../../components/UpdateModal/UpdateModal'
 import DeleteModal from '../../components/DeleteModal/DeleteModal'
 
-import React from 'react'
-
-const Fingerspell = () => {
+const SpellHandSign = () => {
   const userData = JSON.parse(localStorage.getItem("userData"))
 
   // const [user, setUser] = useState('')
@@ -34,10 +32,10 @@ const Fingerspell = () => {
   const baseURL = 'http://localhost:5000'
   const navigate = useNavigate()
 
-  const getFingerSpell = async() => {
+  const getSpellHandSign = async() => {
     const userData = JSON.parse(localStorage.getItem("userData"))
     setIsLoading(true)
-    await axios.get(baseURL+'/api/fingerspell', {
+    await axios.get(baseURL+'/api/spell-hand-sign', {
       headers: { Authorization: `Bearer ${userData.token}` }
     }).then((res) => {
       setData(res.data)
@@ -55,7 +53,7 @@ const Fingerspell = () => {
       }).then((res) => {
         if(res.data.isAuthorized === true){
           // setUser(userData.username)
-          getFingerSpell()
+          getSpellHandSign()
         } else {
           localStorage.clear()
           navigate('/unauthorized')
@@ -79,7 +77,7 @@ const Fingerspell = () => {
     //only add if the word input field is not empty
     if(addWord !== '') {
       setIsLoading(true)
-      await axios.post(baseURL+'/api/fingerspell', {
+      await axios.post(baseURL+'/api/spell-hand-sign', {
         addWord,
         addDifficulty
       }, {
@@ -87,7 +85,7 @@ const Fingerspell = () => {
       }).then((res) => {
         setAddWord('')
         setIsLoading(false)
-        getFingerSpell()
+        getSpellHandSign()
       }).catch((err) => {
         console.log(err)
         setIsLoading(false)
@@ -120,16 +118,15 @@ const Fingerspell = () => {
   }
 
   return (
-    <div className='admin-fingerspell'>
+    <div className='admin-spell-hand-sign'>
       <Sidabar
         isAdmin='true'
-        // user={user}
       />
 
       <div className='main'>
 
         <div className='header'>
-          <h1>MANAGE <span>FINGER SPELL THE WORD</span></h1>
+          <h1>MANAGE <span>SPELL HAND SIGN</span></h1>
           <hr/>
         </div>
 
@@ -195,17 +192,17 @@ const Fingerspell = () => {
         onChange={handleUpdateModalChange}
         word={updateWord} 
         difficulty={updateDifficulty} 
-        API_URL={baseURL+`/api/fingerspell/${id}`} 
+        API_URL={baseURL+`/api/spell-hand-sign/${id}`} 
         token={userData.token}
-        fetch={getFingerSpell}  
+        fetch={getSpellHandSign}  
       />: ""}
 
       {deleteModal ? 
       <DeleteModal
         onChange={handleDeleteModalChange}
-        API_URL={baseURL+`/api/fingerspell/${id}`} 
+        API_URL={baseURL+`/api/spell-hand-sign/${id}`} 
         token={userData.token}
-        fetch={getFingerSpell}
+        fetch={getSpellHandSign}
       />: ""}
 
       {isLoading ? 
@@ -214,4 +211,4 @@ const Fingerspell = () => {
   )
 }
 
-export default Fingerspell
+export default SpellHandSign

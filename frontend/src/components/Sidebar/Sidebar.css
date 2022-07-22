@@ -30,6 +30,74 @@
   font-size: .9rem;
 }
 
+.sidebar > .games-list-container {
+  position: relative;
+  display: inline-block;
+}
+
+.sidebar > .games-list-container > .games-btn {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  font-family: inherit;
+  background-color: inherit ;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 40px;
+  padding: 20px 50px 20px 10px; 
+}
+
+.sidebar > .games-list-container > .games-btn:hover{
+  background-color: darkslategrey;
+  color: #fff;
+}
+
+.sidebar > .games-list-container > .game-list-content{
+  display: none;
+  position: absolute;
+  z-index: 1;
+  margin-left: 40px;
+  margin-right: 30px;
+  padding-left: 20px;
+  width: 260px;
+}
+
+.sidebar > .games-list-container > .game-list-content > .to-fingerspell {
+  display: block;
+  text-decoration: none;
+  padding: 15px 0 15px 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  color: #fff;
+  padding-left: 30px;
+}
+
+.sidebar > .games-list-container > .game-list-content > .to-fingerspell:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.sidebar > .games-list-container > .game-list-content > .to-spell-hand-sign {
+  display: block;
+  text-decoration: none;
+  padding: 15px 0 15px 0;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  color: #fff;
+  padding-left: 30px;
+}
+
+.sidebar > .games-list-container > .game-list-content > .to-spell-hand-sign:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.sidebar > .games-list-container:hover .game-list-content{
+  display: block;
+}
+
 .sidebar > .logout-btn {
   height: 50px;
   width: 170px;

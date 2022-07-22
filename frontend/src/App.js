@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import Admin from "./pages/Admin/Admin";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import Fingerspell from "./pages/Fingerspell/Fingerspell";
+import SpellHandSign from "./pages/SpellHandSign/SpellHandSign"
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/administrator" element={<Admin />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/administrator/finger-spell" element={<Fingerspell />} />
+        <Route path="/administrator/spell-hand-sign" element={<SpellHandSign />} />
       </Routes>
       <ToastContainer
         autoClose={1500}

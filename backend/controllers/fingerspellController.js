@@ -1,5 +1,5 @@
 const Fingerspell = require('../models/fingerspellModel')
-const User = require('../models/userModel')
+// const User = require('../models/userModel')
 
 //GET api/fingerspell
 const getFingerSpell = async (req, res) => {

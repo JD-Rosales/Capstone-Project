@@ -20,6 +20,8 @@ app.use(cors({
 }))
 
 app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
+app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
+
 app.use('/api/users', require('./routes/api/userRoutes'))
 
 //frontend protected routes
