@@ -18,7 +18,7 @@ export const CardData = [
     difficulty: 'Medium',
     backgroundColor: 'black',
     color: 'white',
-    link: "/administrator/spell-hand-signs",
+    link: "/administrator/spell-hand-sign",
     cName: 'card-items'
   },
   {
