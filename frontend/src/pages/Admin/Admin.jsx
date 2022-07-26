@@ -2,7 +2,7 @@ import './Admin.css'
 import { useEffect, useState } from 'react'
 import { useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import Sidabar from '../../components/Sidebar/Sidebar'
+import Sidebar from '../../components/Sidebar/Sidebar'
 import Card from '../../components/Card/Card'
 
 const Admin = () => {
@@ -43,7 +43,7 @@ const Admin = () => {
 
   return (
     <div className='administrator'>
-      <Sidabar
+      <Sidebar
         isAdmin='true'
         user={user}
       />

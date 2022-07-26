@@ -1,17 +1,17 @@
 import { Link } from 'react-router-dom'
 import './Landing.css'
-import logo from '../../assets/logo.png'
 import illustration1 from '../../assets/illustration1.png'
+import logo2 from '../../assets/logo2.png'
 
 const Landing = () => {
   return (
     <div className='landing'>
       <nav>
-        <img src={logo} alt='logo'></img>
+        <img src={logo2} alt='logo'></img>
 
         <ul>
           <li>
-            <Link to='/'>HOME</Link>
+            <Link to='/home'>HOME</Link>
           </li>
           <li>
             <Link to='/'>PLAY A GAME</Link>

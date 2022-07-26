@@ -1,8 +1,9 @@
 import './Sidebar.css'
+import logo2 from '../../assets/logo2.png'
 import { Link, useNavigate} from 'react-router-dom'
 import { CgLogOut } from 'react-icons/cg'
 
-const Sidabar = (props) => {
+const Sidebar = (props) => {
   const navigate = useNavigate()
 
   const userData = JSON.parse(localStorage.getItem("userData"))
@@ -15,13 +16,13 @@ const Sidabar = (props) => {
   return (
     <div className='sidebar'>
       <div className='sidebar-header'>
-        <span>Web-based E-Learning Sign Language Translator Game</span>
+        <img src={logo2} alt='logo'></img>
 
         {props.isAdmin === 'true' ? <span className='username'>Hi, {userData.username}!</span>: ""}
         {props.isAdmin === 'true' ? <span>(Administrator)</span>: ""}
       </div>
 
-      <div className='games-list-container'>
+      {props.isAdmin === 'true' ? <div className='games-list-container'>
 
         <button className='games-btn'>
           Manage Games
@@ -32,7 +33,7 @@ const Sidabar = (props) => {
           <Link className='to-spell-hand-sign' to='/administrator/spell-hand-sign'>Spell Hand Sign</Link>
         </div>
 
-      </div>
+      </div>: ''}
 
       { props.isAdmin === 'true' ? 
         <button className='logout-btn' onClick={logout}>
@@ -45,4 +46,4 @@ const Sidabar = (props) => {
   )
 }
 
-export default Sidabar
+export default Sidebar

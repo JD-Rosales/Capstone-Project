@@ -2,7 +2,7 @@ import './Fingerspell.css'
 import { useEffect, useState } from 'react'
 import { useNavigate} from 'react-router-dom'
 import axios from 'axios'
-import Sidabar from '../../components/Sidebar/Sidebar'
+import Sidebar from '../../components/Sidebar/Sidebar'
 import { IoAdd } from 'react-icons/io5'
 import Spinner from '../../components/Spinner/Spinner'
 import UpdateModal from '../../components/UpdateModal/UpdateModal'
@@ -121,7 +121,7 @@ const Fingerspell = () => {
 
   return (
     <div className='admin-fingerspell'>
-      <Sidabar
+      <Sidebar
         isAdmin='true'
         // user={user}
       />
