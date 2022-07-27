@@ -1,8 +1,10 @@
 .login {
   width: 100vw;
   height: 100vh;
-  background-color: #090909;
-  color: #fff;
+  background-image: url(../../assets/background2.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-content: center;
@@ -14,11 +16,21 @@
   justify-self: center;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-evenly;
+}
+
+.login > .container > img {
+  height: 150px;
+  width: 150px;
 }
 
 .login > .container > h2{
   font-size: 1.9rem;
+  line-height: 1.9rem;
+}
+
+.login > .container > h2 > span{
+  color: #42C9A3;
 }
 
 .login > .container > p{
@@ -30,7 +42,7 @@
   height: 500px;
   width: 400px;
   border-radius: 15px;
-  background-color: #faf3e9;
+  background-color: #f1f1f1;
   color: #000;
   justify-self: center;
   padding: 50px;
@@ -40,7 +52,7 @@
 }
 
 .login > .form-container > h1 > span:nth-child(1) {
-  color: #799733;
+  color: #42C9A3;
 }
 
 
@@ -83,6 +95,7 @@
   padding-left: 10px;
   font-size: 1rem;
   font-family: inherit;
+  background-color: #e1e3e8;
 }
 
 .login > .form-container > form > .checkbox-container {
@@ -96,7 +109,7 @@
 }
 
 .login > .form-container > form > button {
-  background-color: #799733;
+  background-color: #182142;
   color: #fff;
   border: none;
   outline: none;

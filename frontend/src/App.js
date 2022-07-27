@@ -9,8 +9,8 @@ import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
 import Admin from "./pages/Admin/Admin";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
-import Fingerspell from "./pages/Fingerspell/Fingerspell";
-import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
+import Fingerspell from "./pages/Admin/Fingerspell/Fingerspell";
+import SpellHandSign from "./pages/Admin/SpellHandSign/SpellHandSign";
 
 function App() {
   return (

@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Spinner from "../../components/Spinner/Spinner";
+import logo1 from "../../assets/logo1.png";
 
 const Login = () => {
   const userRef = useRef();
@@ -54,16 +55,19 @@ const Login = () => {
   return (
     <div className="login">
       <div className="container">
-        <h2>WEB-BASED E-LEARNING SIGN LANUAGE TRANSLATOR GAME</h2>
+        <img src={logo1} alt="Logo" />
+        <h2>
+          SIGN LANUAGE <br />
+          <span>TRANSLATOR GAME</span>
+        </h2>
 
         <p>
-          It is able to translate sign language to text. It includes games that
-          will help the user to enhance and develop their skill in learning sign
-          language. It will help unimpaired individuals to be communicative with
-          people who suffer from hearing impairment and as well encourage them
-          to express their feelings, and it will help to lessen the
-          discrimination between deaf and normal individuals through awareness
-          of sign language elucidation.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
+          metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit
+          amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin
+          mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac,
+          aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla
+          sagittis ut urna ac viverra.
         </p>
       </div>
 

@@ -8,6 +8,7 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as fingerpose from "fingerpose";
 import correct from "../../assets/correct.gif";
 import wrong from "../../assets/wrong.gif";
+import GameLoader from "../../components/GameLoader/GameLoader";
 
 import { a } from "../../asl/A";
 import { b } from "../../asl/B";
@@ -99,6 +100,7 @@ const Practice = () => {
   const [letter, setLetter] = useState(null);
   const [aslImg, setAslImg] = useState(null);
   const [gestureMatch, setGestureMatch] = useState(null);
+  const [loading, setloading] = useState(true);
 
   //check Camera permission
   const checkCamera = async () => {
@@ -127,6 +129,8 @@ const Practice = () => {
       cameraRef.current.video.height = videoHeight;
 
       const hand = await model.estimateHands(video, true);
+
+      if (loading) setloading(false);
 
       if (hand.length > 0) {
         const estimateGesture = new fingerpose.GestureEstimator(asl);
@@ -168,8 +172,6 @@ const Practice = () => {
   }, []);
 
   useEffect(() => {
-    console.log(`letter: ${letter}`);
-    console.log(`hand sign: ${handsign}`);
     if (handsign === letter) {
       setGestureMatch(true);
     } else {
@@ -219,6 +221,8 @@ const Practice = () => {
                 width: "100%",
               }}
             />
+
+            {loading ? <GameLoader /> : ""}
           </div>
           <div className="asl-container">
             {letter ? (

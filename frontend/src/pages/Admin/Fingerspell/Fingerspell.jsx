@@ -2,25 +2,22 @@ import "./Fingerspell.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 import { IoAdd } from "react-icons/io5";
-import Spinner from "../../components/Spinner/Spinner";
-import UpdateModal from "../../components/UpdateModal/UpdateModal";
-import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import Spinner from "../../../components/Spinner/Spinner";
+import UpdateModal from "../../../components/UpdateModal/UpdateModal";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 import React from "react";
 
 const Fingerspell = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
-  // const [user, setUser] = useState('')
+  const [user, setUser] = useState("");
   const [data, setData] = useState([]);
-
   const [updateModal, setUpdateModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [id, setID] = useState("");
 
   //variable for update
@@ -59,7 +56,7 @@ const Fingerspell = () => {
         })
         .then((res) => {
           if (res.data.isAuthorized === true) {
-            // setUser(userData.username)
+            setUser(userData.username);
             getFingerSpell();
           } else {
             localStorage.clear();
@@ -133,10 +130,7 @@ const Fingerspell = () => {
 
   return (
     <div className="admin-fingerspell">
-      <Sidebar
-        isAdmin="true"
-        // user={user}
-      />
+      <Sidebar isAdmin="true" username={user} />
 
       <div className="main">
         <div className="header">

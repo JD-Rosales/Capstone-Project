@@ -2,16 +2,16 @@ import "./SpellHandSign.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 import { IoAdd } from "react-icons/io5";
-import Spinner from "../../components/Spinner/Spinner";
-import UpdateModal from "../../components/UpdateModal/UpdateModal";
-import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import Spinner from "../../../components/Spinner/Spinner";
+import UpdateModal from "../../../components/UpdateModal/UpdateModal";
+import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 
 const SpellHandSign = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 
-  // const [user, setUser] = useState('')
+  const [user, setUser] = useState("");
   const [data, setData] = useState([]);
 
   const [updateModal, setUpdateModal] = useState(false);
@@ -57,7 +57,7 @@ const SpellHandSign = () => {
         })
         .then((res) => {
           if (res.data.isAuthorized === true) {
-            // setUser(userData.username)
+            setUser(userData.username);
             getSpellHandSign();
           } else {
             localStorage.clear();
@@ -131,7 +131,7 @@ const SpellHandSign = () => {
 
   return (
     <div className="admin-spell-hand-sign">
-      <Sidebar isAdmin="true" />
+      <Sidebar isAdmin="true" username={user} />
 
       <div className="main">
         <div className="header">

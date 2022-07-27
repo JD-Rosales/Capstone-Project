@@ -7,11 +7,10 @@ import { AiFillHome } from "react-icons/ai";
 import { MdGamepad } from "react-icons/md";
 import { BiDumbbell } from "react-icons/bi";
 import { GiHand } from "react-icons/gi";
+import { FaUniversalAccess } from "react-icons/fa";
 
 const Sidebar = (props) => {
   const navigate = useNavigate();
-
-  const userData = JSON.parse(localStorage.getItem("userData"));
 
   const logout = () => {
     localStorage.clear();
@@ -23,20 +22,30 @@ const Sidebar = (props) => {
       <div className="sidebar-header">
         <img src={logo2} alt="logo"></img>
 
-        <div className="greeting">
-          <span>
-            <FaUserCircle />
-          </span>
-          <span>
-            Hello, User! <br />
-            <span>(User)</span>
-          </span>
-        </div>
-
-        {/* {props.isAdmin === 'true' ? <span className='username'>Hi, {userData.username}!</span>: ""}
-        {props.isAdmin === 'true' ? <span>(Administrator)</span>: ""} */}
+        {props.isAdmin !== "true" ? (
+          <div className="greeting">
+            <span>
+              <FaUserCircle />
+            </span>
+            <span>
+              Hello, User! <br />
+              <span>(User)</span>
+            </span>
+          </div>
+        ) : (
+          <div className="greeting">
+            <span>
+              <FaUserCircle />
+            </span>
+            <span>
+              Hello, {props.username}! <br />
+              <span>(Administrator)</span>
+            </span>
+          </div>
+        )}
       </div>
 
+      {/* Elements to be shown in Sidebar if user is not an Administrator */}
       {props.isAdmin !== "true" ? (
         <div className="list-container">
           <ul>
@@ -64,10 +73,18 @@ const Sidebar = (props) => {
           </ul>
         </div>
       ) : (
-        ""
+        <div className="list-container">
+          <ul>
+            <li>
+              <Link to="/administrator">
+                <FaUniversalAccess className="icon" /> <span>Manage Games</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
       )}
 
-      {props.isAdmin === "true" ? (
+      {/* {props.isAdmin === "true" ? (
         <div className="games-list-container">
           <button className="games-btn">Manage Games</button>
 
@@ -85,7 +102,7 @@ const Sidebar = (props) => {
         </div>
       ) : (
         ""
-      )}
+      )} */}
 
       {props.isAdmin === "true" ? (
         <button className="logout-btn" onClick={logout}>
