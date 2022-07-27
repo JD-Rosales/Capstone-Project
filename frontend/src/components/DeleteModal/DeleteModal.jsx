@@ -1,34 +1,35 @@
-import './DeleteModal.css'
-import { useState } from 'react'
-import Spinner from '../Spinner/Spinner'
-import axios from 'axios'
+import "./DeleteModal.css";
+import { useState } from "react";
+import Spinner from "../Spinner/Spinner";
+import axios from "axios";
 
 const DeleteModal = (props) => {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleDelete = async (e) => {
-
-    setIsLoading(true)
-    await axios.delete(props.API_URL,{
-      headers: { Authorization: `Bearer ${props.token}` }
-    }).then((res) => {
-      setIsLoading(false)
-      props.fetch()
-      handleParenChange(e)
-    }).catch((err) => {
-      console.log(err)
-      setIsLoading(false)
-    });
-  }
+    setIsLoading(true);
+    await axios
+      .delete(props.API_URL, {
+        headers: { Authorization: `Bearer ${props.token}` },
+      })
+      .then((res) => {
+        setIsLoading(false);
+        props.fetch();
+        handleParenChange(e);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
 
   const handleParenChange = (e) => {
-    props.onChange(e.target.value)
-  }
+    props.onChange(e.target.value);
+  };
 
   return (
-    <div className='delete-modal'>
-      <div className='content'>
+    <div className="delete-modal">
+      <div className="content">
         <button onClick={handleParenChange}>X</button>
 
         <div>
@@ -42,9 +43,9 @@ const DeleteModal = (props) => {
         </div>
       </div>
 
-      {isLoading ? <Spinner />:""}
+      {isLoading ? <Spinner /> : ""}
     </div>
-  )
-}
+  );
+};
 
-export default DeleteModal
+export default DeleteModal;
