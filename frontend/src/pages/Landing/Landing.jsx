@@ -14,10 +14,10 @@ const Landing = () => {
             <Link to="/home">HOME</Link>
           </li>
           <li>
-            <Link to="/">PLAY A GAME</Link>
+            <Link to="/play-game">PLAY A GAME</Link>
           </li>
           <li>
-            <Link to="/">PRACTICE</Link>
+            <Link to="/practice">PRACTICE</Link>
           </li>
         </ul>
       </nav>

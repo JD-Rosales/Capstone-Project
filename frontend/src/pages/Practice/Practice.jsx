@@ -95,7 +95,7 @@ const Practice = () => {
   const cameraRef = useRef(null);
 
   const [handsign, setHandsign] = useState("");
-  const [gestureConfidence, setGestureConfidence] = useState(null);
+  const [handView, setHandView] = useState("False");
   const [cameraEnable, setCameraEnable] = useState(false);
   const [letter, setLetter] = useState(null);
   const [aslImg, setAslImg] = useState(null);
@@ -133,6 +133,12 @@ const Practice = () => {
       if (loading) setloading(false);
 
       if (hand.length > 0) {
+        setHandView("True");
+      } else {
+        setHandView("False");
+      }
+
+      if (hand.length > 0) {
         const estimateGesture = new fingerpose.GestureEstimator(asl);
 
         const gesture = await estimateGesture.estimate(hand[0].landmarks, 8.5);
@@ -148,9 +154,6 @@ const Practice = () => {
           // console.log(gesture.gestures[highestConfidence].name)
 
           setHandsign(gesture.gestures[highestConfidence].name);
-          setGestureConfidence(
-            gesture.gestures[highestConfidence].score.toFixed(2) * 10 + "%"
-          );
         }
       }
     }
@@ -180,9 +183,15 @@ const Practice = () => {
   }, [handsign, letter, gestureMatch]);
 
   const btnClick = (e, img) => {
-    console.log(e.currentTarget.value);
     setLetter(e.currentTarget.value);
     setAslImg(img);
+
+    //reset state if the same button is clicked twice
+    if (e.currentTarget.value === letter) {
+      setLetter(null);
+      setAslImg(null);
+      e.target.blur();
+    }
   };
 
   return (
@@ -201,8 +210,7 @@ const Practice = () => {
 
           <br />
           <span>
-            Gesture Confidence:{" "}
-            {gestureMatch ? <span>{gestureConfidence}</span> : ""}
+            Hand Detected: <span>{handView}</span>
           </span>
 
           <span>
