@@ -58,7 +58,7 @@ const Play = () => {
             metus eu dui ornare laoreet vitae ac nibh.
           </p>
 
-          <Link to="">PLAY</Link>
+          <Link to="/4-pics-1-word">PLAY</Link>
         </div>
       </div>
 

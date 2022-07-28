@@ -20,7 +20,6 @@
   align-items: center;
   width: 600px;
   font-size: .9rem;
-  /* background-color: blue; */
 }
 
 .guess-hand-sign > .main > .top > .difficulty-container {
@@ -41,7 +40,6 @@
   display: flex;
   justify-content: space-between;
   justify-self: center;
-  /* background-color: red; */
 }
 
 .guess-hand-sign > .main > .top > .btn-container > button {
@@ -129,7 +127,3 @@
   cursor: pointer;
   margin: 7px;
 }
-
-/* .guess-hand-sign > .main > .letter-container > button:focus {
-  background-color: #182142;
-} */

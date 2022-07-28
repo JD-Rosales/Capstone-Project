@@ -21,7 +21,7 @@ const setFingerSpell = async (req, res) => {
       //user is from middleware token
       // user: req.user.id,
       word: req.body.addWord.toUpperCase(),
-      difficulty: req.body.addDifficulty
+      difficulty: req.body.addDifficulty.toUpperCase()
     })
     res.status(200).json(fingerspell)
   } catch (error) {
