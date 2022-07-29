@@ -196,7 +196,7 @@ const Practice = () => {
 
   return (
     <div className="practice">
-      <Sidebar />
+      <Sidebar isAdmin="false" />
 
       <div className="main">
         <div className="top">

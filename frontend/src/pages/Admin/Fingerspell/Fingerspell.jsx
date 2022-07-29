@@ -152,9 +152,9 @@ const Fingerspell = () => {
             value={addDifficulty}
             onChange={(e) => setAddDifficulty(e.target.value)}
           >
-            <option value="Easy">Game Level (Easy)</option>
-            <option value="Medium">Game Level (Medium)</option>
-            <option value="Hard">Game Level (Hard)</option>
+            <option value="EASY">Game Level (EASY)</option>
+            <option value="MEDIUM">Game Level (MEDIUM)</option>
+            <option value="HARD">Game Level (HARD)</option>
           </select>
 
           <button

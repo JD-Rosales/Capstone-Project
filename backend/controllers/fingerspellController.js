@@ -90,9 +90,22 @@ const deleteFingerSpell = async (req, res) => {
   
 }
 
+//GET api/:difficulty
+const getFilteredFingerSpell = async (req, res) => {
+  try {
+    const fingerspell = await Fingerspell.find({ 'difficulty': req.params.difficulty })
+
+    res.status(200).json(fingerspell)
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
 module.exports = {
   getFingerSpell,
   setFingerSpell,
   updateFingerSpell,
-  deleteFingerSpell
+  deleteFingerSpell,
+  getFilteredFingerSpell
 }
