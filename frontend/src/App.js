@@ -7,6 +7,7 @@ import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
 import GuessHandSign from "./pages/GuessHandSign/GuessHandSign";
 import FingerSpell from "./pages/FingerSpell/FingerSpell";
+import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
 import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
 import Register from './pages/Register/Register';
 import Login from './pages/Login/Login';
@@ -25,6 +26,7 @@ function App() {
         <Route path="/practice" element={<Practice />} />
         <Route path="/guess-hand-sign" element={<GuessHandSign />} />
         <Route path="/finger-spell" element={<FingerSpell />} />
+        <Route path="/spell-hand-sign" element={<SpellHandSign />} />
         <Route path="/4-pics-1-word" element={<FourPicOneWord />} />
 
         <Route path="/login" element={<Login />} />

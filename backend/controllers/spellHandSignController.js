@@ -66,9 +66,22 @@ const deleteSpellHandSign = async (req, res) => {
   
 }
 
+//GET api/:difficulty
+const getFilteredSpellHandSign = async (req, res) => {
+  try {
+    const spellHandSign = await SpellHandSign.find({ 'difficulty': req.params.difficulty.toUpperCase() })
+
+    res.status(200).json(spellHandSign)
+  } catch (error) {
+    console.log(error)
+  }
+
+}
+
 module.exports = {
   getSpellHandSign,
   setSpellHandSign,
   updateSpellHandSign,
-  deleteSpellHandSign
+  deleteSpellHandSign,
+  getFilteredSpellHandSign
 }

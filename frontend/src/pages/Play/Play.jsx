@@ -45,7 +45,7 @@ const Play = () => {
             metus eu dui ornare laoreet vitae ac nibh.
           </p>
 
-          <Link to="">PLAY</Link>
+          <Link to="/spell-hand-sign">PLAY</Link>
         </div>
 
         <div className="card">

@@ -93,7 +93,7 @@ const deleteFingerSpell = async (req, res) => {
 //GET api/:difficulty
 const getFilteredFingerSpell = async (req, res) => {
   try {
-    const fingerspell = await Fingerspell.find({ 'difficulty': req.params.difficulty })
+    const fingerspell = await Fingerspell.find({ 'difficulty': req.params.difficulty.toUpperCase() })
 
     res.status(200).json(fingerspell)
   } catch (error) {

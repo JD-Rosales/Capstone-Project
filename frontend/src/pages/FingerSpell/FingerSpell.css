@@ -99,6 +99,15 @@
   border-radius: inherit;
 }
 
+.finger-spell > .main > .camera-container > .game-loader {
+  position: absolute;
+  top: 0;
+  right: left;
+  height: 100%;
+  width: 100%;
+  z-index: 20;
+}
+
 .finger-spell > .main > .bottom-indicator {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -141,7 +150,7 @@
 
 .finger-spell > .main > .bottom > div > span{
   font-size: 2.2rem;
-  padding: 0 5px 0 5px;
+  padding: 0 3px 0 3px;
 }
 
 .finger-spell > .main > .bottom > div > .colored-letter {

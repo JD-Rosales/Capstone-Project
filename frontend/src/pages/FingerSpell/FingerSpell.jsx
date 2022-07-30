@@ -76,6 +76,7 @@ const FingerSpell = () => {
   const [cameraEnable, setCameraEnable] = useState(false);
   const [handView, setHandView] = useState("False");
   const [loading, setloading] = useState(true);
+  const [gameLoading, setGameLoading] = useState(false);
   const [difficulty, setDifficulty] = useState("EASY");
   const [wordsArray, setWordsArray] = useState([]);
   const [currentWord, setCurrentWord] = useState(null);
@@ -111,6 +112,7 @@ const FingerSpell = () => {
   const startGame = () => {
     resetGame();
     setGameStart(true);
+    setGameLoading(true);
     fetchWords();
   };
 
@@ -132,18 +134,20 @@ const FingerSpell = () => {
     await axios
       .get(baseURL + "/api/fingerspell/" + difficulty)
       .then((result) => {
-        setWordsArray(result.data);
-
         if (difficulty === "EASY") {
-          setWordsArray(getRandomItems(result.data, 3));
-        } else if (difficulty === "MEDIUM") {
           setWordsArray(getRandomItems(result.data, 5));
-        } else {
+          setGameLoading(false);
+        } else if (difficulty === "MEDIUM") {
           setWordsArray(getRandomItems(result.data, 8));
+          setGameLoading(false);
+        } else {
+          setWordsArray(getRandomItems(result.data, 10));
+          setGameLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
+        setGameLoading(false);
       });
   };
 
@@ -319,6 +323,7 @@ const FingerSpell = () => {
           />
 
           {loading ? <GameLoader /> : ""}
+          {gameLoading ? <GameLoader className="game-loader" /> : ""}
         </div>
 
         <div className="bottom-indicator">
