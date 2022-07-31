@@ -1,0 +1,144 @@
+.admin-finger-spell {
+  height: 100vh;
+  margin-left: 300px;
+  margin-right: 300px;
+  width: calc(100vw - 600px);
+}
+
+.admin-finger-spell > main {
+  height: 100vh;
+  margin: 0 50px 0 50px;
+}
+
+.admin-finger-spell > main > form {
+  display: flex;
+  flex-direction: row;
+  padding-top: 40px;
+  height: 85px;
+}
+
+.admin-finger-spell > main > form > input {
+  padding: 12px 10px 12px 15px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  width: 100%;
+  margin-right: 10px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #000;
+}
+
+.admin-finger-spell > main > form > select {
+  padding: 12px 10px 12px 15px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  margin-right: 10px;
+  font-family: inherit;
+  color: #fff;
+  background-color: #000;
+}
+
+.admin-finger-spell > main > form > button {
+  padding: 12px 10px 12px 15px;
+  width: 250px;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  font-family: inherit;
+  background-color: #42C9A3;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.admin-finger-spell > main > form > button > .add-icon {
+  font-size: 2rem;
+  margin-right: 5px;
+}
+
+.admin-finger-spell > main >.tbl-container {
+  margin: 20px 0 20px 0;
+  height: calc(100vh - 125px);
+}
+
+.admin-finger-spell > main >.tbl-container > table {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+.admin-finger-spell > main >.tbl-container > table > thead {
+  display: block;
+  display: grid;
+  height: 30px;
+  background-color: #000;
+}
+
+.admin-finger-spell > main >.tbl-container > table > thead > tr > th {
+  text-align: start;
+  font-weight: normal;
+}
+
+.admin-finger-spell > main >.tbl-container > table > thead > tr > th:nth-child(2) {
+  text-align: center;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody {
+  display: block;
+  overflow-y: auto;
+  height: calc(100% - 30px);
+  display: grid;
+  background-color: #182142;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td {
+  padding: 5px 0 5px 0;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td:nth-child(2) {
+  text-align: center;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td:nth-child(3) {
+  text-align: end;
+  margin-right: 20px;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td > button {
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  background-color: inherit;
+  color: inherit;
+  font-size: 1.2rem;
+  line-height: 1rem;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td > button:hover {
+  cursor: pointer;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td > button:nth-child(1) {
+  margin-right: 10px;
+  background-color: gray;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr > td > button:nth-child(2) {
+  background-color: red;
+}
+
+.admin-finger-spell > main >.tbl-container > table > tbody > tr:hover {
+  background-color: #42C9A3;
+}
+
+.admin-finger-spell tr {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-left: 30px;
+}

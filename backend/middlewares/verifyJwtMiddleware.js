@@ -17,7 +17,7 @@ const verifyJWT = async (req, res, next) => {
         res.status(200).json({ message: 'Access Granted', isAuthorized: true })
         next()
       } catch (error) {
-        res.status(401).json({ message: 'Unauthorized', isAuthorized: false })
+        res.status(401).json({ message: 'Session expired!', isAuthorized: false })
         console.log(error)
       }
 

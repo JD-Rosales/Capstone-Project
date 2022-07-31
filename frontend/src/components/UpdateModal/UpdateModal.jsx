@@ -58,7 +58,8 @@ const UpdateModal = (props) => {
           <h2>
             Ed<span>i</span>t
           </h2>
-          <span>Click the input field to edit the word</span>
+          <span>Click the input field to edit the word.</span>
+          <span>To change the difficulty, click the dropdown menu.</span>
 
           <input
             ref={wordRef}
@@ -75,6 +76,8 @@ const UpdateModal = (props) => {
             <option value="Medium">MEDIUM</option>
             <option value="Hard">HARD</option>
           </select>
+
+          <span>Game difficulty: Easy, Medium, Hard.</span>
 
           <button onClick={handleSubmit}>Update</button>
         </form>

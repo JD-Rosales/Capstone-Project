@@ -10,6 +10,7 @@
   background-color: rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(3px);
   user-select: none;
+  color: #000;
 }
 
 .delete-modal > .content {
@@ -73,9 +74,9 @@
 }
 
 .delete-modal > .content > div > div > button:nth-child(1){
-  background-color: green;
+  background-color: #42C9A3;
 }
 
 .delete-modal > .content > div > div > button:nth-child(2){
-  background-color: maroon;
+  background-color: #000;
 }
