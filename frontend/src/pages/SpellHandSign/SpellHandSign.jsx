@@ -33,7 +33,8 @@ import Y from "../../assets/asl-img/Y.png";
 import Z from "../../assets/asl-img/Z.png";
 
 const SpellHandSign = () => {
-  const baseURL = "http://localhost:5000";
+  const baseURL = "";
+  // const baseURL = "http://localhost:5000";
 
   const asl = [
     { name: "A", image: A },
