@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
@@ -26,5 +27,9 @@ app.use('/api/users', require('./routes/api/userRoutes'))
 
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)
+
+//Serve frontend
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
 
 app.listen(port, () => console.log(`Server running on PORT ${port}`))
