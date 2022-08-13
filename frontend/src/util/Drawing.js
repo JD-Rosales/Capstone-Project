@@ -27,7 +27,7 @@ export const drawHand = (hand, canvas) => {
             landmarks[secondJointIndex][0],
             landmarks[secondJointIndex][1]
           )
-          canvas.strokeStyle = "black";
+          canvas.strokeStyle = "#182142";
           canvas.lineWidth = 1;
           canvas.stroke();
         }
@@ -40,7 +40,7 @@ export const drawHand = (hand, canvas) => {
         canvas.beginPath();
         canvas.arc(x, y, 3, 0, 3 * Math.PI);
 
-        canvas.fillStyle = "red";
+        canvas.fillStyle = "blue";
         canvas.fill();
       }
     });

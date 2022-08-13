@@ -9,13 +9,9 @@ import GuessHandSign from "./pages/GuessHandSign/GuessHandSign";
 import FingerSpell from "./pages/FingerSpell/FingerSpell";
 import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
 import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
-// import Register from './pages/Register/Register';
-// import Login from './pages/Login/Login';
-// import Admin from "./pages/Admin/Admin";
-// import Unauthorized from "./pages/Unauthorized/Unauthorized";
-// import AdminFingerspell from "./pages/Admin/Fingerspell/Fingerspell";
-// import AdminSpellHandSign from "./pages/Admin/SpellHandSign/SpellHandSign";
+import Learn from "./pages/Learn/Learn";
 
+//Admin Pages
 import Login from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
@@ -33,18 +29,12 @@ function App() {
         <Route path="/finger-spell" element={<FingerSpell />} />
         <Route path="/spell-hand-sign" element={<SpellHandSign />} />
         <Route path="/4-pics-1-word" element={<FourPicOneWord />} />
+        <Route path="/learn" element={<Learn />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
-
-        {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/administrator" element={<Admin />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/administrator/finger-spell" element={<AdminFingerspell />} />
-        <Route path="/administrator/spell-hand-sign" element={<AdminSpellHandSign />} /> */}
       </Routes>
       <ToastContainer
         autoClose={1500}

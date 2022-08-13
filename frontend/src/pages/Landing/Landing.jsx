@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Landing.css";
 import illustration1 from "../../assets/illustration1.png";
 import logo2 from "../../assets/logo2.png";
 
 const Landing = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="landing">
       <nav>
@@ -39,7 +41,13 @@ const Landing = () => {
             widely used around the world.
           </span>
 
-          <button>Start Lesson</button>
+          <button
+            onClick={() => {
+              navigate("/learn");
+            }}
+          >
+            Start Lesson
+          </button>
         </div>
       </main>
     </div>
