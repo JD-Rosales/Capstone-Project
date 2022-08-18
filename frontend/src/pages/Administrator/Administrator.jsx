@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import illustration2 from "../../assets/illustration2.png";
 
 const Administrator = () => {
-  const BASE_URL = "";
-  // const BASE_URL = "http://localhost:5000";
+  // const BASE_URL = "";
+  const BASE_URL = "http://localhost:5000";
   const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userData"));
@@ -103,7 +103,7 @@ const Administrator = () => {
               metus eu dui ornare laoreet vitae ac nibh.
             </p>
 
-            <Link to="">MANAGE</Link>
+            <Link to="/manage-4-pic-1-word">MANAGE</Link>
           </div>
         </div>
       </div>

@@ -38,8 +38,8 @@ import { y } from "../../asl/Y";
 //z asl
 
 const FingerSpell = () => {
-  const baseURL = "";
-  // const baseURL = "http://localhost:5000";
+  // const baseURL = "";
+  const baseURL = "http://localhost:5000";
 
   const asl = [
     a,

@@ -21,4 +21,4 @@ u.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0);
 
 //Pinky
 u.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
-u.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0);
+u.addDirection(Finger.Ring, FingerDirection.DiagonalUpLeft, 1.0);

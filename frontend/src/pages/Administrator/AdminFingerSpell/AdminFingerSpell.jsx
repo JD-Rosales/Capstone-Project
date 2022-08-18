@@ -10,8 +10,8 @@ import DeleteModal from "../../../components/DeleteModal/DeleteModal";
 import UpdateModal from "../../../components/UpdateModal/UpdateModal";
 
 const AdminFingerSpell = () => {
-  const BASE_URL = "";
-  // const BASE_URL = "http://localhost:5000";
+  // const BASE_URL = "";
+  const BASE_URL = "http://localhost:5000";
   // const navigate = useNavigate();
   const userData = JSON.parse(localStorage.getItem("userData"));
 

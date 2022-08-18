@@ -72,9 +72,9 @@ const UpdateModal = (props) => {
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
           >
-            <option value="Easy">EASY</option>
-            <option value="Medium">MEDIUM</option>
-            <option value="Hard">HARD</option>
+            <option value="EASY">EASY</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HARD">HARD</option>
           </select>
 
           <span>Game difficulty: Easy, Medium, Hard.</span>
