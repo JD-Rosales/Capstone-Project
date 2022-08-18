@@ -127,6 +127,8 @@ const GuessHandSign = () => {
     setImgIndex(0);
     setCorrect(0);
     setWrong(0);
+    setMinutes(0);
+    setSeconds(0);
     setGameEnded(false);
   };
 

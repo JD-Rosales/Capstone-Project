@@ -75,6 +75,8 @@ const SpellHandSign = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
     if (wordsArray.length !== 0 && !gameEnded) {
@@ -116,7 +118,7 @@ const SpellHandSign = () => {
   };
 
   function submitBtn() {
-    if (gameStart && inputWord) {
+    if (gameStart && inputWord && !gameEnded) {
       if (currentWord === inputWord) {
         setCorrect(correct + 1);
       } else {
@@ -155,6 +157,8 @@ const SpellHandSign = () => {
     setWordIndex(0);
     setCorrect(0);
     setWrong(0);
+    setMinutes(0);
+    setSeconds(0);
   };
 
   const fetchWords = async () => {
@@ -162,12 +166,18 @@ const SpellHandSign = () => {
       .get(baseURL + "/api/spell-hand-sign/" + difficulty)
       .then((result) => {
         if (difficulty === "EASY") {
+          setMinutes(1);
+          setSeconds(0);
           setWordsArray(getRandomItems(result.data, 5));
           setIsLoading(false);
         } else if (difficulty === "MEDIUM") {
+          setMinutes(1);
+          setSeconds(0);
           setWordsArray(getRandomItems(result.data, 8));
           setIsLoading(false);
         } else {
+          setMinutes(0);
+          setSeconds(30);
           setWordsArray(getRandomItems(result.data, 10));
           setIsLoading(false);
         }
@@ -177,6 +187,36 @@ const SpellHandSign = () => {
         setIsLoading(false);
       });
   };
+
+  //Countdown Timer
+  useEffect(() => {
+    if (gameStart && !gameEnded) {
+      const intervalId = setInterval(() => {
+        if (seconds === 0) {
+          setSeconds(59);
+        }
+        setSeconds(seconds - 1);
+        if (seconds === 0) {
+          setSeconds(59);
+        }
+
+        //minutes
+        if (minutes !== 0 && seconds === 0) {
+          setMinutes(minutes - 1);
+        }
+
+        //stop the timer
+        if (minutes === 0 && seconds === 0) {
+          clearInterval(intervalId);
+          setMinutes(0);
+          setSeconds(0);
+          setGameEnded(true);
+          alert("Times Up!");
+        }
+      }, 1000);
+      return () => clearInterval(intervalId);
+    }
+  });
 
   function getRandomItems(arr, num) {
     const arrCopy = [...arr];
@@ -218,7 +258,10 @@ const SpellHandSign = () => {
 
           <div className="timer-container">
             <span>
-              Time: <span>1:30</span>
+              Time:{" "}
+              <span>
+                {minutes}:{seconds}
+              </span>
             </span>
           </div>
         </div>
