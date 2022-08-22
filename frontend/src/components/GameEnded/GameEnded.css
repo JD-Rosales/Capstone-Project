@@ -1,0 +1,38 @@
+.gameEnded {
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameEnded > h1 {
+  font-size: 2.5rem;
+}
+
+.gameEnded > .score {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.gameEnded > .perfect {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #42C9A3;
+}
+
+.gameEnded > button {
+  height: 45px;
+  width: 180px;
+  background-color: #42C9A3;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  border-radius: 7px;
+  margin-top: 30px;
+}

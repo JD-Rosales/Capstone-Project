@@ -4,6 +4,7 @@ import RightNav from "../../components/RightNav/RightNav";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GameLoader from "../../components/GameLoader/GameLoader";
+import GameEnded from "../../components/GameEnded/GameEnded";
 
 import A from "../../assets/asl-img/A.png";
 import B from "../../assets/asl-img/B.png";
@@ -90,7 +91,7 @@ const SpellHandSign = () => {
     if (gameStart && wordsArray.length !== 0) {
       const sum = correct + wrong;
       if (sum === wordsArray.length) {
-        alert("Game Ended");
+        alert("Game Over");
         setGameEnded(true);
       }
     }
@@ -267,7 +268,17 @@ const SpellHandSign = () => {
         </div>
 
         <div className="asl-container">
-          {renderImages()}
+          {gameEnded ? (
+            <GameEnded
+              title="GAME OVER"
+              score={correct}
+              length={wordsArray.length}
+              start={startGame}
+            />
+          ) : (
+            renderImages()
+          )}
+
           {isLoading ? <GameLoader className="game-loader" /> : ""}
         </div>
 

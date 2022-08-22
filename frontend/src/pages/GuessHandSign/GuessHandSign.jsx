@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import RightNav from "../../components/RightNav/RightNav";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./GuessHandSign.css";
+import GameEnded from "../../components/GameEnded/GameEnded";
 
 import A from "../../assets/asl-img/A.png";
 import B from "../../assets/asl-img/B.png";
@@ -89,7 +90,7 @@ const GuessHandSign = () => {
       const sum = correct + wrong;
       if (sum === aslArray.length) {
         setGameEnded(true);
-        alert("Game Ended!");
+        alert("Game Over!");
       }
     }
     // eslint-disable-next-line
@@ -234,7 +235,18 @@ const GuessHandSign = () => {
           </div>
         </div>
 
-        <div className="asl-container">{renderAsl()}</div>
+        <div className="asl-container">
+          {gameEnded ? (
+            <GameEnded
+              title="GAME OVER"
+              score={correct}
+              length={aslArray.length}
+              start={startGame}
+            />
+          ) : (
+            renderAsl()
+          )}
+        </div>
 
         <div className="bottom">
           <span>
