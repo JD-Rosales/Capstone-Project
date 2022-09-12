@@ -1,0 +1,79 @@
+.user-login {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(../../assets/signuploginbg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-login > .container {
+  height: 450px;
+  width: 400px;
+  background-color: #fff;
+  border-radius: 20px;
+  color: #182240;
+  padding: 60px 60px 60px 60px;
+}
+
+.user-login > .container > h1 > span{
+  color:#43c9a3;
+}
+
+.user-login > .container > span {
+  font-weight:100;
+  font-size: .9rem;
+}
+
+.user-login > .container > h1 > img {
+  height: 35px;
+  width: 35px;
+  float: right;
+  cursor: pointer;
+}
+
+.user-login > .container > input {
+  margin: 7px 0;
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding-left: 25px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #e1e3e8
+}
+
+.user-login > .container > .checkbox-container {
+  margin-top: 5px;
+}
+
+.user-login > .container > .checkbox-container > input {
+  margin-right: 10px;
+  color: #e1e3e8
+}
+.user-login > .container > button {
+  background-color: #182142;
+  color: #fff;
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 85%;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  margin: 0 auto;
+  margin-top: 30px;
+  display: block;
+  cursor: pointer;
+}
+
+.user-login > .container > .forgetPassword {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  cursor: pointer;
+}

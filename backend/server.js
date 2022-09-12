@@ -23,6 +23,9 @@ app.use(cors({
 app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
 app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
 
+//adi ak kuys
+app.use('/api/user-request', require('./routes/api/accountRequest'))
+
 app.use('/api/users', require('./routes/api/userRoutes'))
 
 //frontend protected routes

@@ -4,36 +4,51 @@ const User = require('../models/userModel')
 
 //POST api/users
 const registerUser = async (req, res) => {
-  try {
-    const { username , password } = req.body
 
-    if(!username){
-      res.status(400).json({ message: 'Username is required'})
+  try {
+    //req.body tikang ha http request
+    const { email , password, role } = req.body
+
+    //check if input role is a valid role
+    if(role === "Admin" || role === "Teacher" || role === "Student" || role === "Public"){
+
+    } else {
+      //return to frontend if invalid role
+      res.status(400).json({ message: "Invalid Role"})
+    }
+
+    //checkl if username and password is not empty
+    if(!email){
+      res.status(400).json({ message: 'Email is required'})
     } else if(!password){
       res.status(400).json({ message: 'Please add a password'})
     }
 
     //check if user already exists
-    const userExists = await User.findOne({username})
+    const userExists = await User.findOne({email})
     if(userExists){
-      res.status(409).json({ message: 'Username is already taken'})
+      res.status(409).json({ message: 'Email is already taken'})
     }
 
+    //adi lwat an pag encrypt han password
     //hash the password
     const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(password, salt)
 
+    //pinaka sql statement ine hiya ha mongodb
     //create user
     const user = await User.create({
-      username,
-      password: hashPassword
+      email,
+      password: hashPassword,
+      role
     })
 
     //return user data if success
     if(user) {
       res.status(201).json({
         _id: user.id,
-        username: user.username,
+        email: user.email,
+        role: user.role,
         token: generateToken(user._id)
       })
     } else {
@@ -49,19 +64,20 @@ const registerUser = async (req, res) => {
 //POST api/users/login
 const loginUser = async (req, res) => {
   try {
-    const {username, password} = req.body
+    const {email, password} = req.body
+    console.log(req.body)
 
     //check if user exist
-    const user = await User.findOne({username})
-    if(!user){
-      res.status(404).json({ message: 'Username not found!'})
+    const user = await User.findOne({email})
+    if(!email){
+      res.status(404).json({ message: 'Email not found!'})
     } else {
       //compare hash password
       const authPassword = await bcrypt.compare(password, user.password)
       if(authPassword){
         res.status(200).json({
           _id: user.id,
-          username: user.username,
+          email: user.email,
           token: generateToken(user._id)
         })
       } else {

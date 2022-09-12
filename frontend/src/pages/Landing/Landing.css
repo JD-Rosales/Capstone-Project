@@ -35,7 +35,7 @@
 .landing > nav > ul > li > a {
   text-decoration: none;
   color: inherit;
-  padding: 8px 20px 8px 20px;
+  padding: 8px 8px 8px 8px;
   border-radius: 10px;
   font-family: 'Poppins', sans-serif;
 }
@@ -84,13 +84,28 @@
   font-weight: 300;
 }
 
-.landing > main > .header-container > button {
+.landing > main > .header-container > .getStarted {
   display: block;
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
-  padding: 10px 35px 10px 35px;
+  margin: 40px 0px 10px 0;
+  padding: 15px 40px 15px 40px;
   border: none;
   outline: none;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.landing > main > .header-container > span > .signUp {
+  margin-left: 8px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color:#42c9a3;
+  cursor: pointer;
+}
+
+.landing > main > .header-container > span > a{
+  text-decoration: none;
+  color: #42C8A3;
+  font-weight: bold;
 }

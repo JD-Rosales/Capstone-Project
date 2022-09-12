@@ -10,9 +10,11 @@ import FingerSpell from "./pages/FingerSpell/FingerSpell";
 import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
 import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
 import Learn from "./pages/Learn/Learn";
+import Login from "./pages/Login/Login";
+import TeacherSignUp from "./pages/SignUp/TeacherSignUp";
 
 //Admin Pages
-import Login from './pages/Administrator/Login/Login'
+import AdminLogin from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
 import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSpellHandSign";
@@ -31,8 +33,10 @@ function App() {
         <Route path="/spell-hand-sign" element={<SpellHandSign />} />
         <Route path="/4-pics-1-word" element={<FourPicOneWord />} />
         <Route path="/learn" element={<Learn />} />
+        <Route path="/user-login" element={<Login />} />
+        <Route path="/teacher-signup" element={<TeacherSignUp />} />
 
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
