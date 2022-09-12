@@ -1,4 +1,4 @@
-.chooseRoleModal2 {
+.chooseRoleModal {
   max-width: 100vw;
   min-width: 100vw;
   max-height: 100vh;
@@ -39,7 +39,6 @@
 .chooseRoleModal > .container > h1 {
   text-align: center;
   color: #f0f0f0;
-  font-size: 2.5rem;
 }
 
 .chooseRoleModal > .container > span {
@@ -52,7 +51,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .chooseRoleModal > .container > .roleContainer > div > button {

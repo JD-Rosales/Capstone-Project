@@ -1,12 +1,11 @@
-import "./TeacherSignUp.css";
+import "./StudentSignUp.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
 
-const TeacherSignUp = () => {
+const StudentSignUp = () => {
   const navigate = useNavigate();
-
   return (
-    <div className="teacherSignup">
+    <div className="studentSignUp">
       <div className="container">
         <h1>
           S<span>i</span>gn up
@@ -18,14 +17,23 @@ const TeacherSignUp = () => {
             }}
           />
         </h1>
-        <span>As a teacher, it's quick and easy</span>
+        <span>As a student, it's quick and easy</span>
 
         <form action="">
-          <input
-            type="text"
-            className="school"
-            placeholder="In which school do you teach?"
-          />
+          <div className="classContainer">
+            <input
+              type="text"
+              className="school"
+              placeholder="In which school do you study?"
+            />
+
+            <input
+              type="text"
+              className="classCode"
+              placeholder="Enter class code"
+            />
+          </div>
+
           <div className="nameContainer">
             <input type="text" className="firstName" placeholder="First Name" />
 
@@ -62,4 +70,5 @@ const TeacherSignUp = () => {
     </div>
   );
 };
-export default TeacherSignUp;
+
+export default StudentSignUp;

@@ -1,4 +1,4 @@
-import "./ChooseRoleModal2";
+import "./ChooseRoleModal2.css";
 import { useNavigate } from "react-router-dom";
 import student from "../../assets/Student.png";
 import backlogo from "../../assets/back.png";
@@ -39,7 +39,7 @@ const ChooseRoleModal2 = (props) => {
             <img src={student} alt="Student"></img>
             <button
               onClick={() => {
-                navigate("/");
+                navigate("/student-signup");
               }}
             >
               Student
@@ -50,7 +50,7 @@ const ChooseRoleModal2 = (props) => {
             <img src={teacher} alt="Teacher"></img>
             <button
               onClick={() => {
-                navigate("/");
+                navigate("/teacher-signup");
               }}
             >
               Teacher

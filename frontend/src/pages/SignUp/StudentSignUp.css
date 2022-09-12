@@ -1,4 +1,4 @@
-.teacherSignup {
+.studentSignUp {
   height: 100vh;
   width: 100vw;
   background-image: url(../../assets/signuploginbg.png);
@@ -10,7 +10,7 @@
   justify-content: center;
 }
 
-.teacherSignup > .container {
+.studentSignUp > .container {
   height: 495px;
   width: 600px;
   border-radius: 20px;
@@ -19,18 +19,18 @@
   background-color: #fff;
 }
 
-.teacherSignup > .container > h1 > span {
+.studentSignUp > .container > h1 > span {
   color:#43c9a3;
 }
 
-.teacherSignup > .container > h1 > img {
+.studentSignUp > .container > h1 > img {
   height: 35px;
   width: 35px;
   float: right;
   cursor: pointer;
 }
 
-.teacherSignup > .container > span {
+.studentSignUp > .container > span {
   font-weight:100;
   font-size: .9rem;
 }
@@ -48,7 +48,7 @@
   font-size: .8rem;
 }
 
-.teacherSignup > .container > form  > .nameContainer > input {
+.studentSignUp > .container > form  > .nameContainer > input {
   margin: 7px 0;
   height: 45px;
   width: 100%;
@@ -61,7 +61,7 @@
   background-color: #e1e3e8
 }
 
-.teacherSignup > .container > form  > .passwordContainer > input {
+.studentSignUp > .container > form  > .passwordContainer > input {
   margin: 7px 0;
   height: 45px;
   width: 100%;
@@ -74,7 +74,7 @@
   background-color: #e1e3e8
 }
 
-.teacherSignup > .container > form  > .email {
+.studentSignUp > .container > form  > .email {
   margin: 7px 0;
   height: 45px;
   width: 100%;
@@ -85,57 +85,65 @@
   font-size: 1rem;
   font-family: inherit;
   background-color: #e1e3e8
+  
 }
 
-.teacherSignup > .container > form > .school {
-  margin: 7px 0;
-  height: 45px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  padding-left: 25px;
-  font-size: 1rem;
-  font-family: inherit;
-  background-color: #e1e3e8
-}
-
-.teacherSignup > .container > form > .classCode {
-  margin: 7px 0;
-  height: 45px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  padding-left: 25px;
-  font-size: 1rem;
-  font-family: inherit;
-  background-color: #e1e3e8
-}
-.teacherSignup > .container > form > .nameContainer {
+.studentSignUp > .container > form > .classContainer {
   display: flex;
   flex-direction: row;
 }
 
-.teacherSignup > .container > form > .nameContainer > .lastName {
+.studentSignUp > .container > form > .classContainer > .school {
+  margin: 7px 0;
+  height: 45px;
+  width: 50%;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding-left: 25px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #e1e3e8
+}
+
+.studentSignUp > .container > form > .classContainer > .classCode {
+    margin: 7px 0;
+    height: 45px;
+    width: 50%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #b1e2d5;
+    margin-left: 10px;
+  }
+
+.studentSignUp > .container > form > .nameContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.studentSignUp > .container > form > .nameContainer > .lastName {
   margin-right: 10px;
   margin-left: 10px;
 }
 
-.teacherSignup > .container > form > .nameContainer > .middleInitial {
+.studentSignUp > .container > form > .nameContainer > .middleInitial {
   width: 80px;
 }
 
-.teacherSignup > .container > form > .passwordContainer {
+.studentSignUp > .container > form > .passwordContainer {
   display: flex;
   flex-direction: row;
 }
 
-.teacherSignup > .container > form > .passwordContainer > .newPassword {
+.studentSignUp > .container > form > .passwordContainer > .newPassword {
   margin-right: 10px;
 }
 
-.teacherSignup > .container > form > button {
+.studentSignUp > .container > form > button {
   color: #fff;
   background-color: #182240;
   height: 40px;
@@ -146,7 +154,17 @@
   cursor: pointer;
 }
 
-.teacherSignup > .container > form > p {
+.studentSignUp > .container > form > .checkbox-container {
+  display: flex;
+  flex-direction: row;
+  font-size: .9rem;
+}
+
+.studentSignUp > .container > form > .checkbox-container > label {
+  margin-left: 5px;
+}
+
+.studentSignUp > .container > form > p {
   font-size: .7rem;
   text-align: center;
   margin-right: 50px;
