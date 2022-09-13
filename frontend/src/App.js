@@ -13,6 +13,7 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import TeacherSignUp from "./pages/SignUp/TeacherSignUp";
 import StudentSignUp from "./pages/SignUp/StudentSignUp";
+import PublicSignUp from "./pages/SignUp/PublicSignUp";
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -37,6 +38,7 @@ function App() {
         <Route path="/user-login" element={<Login />} />
         <Route path="/teacher-signup" element={<TeacherSignUp />} />
         <Route path="/student-signup" element={<StudentSignUp />} />
+        <Route path= "/public-signup" element={<PublicSignUp />} />
 
         <Route path="/login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
