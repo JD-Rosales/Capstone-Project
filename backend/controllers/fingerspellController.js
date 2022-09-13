@@ -59,7 +59,6 @@ const updateFingerSpell = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
-
 }
 
 //DELETE api/fingerspell/:id

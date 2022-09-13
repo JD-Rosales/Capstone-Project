@@ -10,10 +10,6 @@ const userSchema = mongoose.Schema({
     type: String,
     required: [true, 'Password is required']
   },
-  role: {
-    type: String,
-    required: [true, 'Role is required']
-  },
 }, {
   timestamps: true
 })

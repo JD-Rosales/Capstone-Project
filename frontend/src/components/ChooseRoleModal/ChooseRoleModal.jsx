@@ -25,9 +25,14 @@ const ChooseRoleModal = (props) => {
 
         <div className="roleContainer">
           <div>
-            <img src={publicuser} alt="Public User"></img>
+            <img src={publicuser} alt="General User"></img>
             <button
               onClick={() => {
+                sessionStorage.clear();
+                sessionStorage.setItem(
+                  "userData",
+                  JSON.stringify({ choosenRole: "GeneralUser" })
+                );
                 navigate("/user-login");
               }}
             >
@@ -39,6 +44,11 @@ const ChooseRoleModal = (props) => {
             <img src={student} alt="Student"></img>
             <button
               onClick={() => {
+                sessionStorage.clear();
+                sessionStorage.setItem(
+                  "userData",
+                  JSON.stringify({ choosenRole: "Student" })
+                );
                 navigate("/user-login");
               }}
             >
@@ -50,6 +60,11 @@ const ChooseRoleModal = (props) => {
             <img src={teacher} alt="Teacher"></img>
             <button
               onClick={() => {
+                sessionStorage.clear();
+                sessionStorage.setItem(
+                  "userData",
+                  JSON.stringify({ choosenRole: "Teacher" })
+                );
                 navigate("/user-login");
               }}
             >

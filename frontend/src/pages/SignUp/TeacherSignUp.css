@@ -48,6 +48,38 @@
   font-size: .8rem;
 }
 
+.teacherSignup > .container > form > .classContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.teacherSignup > .container > form > .classContainer > .school {
+  margin: 7px 0;
+  height: 45px;
+  width: 60%;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding-left: 25px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #e1e3e8
+}
+
+.teacherSignup > .container > form > .classContainer > .classCode {
+  margin: 7px 0;
+  height: 45px;
+  width: 40%;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding-left: 25px;
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: #b1e2d5;
+  margin-left: 10px;
+}
+
 .teacherSignup > .container > form  > .nameContainer > input {
   margin: 7px 0;
   height: 45px;

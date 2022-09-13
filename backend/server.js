@@ -23,10 +23,15 @@ app.use(cors({
 app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
 app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
 
-//adi ak kuys
-app.use('/api/user-request', require('./routes/api/accountRequest'))
-
 app.use('/api/users', require('./routes/api/userRoutes'))
+
+//general user routes
+app.use('/api/generalUser', require('./routes/api/generalUserRoutes'))
+
+//teacher routes
+app.use('/api/teacher', require('./routes/api/teacherRoutes'))
+//student routes
+app.use('/api/student', require('./routes/api/studentRoutes'))
 
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const teacherSchema = mongoose.Schema({
+const studentSchema = mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Email is required']
@@ -29,12 +29,8 @@ const teacherSchema = mongoose.Schema({
     type: String,
     required: [true, 'Class code is required']
   },
-  status: {
-    type: Boolean,
-    default: false
-  }
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('Teacher', teacherSchema)
+module.exports = mongoose.model('Student', studentSchema)

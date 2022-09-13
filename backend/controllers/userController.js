@@ -7,15 +7,7 @@ const registerUser = async (req, res) => {
 
   try {
     //req.body tikang ha http request
-    const { email , password, role } = req.body
-
-    //check if input role is a valid role
-    if(role === "Admin" || role === "Teacher" || role === "Student" || role === "Public"){
-
-    } else {
-      //return to frontend if invalid role
-      res.status(400).json({ message: "Invalid Role"})
-    }
+    const { email , password } = req.body
 
     //checkl if username and password is not empty
     if(!email){
@@ -39,8 +31,7 @@ const registerUser = async (req, res) => {
     //create user
     const user = await User.create({
       email,
-      password: hashPassword,
-      role
+      password: hashPassword
     })
 
     //return user data if success
@@ -48,7 +39,6 @@ const registerUser = async (req, res) => {
       res.status(201).json({
         _id: user.id,
         email: user.email,
-        role: user.role,
         token: generateToken(user._id)
       })
     } else {

@@ -1,7 +1,7 @@
 import "./Login.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 
 const Login = () => {
@@ -14,18 +14,30 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
 
+  const [choosenRole, setChoosenRole] = useState(null);
+
+  const getRole = () => {
+    const role = JSON.parse(sessionStorage.getItem("userData"));
+    setChoosenRole(role.choosenRole);
+  };
+
+  useEffect(() => {
+    getRole();
+  }, []);
+
   const submit = () => {
-    axios
-      .post(BASE_URL + "/api/users/login", {
-        email,
-        password,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .post(BASE_URL + "/api/users/login", {
+    //     email,
+    //     password,
+    //   })
+    //   .then((response) => {
+    //     console.log(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    console.log(JSON.stringify(sessionStorage.getItem("userData")));
   };
 
   return (
@@ -41,6 +53,7 @@ const Login = () => {
             }}
           />
         </h1>
+        <h3>{choosenRole}</h3>
         <span>Enter your credentials to login</span>
 
         <input
