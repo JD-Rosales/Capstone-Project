@@ -1,0 +1,47 @@
+.admin-manage-request > .main > .manageRequestHeader {
+    background-color: #182142;
+    width: calc(100vw -300px);
+    padding-top: 40px;
+    padding-left: 80px;
+    margin-left: 390px;
+    margin-right: 100px;
+    border-radius: 20px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+}
+.admin-manage-request > .main > .manageRequestHeader > div > h1 {
+    padding-top: 30px;;
+    font-size: 2rem;
+    line-height: 2rem;
+    margin-bottom: 10px;
+  }
+.admin-manage-request  > .main > .manageRequestHeader > div > h1 > span {
+    color: #42C9A3;
+  }
+.admin-manage-request  > .main > .manageRequestHeader > div  > p{
+    padding-bottom: 30px;
+    width: 3fr;
+    
+  }
+
+.admin-manage-request  > .main > .manageRequestHeader > div   > img {
+    height: 250px;
+    width: 300px;
+    margin-left: 50px;
+  }
+.admin-manage-request > .main > .tbl-container {
+    margin: 20px 0 20px 0;
+    height: calc(100vh - 125px);
+  }
+  
+  .admin-manage-request > .main > .tbl-container > table {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+  }
+  .admin-manage-request > .main > .tbl-container > table > thead > tr > th {
+    text-align: start;
+    font-weight: normal;
+  }
