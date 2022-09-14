@@ -12,7 +12,7 @@ const Administrator = () => {
   const navigate = useNavigate();
 
   const userData = JSON.parse(localStorage.getItem("userData"));
-
+  
   useEffect(() => {
     if (localStorage.length !== 0) {
       return () => {
@@ -42,7 +42,7 @@ const Administrator = () => {
   return (
     <div className="administrator">
       <Sidebar isAdmin="true" username={userData ? userData.username : ""} />
-
+      console.log(userData)
       <div className="main">
         <div className="header-container">
           <div>
