@@ -21,7 +21,7 @@ import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
 import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSpellHandSign";
 import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/AdminFourPicOneWord"
-
+import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
 function App() {
   return (
     <div className="App">
@@ -45,6 +45,7 @@ function App() {
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
+        <Route path="/manage-request" element={<AdminManageRequest />} />
       </Routes>
       <ToastContainer
         autoClose={1500}
