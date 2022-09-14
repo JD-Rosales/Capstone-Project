@@ -13,7 +13,7 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import TeacherSignUp from "./pages/SignUp/TeacherSignUp";
 import StudentSignUp from "./pages/SignUp/StudentSignUp";
-import PublicSignUp from "./pages/SignUp/PublicSignUp";
+import GeneralUserSignUp from "./pages/SignUp/GeneralUserSignUp";
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -21,7 +21,7 @@ import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
 import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSpellHandSign";
 import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/AdminFourPicOneWord"
-
+import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
 function App() {
   return (
     <div className="App">
@@ -38,13 +38,14 @@ function App() {
         <Route path="/user-login" element={<Login />} />
         <Route path="/teacher-signup" element={<TeacherSignUp />} />
         <Route path="/student-signup" element={<StudentSignUp />} />
-        <Route path= "/public-signup" element={<PublicSignUp />} />
+        <Route path= "/general-user-signup" element={<GeneralUserSignUp />} />
 
         <Route path="/login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
+        <Route path="/manage-request" element={<AdminManageRequest />} />
       </Routes>
       <ToastContainer
         autoClose={1500}
