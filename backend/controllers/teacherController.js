@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const randomCode = require('randomstring')
 const Teacher = require('../models/teacherModel')
+const Student = require('../models/studentModel')
+const GeneralUser = require('../models/generalUserModel')
 
 //POST api/teacher
 const registerTeacher = async (req, res) => {

@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config()
 const cors = require('cors')
 const connectDB = require('./config/db')
 const { verifyJWT } = require('./middlewares/verifyJwtMiddleware')
+const { default: mongoose } = require('mongoose')
 const port = process.env.PORT || 8000
 
 connectDB()
@@ -44,4 +45,11 @@ app.use('/verifyJWT', verifyJWT)
 app.use(express.static(path.join(__dirname, '../frontend/build')))
 app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
 
-app.listen(port, () => console.log(`Server running on PORT ${port}`))
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB')
+  app.listen(port, () => console.log(`Server running on PORT ${port}`))
+})
+
+mongoose.connection.on('error', err => {
+  console.log(err)
+})
