@@ -16,7 +16,6 @@ const TeacherSignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [middleInitial, setMiddleInitial] = useState("");
-  const [classCode, setClassCode] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +29,6 @@ const TeacherSignUp = () => {
           firstName,
           lastName,
           middleInitial,
-          classCode,
         })
         .then((response) => {
           setEmail("");
@@ -40,7 +38,6 @@ const TeacherSignUp = () => {
           setFirstName("");
           setLastName("");
           setMiddleInitial("");
-          setClassCode("");
 
           console.log(response.data);
         })
@@ -68,23 +65,13 @@ const TeacherSignUp = () => {
         <span>As a teacher, it's quick and easy</span>
 
         <form onSubmit={handleSubmit}>
-          <div className="classContainer">
-            <input
-              value={school}
-              onChange={(e) => setSchool(e.target.value)}
-              type="text"
-              className="school"
-              placeholder="In which school do you study?"
-            />
-
-            <input
-              value={classCode}
-              onChange={(e) => setClassCode(e.target.value)}
-              type="text"
-              className="classCode"
-              placeholder="Enter class code"
-            />
-          </div>
+          <input
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
+            type="text"
+            className="school"
+            placeholder="In which school do you study?"
+          />
 
           <div className="nameContainer">
             <input

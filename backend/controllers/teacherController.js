@@ -1,18 +1,35 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const randomCode = require('randomstring')
 const Teacher = require('../models/teacherModel')
 
 //POST api/teacher
 const registerTeacher = async (req, res) => {
 
   try {
+    
     //req.body tikang ha http request
-    const { email , password, school, firstName, lastName, middleInitial, classCode } = req.body
+    const { email , password, school, firstName, lastName, middleInitial } = req.body
 
     //check if email already exists
     const emailExists = await Teacher.findOne({email})
     if(emailExists){
       res.status(409).json({ message: 'Email is already registered'})
+    }
+
+    //check if classCode has a duplicate
+    let classCode;
+    while(true){
+      classCode = randomCode.generate({
+        length: 8,
+        readable: true
+      })
+      const codeExists = await Teacher.findOne({classCode: classCode})
+
+      //if generated code do not exists break the loop
+      if(!codeExists){
+        break
+      }
     }
 
       //hash the password
@@ -57,7 +74,19 @@ const updateTeacherStatus = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+}
 
+//GET api/teacher
+const getAccountRequest = async (req, res) => {
+  try {
+
+    const teacher = await Teacher.find({'status': false})
+
+    res.status(200).json(teacher)
+    
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 //Generate JWT
@@ -69,5 +98,6 @@ const generateToken = (id) => {
 
 module.exports = {
   registerTeacher,
-  updateTeacherStatus
+  updateTeacherStatus,
+  getAccountRequest
 }
