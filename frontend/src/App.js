@@ -14,6 +14,7 @@ import Login from "./pages/Login/Login";
 import TeacherSignUp from "./pages/SignUp/TeacherSignUp";
 import StudentSignUp from "./pages/SignUp/StudentSignUp";
 import GeneralUserSignUp from "./pages/SignUp/GeneralUserSignUp";
+import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -39,6 +40,7 @@ function App() {
         <Route path="/teacher-signup" element={<TeacherSignUp />} />
         <Route path="/student-signup" element={<StudentSignUp />} />
         <Route path= "/general-user-signup" element={<GeneralUserSignUp />} />
+        <Route path="/waiting-approval" element={<WaitingApproval />} />
 
         <Route path="/login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
