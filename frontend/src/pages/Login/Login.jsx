@@ -52,7 +52,7 @@ const Login = () => {
             }}
           />
         </h1>
-        <h3>{choosenRole}</h3>
+        {/* <h3>{choosenRole}</h3> */}
         <span>Enter your credentials to login</span>
 
         <input

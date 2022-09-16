@@ -1,5 +1,3 @@
-import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css'
 import { Routes, Route } from "react-router-dom";
 import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
@@ -49,10 +47,6 @@ function App() {
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
         <Route path="/manage-request" element={<AdminManageRequest />} />
       </Routes>
-      <ToastContainer
-        autoClose={1500}
-        pauseOnFocusLoss={false}
-      />
     </div>
   );
 }

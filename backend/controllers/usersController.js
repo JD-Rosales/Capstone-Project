@@ -28,6 +28,7 @@ const signUp = async (req, res) => {
 
       //check if email is already registered
       const emailExists = await User.findOne({"email": email}).lean().exec()
+
       if (emailExists) {
         res.status(409).json({ message: 'Email is already registered'})
       } else {

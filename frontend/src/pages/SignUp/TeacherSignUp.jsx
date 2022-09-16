@@ -19,6 +19,7 @@ const TeacherSignUp = () => {
     middleInitial: "",
     school: "",
   });
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const onChange = (e) => {
     setUserInfo((prevState) => ({
@@ -122,25 +123,31 @@ const TeacherSignUp = () => {
           />
           <div className="passwordContainer">
             <input
+              type={passwordShown ? "text" : "password"}
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              type="text"
               className="newPassword"
               placeholder="New Password"
             />
 
             <input
+              type={passwordShown ? "text" : "password"}
               name="password2"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
-              type="text"
               className="re-enterPassword"
               placeholder="Re-enter New Password"
             />
           </div>
           <div className="checkbox-container">
-            <input type="checkbox" name="showPassword" />
+            <input
+              onChange={() => {
+                setPasswordShown(!passwordShown);
+              }}
+              type="checkbox"
+              name="showPassword"
+            />
             <label htmlFor="showPassword">Show password</label>
           </div>
 
