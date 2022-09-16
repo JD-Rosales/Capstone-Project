@@ -1,9 +1,53 @@
 import "./TeacherSignUp.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const TeacherSignUp = () => {
   const navigate = useNavigate();
+
+  const BASE_URL = "http://localhost:5000";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [school, setSchool] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [middleInitial, setMiddleInitial] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password === password2) {
+      axios
+        .post(BASE_URL + "/api/teacher", {
+          email,
+          password,
+          school,
+          firstName,
+          lastName,
+          middleInitial,
+        })
+        .then((response) => {
+          setEmail("");
+          setPassword("");
+          setPassword2("");
+          setSchool("");
+          setFirstName("");
+          setLastName("");
+          setMiddleInitial("");
+
+          console.log(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("Password do not match!");
+    }
+  };
 
   return (
     <div className="teacherSignup">
@@ -20,28 +64,59 @@ const TeacherSignUp = () => {
         </h1>
         <span>As a teacher, it's quick and easy</span>
 
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <input
+            value={school}
+            onChange={(e) => setSchool(e.target.value)}
             type="text"
             className="school"
-            placeholder="In which school do you teach?"
+            placeholder="In which school do you study?"
           />
+
           <div className="nameContainer">
-            <input type="text" className="firstName" placeholder="First Name" />
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              type="text"
+              className="firstName"
+              placeholder="First Name"
+            />
 
-            <input type="text" className="lastName" placeholder="Last Name" />
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+              className="lastName"
+              placeholder="Last Name"
+            />
 
-            <input type="text" className="middleInitial" placeholder="M.I" />
+            <input
+              value={middleInitial}
+              onChange={(e) => setMiddleInitial(e.target.value)}
+              type="text"
+              className="middleInitial"
+              placeholder="M.I"
+            />
           </div>
-          <input type="text" className="email" placeholder="Email" />
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            className="email"
+            placeholder="Email"
+          />
           <div className="passwordContainer">
             <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               type="text"
               className="newPassword"
               placeholder="New Password"
             />
 
             <input
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
               type="text"
               className="re-enterPassword"
               placeholder="Re-enter New Password"

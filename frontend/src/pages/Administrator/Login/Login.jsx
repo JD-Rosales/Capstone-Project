@@ -9,9 +9,9 @@ const Login = () => {
   const BASE_URL = "http://localhost:5000";
   const navigate = useNavigate();
 
-  const userRef = useRef();
+  const emailRef = useRef();
   const passwordRef = useRef();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState(null);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -21,7 +21,7 @@ const Login = () => {
 
     await axios
       .post(BASE_URL + "/api/users/login", {
-        username,
+        email,
         password,
       })
       .then((response) => {
@@ -33,7 +33,7 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        setUsername("");
+        setEmail("");
         setPassword("");
         setMessage(err.response.data.message);
         localStorage.clear();
@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    userRef.current.focus();
+    emailRef.current.focus();
 
     if (localStorage.length === 0) {
       localStorage.clear();
@@ -97,15 +97,15 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <input
             type="text"
-            name="username"
-            placeholder="Username"
-            ref={userRef}
+            name="email"
+            placeholder="Email"
+            ref={emailRef}
             autoComplete="off"
             onChange={(e) => {
-              setUsername(e.target.value);
+              setEmail(e.target.value);
               setMessage(null);
             }}
-            value={username}
+            value={email}
             required
           />
 

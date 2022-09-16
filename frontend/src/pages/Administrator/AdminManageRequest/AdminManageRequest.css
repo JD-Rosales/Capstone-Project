@@ -10,6 +10,12 @@
     align-items: center;
     grid-template-columns: 1fr 1fr;
 }
+
+.admin-manage-request table {
+  margin-top: 20px;
+  padding-left: 385px;
+  padding-right: 100px;
+}
 .admin-manage-request > .main > .manageRequestHeader > div > h1 {
     padding-top: 30px;;
     font-size: 2rem;
@@ -30,18 +36,86 @@
     width: 300px;
     margin-left: 50px;
   }
-.admin-manage-request > .main > .tbl-container {
-    margin: 20px 0 20px 0;
-    height: calc(100vh - 125px);
-  }
-  
-  .admin-manage-request > .main > .tbl-container > table {
+  .admin-manage-request > .main >.tbl-container > table {
     display: block;
     width: 100%;
     height: 100%;
     border-collapse: collapse;
   }
-  .admin-manage-request > .main > .tbl-container > table > thead > tr > th {
+  
+  .admin-manage-request > .main >.tbl-container > table > thead {
+    display: block;
+    display: grid;
+    height: 30px;
+    background-color: #000;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > thead > tr > th {
     text-align: start;
+    
     font-weight: normal;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > thead > tr > th:nth-child(2) {
+    text-align: center;
+  }
+
+  .admin-manage-request > .main >.tbl-container > table > thead > tr > th:nth-child(3) {
+    text-align: center;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody {
+    display: block;
+    overflow-y: auto;
+    height: calc(100% - 30px);
+    display: grid;
+    background-color: #182142;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td {
+    padding: 5px 0 5px 0;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td:nth-child(2) {
+    text-align: center;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td:nth-child(3) {
+    text-align: center;
+    margin-right: 20px;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td > button {
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    background-color: inherit;
+    color: inherit;
+    font-size: 1.2rem;
+    line-height: 1rem;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td > button:hover {
+    cursor: pointer;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td > button:nth-child(1) {
+    margin-right: 10px;
+    background-color: gray;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr > td > button:nth-child(2) {
+    background-color: red;
+  }
+  
+  .admin-manage-request > .main >.tbl-container > table > tbody > tr:hover {
+    background-color: #42C9A3;
+    cursor: pointer;
+  }
+  
+  .admin-manage-request tr {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding-left: 30px;
   }

@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config()
 const cors = require('cors')
 const connectDB = require('./config/db')
 const { verifyJWT } = require('./middlewares/verifyJwtMiddleware')
+const { default: mongoose } = require('mongoose')
 const port = process.env.PORT || 8000
 
 connectDB()
@@ -23,10 +24,19 @@ app.use(cors({
 app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
 app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
 
-//adi ak kuys
-app.use('/api/user-request', require('./routes/api/accountRequest'))
-
 app.use('/api/users', require('./routes/api/userRoutes'))
+
+//general user routes
+app.use('/api/generalUser', require('./routes/api/generalUserRoutes'))
+
+//teacher routes
+app.use('/api/teacher', require('./routes/api/teacherRoutes'))
+
+//student routes
+app.use('/api/student', require('./routes/api/studentRoutes'))
+
+//account sign in route
+app.use('/api/sign-in', require('./routes/api/accountSignIn'))
 
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)
@@ -35,4 +45,11 @@ app.use('/verifyJWT', verifyJWT)
 app.use(express.static(path.join(__dirname, '../frontend/build')))
 app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
 
-app.listen(port, () => console.log(`Server running on PORT ${port}`))
+mongoose.connection.once('open', () => {
+  console.log('Connected to MongoDB')
+  app.listen(port, () => console.log(`Server running on PORT ${port}`))
+})
+
+mongoose.connection.on('error', err => {
+  console.log(err)
+})

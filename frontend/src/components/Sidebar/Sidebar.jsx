@@ -80,6 +80,13 @@ const Sidebar = (props) => {
                 <FaUniversalAccess className="icon" /> <span>Manage Games</span>
               </Link>
             </li>
+
+            <li>
+              <Link to="/manage-request">
+                <FaUniversalAccess className="icon" />{" "}
+                <span>Manage Request</span>
+              </Link>
+            </li>
           </ul>
         </div>
       )}

@@ -1,0 +1,143 @@
+.publicSignUp {
+    height: 100vh;
+    width: 100vw;
+    background-image: url(../../assets/signuploginbg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .publicSignUp > .container {
+    height: 495px;
+    width: 600px;
+    border-radius: 20px;
+    color: #182240;
+    padding: 50px 60px 50px 60px;
+    background-color: #fff;
+  }
+  .publicSignUp > .container > h1 > span {
+    color: #43c9a3;
+  }
+  .publicSignUp > .container > h1 > img {
+    height: 35px;
+    width: 35px;
+    float: right;
+    cursor: pointer;
+  }
+  .publicSignUp > .container > span {
+    font-weight:100;
+    font-size: .9rem;
+  }
+  
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    font-size: .8rem;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    font-size: .8rem;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    font-size: .8rem;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    font-size: .8rem;
+  }
+
+  .publicSignUp > .container > form > .nameContainer > .firstName {
+    margin: 7px 0;
+    height: 45px;
+    width: 41%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #e1e3e8
+  }
+  .publicSignUp > .container > form > .nameContainer > .lastName {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 45px;
+    width: 41%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #e1e3e8
+  }
+  .publicSignUp > .container > form > .nameContainer > .initial {
+    margin: 7px 0;
+    height: 45px;
+    width: 13%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #e1e3e8
+  }
+  .publicSignUp > .container > form  > .email {
+    margin: 7px 0;
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #e1e3e8
+    
+  }
+  
+.publicSignUp > .container > form > .passwordContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+.publicSignUp > .container > form > .passwordContainer > .newPassword {
+   margin-right: 10px;
+}
+.publicSignUp > .container > form  > .passwordContainer > input {
+    margin: 7px 0;
+    height: 45px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    padding-left: 25px;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: #e1e3e8
+}
+
+.publicSignUp > .container > form > button {
+  color: #fff;
+  background-color: #182240;
+  height: 40px;
+  width: 80%;
+  display: block;
+  margin: 10px auto;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.publicSignUp > .container > form > .checkbox-container {
+  display: flex;
+  flex-direction: row;
+  font-size: .9rem;
+}
+
+.publicSignUp > .container > form > .checkbox-container > label {
+  margin-left: 5px;
+}
+.publicSignUp > .container > form > p {
+  font-size: .7rem;
+  text-align: center;
+  margin-right: 50px;
+  margin-left: 50px;
+}

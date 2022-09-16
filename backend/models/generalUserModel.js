@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const teacherSchema = mongoose.Schema({
+const generalUserSchema = mongoose.Schema({
   email: {
     type: String,
     required: [true, 'Email is required']
@@ -8,10 +8,6 @@ const teacherSchema = mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required']
-  },
-  school: {
-    type: String,
-    required: [true, 'School is required']
   },
   firstName: {
     type: String,
@@ -25,16 +21,8 @@ const teacherSchema = mongoose.Schema({
     type: String,
     required: [true, 'Middle Initial is required']
   },
-  classCode: {
-    type: String,
-    required: [true, 'Class code is required']
-  },
-  status: {
-    type: Boolean,
-    default: false
-  }
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('Teacher', teacherSchema)
+module.exports = mongoose.model('GeneralUser', generalUserSchema)

@@ -28,7 +28,7 @@ const ChooseRoleModal2 = (props) => {
             <img src={publicuser} alt="Public User"></img>
             <button
               onClick={() => {
-                navigate("/");
+                navigate("/general-user-signup");
               }}
             >
               Public User

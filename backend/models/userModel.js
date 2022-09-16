@@ -12,8 +12,31 @@ const userSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    required: [true, 'Role is required']
+    require: [true, 'Role is required']
   },
+  userInfo: {
+    firstName: {
+      type: String,
+      // required: [true, 'First Name is required']
+    },
+    lastName: {
+      type: String,
+      // required: [true, 'Last Name is required']
+    },
+    middleInitial: {
+      type: String,
+    },
+    school: {
+      type: String,
+    },
+    classCode: {
+      type: String,
+    },
+    status: {
+      type: Boolean,
+      default: false
+    }
+  }
 }, {
   timestamps: true
 })
