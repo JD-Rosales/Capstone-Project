@@ -31,7 +31,7 @@ const ChooseRoleModal = (props) => {
                 sessionStorage.clear();
                 sessionStorage.setItem(
                   "userData",
-                  JSON.stringify({ choosenRole: "GeneralUser" })
+                  JSON.stringify({ choosenRole: "generaluser" })
                 );
                 navigate("/user-login");
               }}
@@ -47,7 +47,7 @@ const ChooseRoleModal = (props) => {
                 sessionStorage.clear();
                 sessionStorage.setItem(
                   "userData",
-                  JSON.stringify({ choosenRole: "Student" })
+                  JSON.stringify({ choosenRole: "student" })
                 );
                 navigate("/user-login");
               }}
@@ -63,7 +63,7 @@ const ChooseRoleModal = (props) => {
                 sessionStorage.clear();
                 sessionStorage.setItem(
                   "userData",
-                  JSON.stringify({ choosenRole: "Teacher" })
+                  JSON.stringify({ choosenRole: "teacher" })
                 );
                 navigate("/user-login");
               }}

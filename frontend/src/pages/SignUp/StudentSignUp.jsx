@@ -23,7 +23,7 @@ const StudentSignUp = () => {
 
     if (password === password2) {
       axios
-        .post(BASE_URL + "/api/student", {
+        .post(BASE_URL + "/api/users", {
           email,
           password,
           school,

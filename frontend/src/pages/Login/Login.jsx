@@ -13,7 +13,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
-
   const [choosenRole, setChoosenRole] = useState(null);
 
   const getRole = () => {
@@ -26,18 +25,18 @@ const Login = () => {
   }, []);
 
   const submit = () => {
-    // axios
-    //   .post(BASE_URL + "/api/users/login", {
-    //     email,
-    //     password,
-    //   })
-    //   .then((response) => {
-    //     console.log(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    console.log(JSON.stringify(sessionStorage.getItem("userData")));
+    axios
+      .post(BASE_URL + "/api/users/login", {
+        email,
+        password,
+        role: choosenRole,
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (

@@ -9,36 +9,46 @@ const TeacherSignUp = () => {
 
   const BASE_URL = "http://localhost:5000";
 
+  const role = "teacher";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [school, setSchool] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [middleInitial, setMiddleInitial] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    middleInitial: "",
+    school: "",
+  });
+
+  const onChange = (e) => {
+    setUserInfo((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(userInfo);
 
     if (password === password2) {
       axios
-        .post(BASE_URL + "/api/teacher", {
+        .post(BASE_URL + "/api/users", {
           email,
           password,
-          school,
-          firstName,
-          lastName,
-          middleInitial,
+          role,
+          userInfo,
         })
         .then((response) => {
           setEmail("");
           setPassword("");
           setPassword2("");
-          setSchool("");
-          setFirstName("");
-          setLastName("");
-          setMiddleInitial("");
-
+          setUserInfo({
+            firstName: "",
+            lastName: "",
+            middleInitial: "",
+            school: "",
+          });
           console.log(response.data);
         })
         .catch((err) => {
@@ -66,8 +76,9 @@ const TeacherSignUp = () => {
 
         <form onSubmit={handleSubmit}>
           <input
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
+            name="school"
+            value={userInfo.school}
+            onChange={onChange}
             type="text"
             className="school"
             placeholder="In which school do you study?"
@@ -75,30 +86,34 @@ const TeacherSignUp = () => {
 
           <div className="nameContainer">
             <input
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              name="firstName"
+              value={userInfo.firstName}
+              onChange={onChange}
               type="text"
               className="firstName"
               placeholder="First Name"
             />
 
             <input
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              name="lastName"
+              value={userInfo.lastName}
+              onChange={onChange}
               type="text"
               className="lastName"
               placeholder="Last Name"
             />
 
             <input
-              value={middleInitial}
-              onChange={(e) => setMiddleInitial(e.target.value)}
+              name="middleInitial"
+              value={userInfo.middleInitial}
+              onChange={onChange}
               type="text"
               className="middleInitial"
               placeholder="M.I"
             />
           </div>
           <input
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             type="text"
@@ -107,6 +122,7 @@ const TeacherSignUp = () => {
           />
           <div className="passwordContainer">
             <input
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="text"
@@ -115,6 +131,7 @@ const TeacherSignUp = () => {
             />
 
             <input
+              name="password2"
               value={password2}
               onChange={(e) => setPassword2(e.target.value)}
               type="text"

@@ -21,7 +21,7 @@ const GeneralUserSignUp = () => {
 
     if (password === password2) {
       axios
-        .post(BASE_URL + "/api/generalUser", {
+        .post(BASE_URL + "/api/users", {
           email,
           password,
           firstName,
