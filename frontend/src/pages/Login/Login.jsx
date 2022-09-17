@@ -2,10 +2,15 @@ import "./Login.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, login } from "../../features/auth/authSlice";
 
 const Login = () => {
-  const BASE_URL = "http://localhost:5000";
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
   const navigate = useNavigate();
   const userRef = useRef();
@@ -24,19 +29,33 @@ const Login = () => {
     getRole();
   }, []);
 
+  const clearInputs = () => {
+    setEmail("");
+    setPassword("");
+    setChoosenRole("");
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert("Login Success");
+      clearInputs();
+      dispatch(reset());
+    }
+
+    if (isError) {
+      alert(message);
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [user, isLoading, isError, isSuccess, message]);
+
   const submit = () => {
-    axios
-      .post(BASE_URL + "/api/users/login", {
-        email,
-        password,
-        role: choosenRole,
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const userData = {
+      email,
+      password,
+      role: choosenRole,
+    };
+    dispatch(login(userData));
   };
 
   return (

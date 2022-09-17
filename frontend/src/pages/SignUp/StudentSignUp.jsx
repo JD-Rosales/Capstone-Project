@@ -1,14 +1,19 @@
 import "./StudentSignUp.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, updateMessage, register } from "../../features/auth/authSlice";
 
 const StudentSignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const BASE_URL = "http://localhost:5000";
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
+  const role = "student";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -18,36 +23,53 @@ const StudentSignUp = () => {
   const [middleInitial, setMiddleInitial] = useState("");
   const [classCode, setClassCode] = useState("");
 
+  const userInfo = {
+    firstName: firstName,
+    lastName: lastName,
+    middleInitial: middleInitial,
+    classCode: classCode,
+    school: school,
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      alert("Account Created");
+      setEmail("");
+      setPassword("");
+      setPassword2("");
+      setSchool("");
+      setFirstName("");
+      setLastName("");
+      setMiddleInitial("");
+      setClassCode("");
+      dispatch(reset());
+    }
+    if (isError) {
+      alert(message);
+      dispatch(reset());
+    }
+
+    if (message !== "") {
+      alert(message);
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [user, isLoading, isError, isSuccess, message]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password === password2) {
-      axios
-        .post(BASE_URL + "/api/users", {
-          email,
-          password,
-          school,
-          firstName,
-          lastName,
-          middleInitial,
-          classCode,
-        })
-        .then((response) => {
-          setEmail("");
-          setPassword("");
-          setPassword2("");
-          setSchool("");
-          setFirstName("");
-          setLastName("");
-          setMiddleInitial("");
-          setClassCode("");
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (password !== password2) {
+      dispatch(updateMessage("Password do not match"));
     } else {
-      console.log("Password do not match!");
+      const userData = {
+        email,
+        password,
+        role,
+        userInfo,
+      };
+
+      dispatch(register(userData));
     }
   };
   return (

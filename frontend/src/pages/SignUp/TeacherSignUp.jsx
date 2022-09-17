@@ -1,13 +1,17 @@
 import "./TeacherSignUp.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { register, reset } from "../../features/auth/authSlice";
 
 const TeacherSignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const BASE_URL = "http://localhost:5000";
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
 
   const role = "teacher";
   const [email, setEmail] = useState("");
@@ -21,6 +25,29 @@ const TeacherSignUp = () => {
   });
   const [passwordShown, setPasswordShown] = useState(false);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setEmail("");
+      setPassword("");
+      setPassword2("");
+      setUserInfo({
+        firstName: "",
+        lastName: "",
+        middleInitial: "",
+        school: "",
+      });
+
+      console.log("Login Success");
+    } else if (message !== "") {
+      alert(message);
+      dispatch(reset());
+    }
+
+    if (isError) {
+      dispatch(reset());
+    }
+  }, [user, isError, isSuccess, isLoading, message, dispatch]);
+
   const onChange = (e) => {
     setUserInfo((prevState) => ({
       ...prevState,
@@ -30,33 +57,17 @@ const TeacherSignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userInfo);
 
-    if (password === password2) {
-      axios
-        .post(BASE_URL + "/api/users", {
-          email,
-          password,
-          role,
-          userInfo,
-        })
-        .then((response) => {
-          setEmail("");
-          setPassword("");
-          setPassword2("");
-          setUserInfo({
-            firstName: "",
-            lastName: "",
-            middleInitial: "",
-            school: "",
-          });
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    if (password !== password2) {
     } else {
-      console.log("Password do not match!");
+      const userData = {
+        email,
+        password,
+        role,
+        userInfo,
+      };
+
+      dispatch(register(userData));
     }
   };
 

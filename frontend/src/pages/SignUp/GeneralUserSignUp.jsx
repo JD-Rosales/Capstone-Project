@@ -1,14 +1,18 @@
 import "./GeneralUserSignUp.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, updateMessage, register } from "../../features/auth/authSlice";
 
 const GeneralUserSignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const BASE_URL = "http://localhost:5000";
-
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  const role = "generaluser";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -16,34 +20,49 @@ const GeneralUserSignUp = () => {
   const [lastName, setLastName] = useState("");
   const [middleInitial, setMiddleInitial] = useState("");
 
+  useEffect(() => {
+    if (isSuccess) {
+      alert("Account Created Successfully");
+      clearInputs();
+      dispatch(reset());
+    } else if (message !== "") {
+      alert(message);
+      dispatch(reset());
+    }
+
+    if (isError) {
+      alert(message);
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [user, isLoading, isError, isSuccess, message]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password === password2) {
-      axios
-        .post(BASE_URL + "/api/users", {
-          email,
-          password,
+    if (password !== password2) {
+      dispatch(updateMessage("Password do not match"));
+    } else {
+      const userData = {
+        email,
+        password,
+        role,
+        userInfo: {
           firstName,
           lastName,
           middleInitial,
-        })
-        .then((response) => {
-          setEmail("");
-          setPassword("");
-          setPassword2("");
-          setFirstName("");
-          setLastName("");
-          setMiddleInitial("");
-
-          console.log(response.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log("Password do not match!");
+        },
+      };
+      dispatch(register(userData));
     }
+  };
+  const clearInputs = () => {
+    setEmail("");
+    setPassword("");
+    setPassword2("");
+    setFirstName("");
+    setLastName("");
+    setMiddleInitial("");
   };
 
   return (
