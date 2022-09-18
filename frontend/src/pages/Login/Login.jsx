@@ -1,9 +1,50 @@
 import "./Login.css";
 import back from "../../assets/back.png";
 import { useNavigate } from "react-router-dom";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, login } from "../../features/auth/authSlice";
+import {
+  FormControl,
+  FormControlLabel,
+  TextField,
+  Switch,
+  Button,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+
+const Android12Switch = styled(Switch)(({ theme }) => ({
+  padding: 8,
+  "& .MuiSwitch-track": {
+    borderRadius: 22 / 2,
+    "&:before, &:after": {
+      content: '""',
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: 16,
+      height: 16,
+    },
+    "&:before": {
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+        theme.palette.getContrastText(theme.palette.primary.main)
+      )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+      left: 12,
+    },
+    "&:after": {
+      backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+        theme.palette.getContrastText(theme.palette.primary.main)
+      )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+      right: 12,
+    },
+  },
+  "& .MuiSwitch-thumb": {
+    boxShadow: "none",
+    width: 16,
+    height: 16,
+    margin: 2,
+  },
+}));
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -13,8 +54,6 @@ const Login = () => {
   );
 
   const navigate = useNavigate();
-  const userRef = useRef();
-  const passwordRef = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
@@ -49,7 +88,8 @@ const Login = () => {
     // eslint-disable-next-line
   }, [user, isLoading, isError, isSuccess, message]);
 
-  const submit = () => {
+  const submit = async (e) => {
+    e.preventDefault();
     const userData = {
       email,
       password,
@@ -74,7 +114,58 @@ const Login = () => {
         {/* <h3>{choosenRole}</h3> */}
         <span>Enter your credentials to login</span>
 
-        <input
+        <form>
+          <FormControl fullWidth={true}>
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              sx={{ mt: 2 }}
+              InputProps={{ sx: { height: 50 } }}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
+
+            <TextField
+              label="Password"
+              type={passwordShown ? "text" : "password"}
+              name="password"
+              autoComplete="password"
+              sx={{ my: 2 }}
+              InputProps={{ sx: { height: 50 } }}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+
+            <FormControlLabel
+              control={
+                <Android12Switch
+                  sx={{ ml: 0.5 }}
+                  onChange={() => {
+                    setPasswordShown(!passwordShown);
+                  }}
+                />
+              }
+              label="Show Password"
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ background: "#182142", height: 50, mt: 2 }}
+              onClick={submit}
+            >
+              Login
+            </Button>
+          </FormControl>
+        </form>
+
+        {/* <input
           type="email"
           name="email"
           placeholder="Email"
@@ -93,9 +184,16 @@ const Login = () => {
           onChange={(e) => {
             setPassword(e.target.value);
           }}
-        />
+        /> */}
 
-        <div className="checkbox-container">
+        {/* <TextField
+          id="standard-basic"
+          label="Standard"
+          variant="standard"
+          sx={{ background: "#e1e3e8" }}
+        /> */}
+
+        {/* <div className="checkbox-container">
           <input
             type="checkbox"
             name="showPassword"
@@ -104,9 +202,9 @@ const Login = () => {
             }}
           />
           <label htmlFor="showPassword">Show password</label>
-        </div>
+        </div> */}
 
-        <button onClick={submit}>Login</button>
+        {/* <button onClick={submit}>Login</button> */}
         <span className="forgetPassword">Forgot password?</span>
       </div>
     </div>

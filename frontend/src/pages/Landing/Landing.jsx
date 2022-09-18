@@ -27,7 +27,6 @@ const Landing = () => {
         <div className="illustrator-container">
           <img src={illustration1} alt="Illustration"></img>
         </div>
-
         <div className="header-container">
           <h1>
             IT'S A <span>BEAUTIFUL</span> <br />

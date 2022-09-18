@@ -33,7 +33,7 @@ const ChooseRoleModal = (props) => {
                   "userData",
                   JSON.stringify({ choosenRole: "generaluser" })
                 );
-                navigate("/user-login");
+                navigate("/login");
               }}
             >
               Public User
@@ -49,7 +49,7 @@ const ChooseRoleModal = (props) => {
                   "userData",
                   JSON.stringify({ choosenRole: "student" })
                 );
-                navigate("/user-login");
+                navigate("/login");
               }}
             >
               Student
@@ -65,7 +65,7 @@ const ChooseRoleModal = (props) => {
                   "userData",
                   JSON.stringify({ choosenRole: "teacher" })
                 );
-                navigate("/user-login");
+                navigate("/login");
               }}
             >
               Teacher

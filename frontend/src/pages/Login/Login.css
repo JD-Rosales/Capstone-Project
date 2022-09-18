@@ -35,43 +35,6 @@
   cursor: pointer;
 }
 
-.user-login > .container > input {
-  margin: 7px 0;
-  height: 50px;
-  width: 100%;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  padding-left: 25px;
-  font-size: 1rem;
-  font-family: inherit;
-  background-color: #e1e3e8
-}
-
-.user-login > .container > .checkbox-container {
-  margin-top: 5px;
-}
-
-.user-login > .container > .checkbox-container > input {
-  margin-right: 10px;
-  color: #e1e3e8
-}
-
-.user-login > .container > button {
-  background-color: #182142;
-  color: #fff;
-  border: none;
-  outline: none;
-  height: 50px;
-  width: 85%;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  margin: 0 auto;
-  margin-top: 30px;
-  display: block;
-  cursor: pointer;
-}
-
 .user-login > .container > .forgetPassword {
   display: block;
   text-align: center;

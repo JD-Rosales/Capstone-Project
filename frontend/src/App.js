@@ -34,13 +34,13 @@ function App() {
         <Route path="/spell-hand-sign" element={<SpellHandSign />} />
         <Route path="/4-pics-1-word" element={<FourPicOneWord />} />
         <Route path="/learn" element={<Learn />} />
-        <Route path="/user-login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/teacher-signup" element={<TeacherSignUp />} />
         <Route path="/student-signup" element={<StudentSignUp />} />
         <Route path= "/general-user-signup" element={<GeneralUserSignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
 
-        <Route path="/login" element={<AdminLogin />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
