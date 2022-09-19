@@ -1,4 +1,4 @@
-.user-login {
+.signup {
   height: 100vh;
   width: 100vw;
   background-image: url(../../assets/svg/login-signup.svg);
@@ -10,7 +10,7 @@
   justify-content: center;
 }
 
-.user-login .back_home {
+.signup .back_home {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,34 +25,30 @@
   padding: 10px;
 }
 
-.user-login > .container {
-  height: 450px;
-  width: 400px;
-  background-color: #fff;
+.signup .container {
+  width: 600px;
   border-radius: 20px;
   color: #182240;
-  padding: 60px 60px 60px 60px;
+  padding: 50px 60px 50px 60px;
+  background-color: #fff;
 }
 
-.user-login > .container > h1 > span{
+.signup > .container > h1 > span{
   color:#43c9a3;
 }
 
-.user-login > .container > span {
-  font-weight:100;
+.signup > .container > span {
+  font-weight: 100;
   font-size: .9rem;
 }
 
-.user-login > .container > h1 > img {
+.signup > .container > h1 > img {
   height: 35px;
   width: 35px;
   float: right;
   cursor: pointer;
 }
 
-.user-login > .container > .forgetPassword {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  cursor: pointer;
+.signup > .container .invisible_margin {
+  margin-bottom: 10px;
 }

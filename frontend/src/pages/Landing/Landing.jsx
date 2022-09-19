@@ -1,21 +1,10 @@
 import "./Landing.css";
 import illustration1 from "../../assets/illustration1.png";
 import logo2 from "../../assets/logo2.png";
-import ChooseRoleModal from "../../components/ChooseRoleModal/ChooseRoleModal";
-import ChooseRoleModal2 from "../../components/ChooseRoleModal2/ChooseRoleModal2";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
-  const [chooseRoleModal, setChooseRoleModal] = useState(false);
-  const [chooseRoleModal2, setChooseRoleModal2] = useState(false);
-
-  const handleRoleModal = () => {
-    setChooseRoleModal(!chooseRoleModal);
-  };
-
-  const handleRoleModal2 = () => {
-    setChooseRoleModal2(!chooseRoleModal2);
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="landing">
@@ -42,7 +31,7 @@ const Landing = () => {
           <button
             className="getStarted"
             onClick={() => {
-              handleRoleModal();
+              navigate("/login");
             }}
           >
             Get Started
@@ -53,7 +42,7 @@ const Landing = () => {
             <span
               className="signUp"
               onClick={() => {
-                handleRoleModal2();
+                navigate("/signup");
               }}
             >
               Sign Up
@@ -61,12 +50,6 @@ const Landing = () => {
           </span>
         </div>
       </main>
-
-      {/* for Sign in */}
-      {chooseRoleModal ? <ChooseRoleModal onChange={handleRoleModal} /> : ""}
-
-      {/* for Sign Up */}
-      {chooseRoleModal2 ? <ChooseRoleModal2 onChange={handleRoleModal2} /> : ""}
     </div>
   );
 };

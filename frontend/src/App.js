@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+// import { useSelector } from "react-redux";
 import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
 import Play from "./pages/Play/Play";
@@ -9,9 +10,7 @@ import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
 import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
 import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
-import TeacherSignUp from "./pages/SignUp/TeacherSignUp";
-import StudentSignUp from "./pages/SignUp/StudentSignUp";
-import GeneralUserSignUp from "./pages/SignUp/GeneralUserSignUp";
+import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
 
 //Admin Pages
@@ -21,7 +20,13 @@ import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFinger
 import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSpellHandSign";
 import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/AdminFourPicOneWord"
 import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
+
+//Test Pages
+// import AppDrawer from "./pages/MUI/AppDrawer";
 function App() {
+  // const { user } = useSelector(
+  //   (state) => state.auth
+  // );
   return (
     <div className="App">
       <Routes>
@@ -35,9 +40,7 @@ function App() {
         <Route path="/4-pics-1-word" element={<FourPicOneWord />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/teacher-signup" element={<TeacherSignUp />} />
-        <Route path="/student-signup" element={<StudentSignUp />} />
-        <Route path= "/general-user-signup" element={<GeneralUserSignUp />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
 
         <Route path="/admin-login" element={<AdminLogin />} />
@@ -46,6 +49,16 @@ function App() {
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
         <Route path="/manage-request" element={<AdminManageRequest />} />
+
+        {/* { user ? (
+          <>""</>
+        ): (
+          <>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<AppDrawer />} />
+          </>
+        )} */}
       </Routes>
     </div>
   );

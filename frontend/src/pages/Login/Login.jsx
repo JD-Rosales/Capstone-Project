@@ -1,7 +1,8 @@
 import "./Login.css";
 import back from "../../assets/back.png";
-import { useNavigate } from "react-router-dom";
+import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, login } from "../../features/auth/authSlice";
 import {
@@ -10,8 +11,27 @@ import {
   TextField,
   Switch,
   Button,
+  Fade,
+  Modal,
+  Box,
+  Backdrop,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import ChooseRole from "../../components/ChooseRole/ChooseRole";
+
+const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 800,
+  background: "#fff",
+  borderRadius: "15px",
+  boxShadow: 20,
+  outline: "none",
+  p: 4,
+  pb: 6,
+};
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -47,26 +67,25 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 }));
 
 const Login = () => {
+  const [open, setOpen] = useState(true);
+  const handleModal = () => {
+    setOpen(!open);
+  };
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
   const [choosenRole, setChoosenRole] = useState(null);
 
-  const getRole = () => {
-    const role = JSON.parse(sessionStorage.getItem("userData"));
-    setChoosenRole(role.choosenRole);
+  const setRole = (role) => {
+    setChoosenRole(role);
+    handleModal();
   };
-
-  useEffect(() => {
-    getRole();
-  }, []);
 
   const clearInputs = () => {
     setEmail("");
@@ -100,18 +119,33 @@ const Login = () => {
 
   return (
     <div className="user-login">
+      <div
+        className="back_home"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <ReplyAllIcon
+          sx={{
+            fontSize: "50px",
+            "&:hover": {
+              color: "#182142",
+            },
+          }}
+        />
+      </div>
       <div className="container">
         <h1>
-          S<span>i</span>gn in
+          Log<span>i</span>n
           <img
             src={back}
             alt="Back"
             onClick={() => {
-              navigate("/");
+              handleModal();
             }}
           />
         </h1>
-        {/* <h3>{choosenRole}</h3> */}
+
         <span>Enter your credentials to login</span>
 
         <form>
@@ -164,49 +198,26 @@ const Login = () => {
             </Button>
           </FormControl>
         </form>
-
-        {/* <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          ref={userRef}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-        />
-        <input
-          type={passwordShown ? "text" : "password"}
-          name="password"
-          placeholder="Password"
-          value={password}
-          ref={passwordRef}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        /> */}
-
-        {/* <TextField
-          id="standard-basic"
-          label="Standard"
-          variant="standard"
-          sx={{ background: "#e1e3e8" }}
-        /> */}
-
-        {/* <div className="checkbox-container">
-          <input
-            type="checkbox"
-            name="showPassword"
-            onChange={() => {
-              setPasswordShown(!passwordShown);
-            }}
-          />
-          <label htmlFor="showPassword">Show password</label>
-        </div> */}
-
-        {/* <button onClick={submit}>Login</button> */}
         <span className="forgetPassword">Forgot password?</span>
       </div>
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        // onClose={handleModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={modalStyle}>
+            <ChooseRole onChange={handleModal} setRole={setRole} />
+          </Box>
+        </Fade>
+      </Modal>
     </div>
   );
 };
