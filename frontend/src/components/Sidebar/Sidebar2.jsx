@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -14,6 +14,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./Sidebar2Data";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, changeWidth } from "../../features/sidebar/sidebarSlice";
 
 const drawerWidth = 240;
 
@@ -34,7 +36,7 @@ const closedMixin = (theme) => ({
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(8)} + 1px)`, //sidebarwidth
   },
 });
 
@@ -82,11 +84,21 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Sidebar2() {
+export default function Sidebar2(props) {
+  const dispatch = useDispatch();
+  const drawerRef = useRef(null);
+
   const [open, setOpen] = useState(true);
 
   const handleDrawer = () => {
     setOpen(!open);
+    // console.log(drawerRef.current.offsetWidth);
+    // dispatch(changeWidth(drawerRef.current.offsetWidth));
+    if (open) {
+      dispatch(changeWidth(65));
+    } else {
+      dispatch(changeWidth(240));
+    }
   };
 
   return (
@@ -94,6 +106,7 @@ export default function Sidebar2() {
       <CssBaseline />
       <AppBar position="fixed" open={open}></AppBar>
       <Drawer
+        ref={drawerRef}
         variant="permanent"
         open={open}
         // PaperProps={{

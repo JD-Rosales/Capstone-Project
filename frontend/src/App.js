@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
+import Home2 from "./pages/Home/Home2";
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
 import GuessHandSign from "./pages/GuessHandSign/GuessHandSign";
@@ -12,7 +13,7 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
-// import Sidebar2 from "./components/Sidebar/Sidebar2";
+import Sidebar2 from "./components/Sidebar/Sidebar2";
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -25,12 +26,11 @@ import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminMa
 //Test Pages
 // import AppDrawer from "./pages/MUI/AppDrawer";
 function App() {
-  // const { user } = useSelector(
-  //   (state) => state.auth
-  // );
+  const { user } = useSelector(
+    (state) => state.auth
+  );
   return (
     <div className="App">
-      {/* <Sidebar2/> */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
@@ -53,16 +53,27 @@ function App() {
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
         <Route path="/manage-request" element={<AdminManageRequest />} />
 
-        {/* { user ? (
-          <>""</>
-        ): (
+        </Routes>
+
+
+        {/* { user ? 
+        (
           <>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<AppDrawer />} />
+          <Sidebar2 />
+          <Routes>
+            <Route path="/" element={<Home2 />} />
+          </Routes>
           </>
-        )} */}
-      </Routes>
+        ) :
+
+        (
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+          </Routes>
+        )
+        } */}
     </div>
   );
 }
