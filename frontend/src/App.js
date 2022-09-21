@@ -12,6 +12,7 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
+// import Sidebar2 from "./components/Sidebar/Sidebar2";
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -29,6 +30,7 @@ function App() {
   // );
   return (
     <div className="App">
+      {/* <Sidebar2/> */}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
@@ -43,6 +45,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
 
+        {/* admin pages */}
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
