@@ -357,7 +357,7 @@ const SignUp = () => {
               }}
               onClick={submit}
             >
-              Login
+              Sign up
             </Button>
           </FormControl>
         </form>

@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
-import Home2 from "./pages/Home/Home2";
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
 import GuessHandSign from "./pages/GuessHandSign/GuessHandSign";
@@ -13,7 +12,6 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
-import Sidebar2 from "./components/Sidebar/Sidebar2";
 
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
@@ -45,7 +43,6 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
 
-        {/* admin pages */}
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
         <Route path="/manage-finger-spell" element={<AdminFingerSpell />} />
@@ -59,9 +56,8 @@ function App() {
         {/* { user ? 
         (
           <>
-          <Sidebar2 />
           <Routes>
-            <Route path="/" element={<Home2 />} />
+            <Route path="/" element={<Home />} />
           </Routes>
           </>
         ) :

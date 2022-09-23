@@ -5,6 +5,10 @@
 @import '@fontsource/roboto/500.css';
 @import '@fontsource/roboto/700.css';
 
+:root{
+  --backgroundColor: #1d2549;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #1d2549;
