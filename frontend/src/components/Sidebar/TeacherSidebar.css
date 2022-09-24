@@ -1,0 +1,206 @@
+.teacher-sidebar {
+    height: 100vh;
+    width: 300px;
+    background-color: #182142;
+    color: #fff;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    /* float: left; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  .teacher-sidebar > .sidebar-header {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .teacher-sidebar > .sidebar-header img {
+    margin-left: 30px;
+    height: 45px;
+    width: 240px;
+  }
+  
+  .teacher-sidebar > .sidebar-header > .greeting {
+    margin-top: 35px;
+    margin-left: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .teacher-sidebar > .sidebar-header > .greeting > span:nth-child(1) {
+    font-size: 3rem;
+  }
+  
+  .teacher-sidebar > .sidebar-header > .greeting > span:nth-child(2) {
+    margin-bottom: 8px;
+    margin-left: 20px;
+    font-size: 1.3rem;
+    line-height: 1.2rem;
+  }
+  
+  .teacher-sidebar > .sidebar-header > .greeting > span > span {
+    font-size: .8rem;
+    color: #42C9A3;
+  }
+  
+  .teacher-sidebar > .list-container {
+    margin: 0 30px 0 30px;
+  }
+  
+  .teacher-sidebar > .list-container > ul {
+    list-style: none;
+  }
+  
+  .teacher-sidebar > .list-container > ul > li {
+    width: 100%;
+  }
+  
+  .teacher-sidebar > .list-container > ul > li > a > .icon {
+    font-size: 1.9rem;
+    margin-right: 20px;
+  }
+  
+  .teacher-sidebar > .list-container > ul > li > a {
+    display: block;
+    padding: 10px 0 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .teacher-sidebar > .list-container > ul > li > a:hover{
+    background-color: #fff;
+    color: #000;
+  }
+  
+  
+  /*  */
+  .teacher-sidebar > .games-list-container {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .teacher-sidebar > .games-list-container > .games-btn {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    font-family: inherit;
+    background-color: inherit ;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 30px;
+    margin-left: 40px;
+    padding: 20px 50px 20px 10px; 
+  }
+  
+  .sidebar > .games-list-container > .games-btn:hover{
+    background-color: darkslategrey;
+    color: #fff;
+  }
+  
+  .teacher-sidebar > .games-list-container > .game-list-content{
+    display: none;
+    position: absolute;
+    z-index: 1;
+    margin-left: 40px;
+    margin-right: 30px;
+    padding-left: 20px;
+    width: 260px;
+  }
+  
+  .teacher-sidebar > .games-list-container > .game-list-content > .to-fingerspell {
+    display: block;
+    text-decoration: none;
+    padding: 15px 0 15px 0;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    color: #fff;
+    padding-left: 30px;
+  }
+  
+  .teacher-sidebar > .games-list-container > .game-list-content > .to-fingerspell:hover {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .teacher-sidebar > .games-list-container > .game-list-content > .to-spell-hand-sign {
+    display: block;
+    text-decoration: none;
+    padding: 15px 0 15px 0;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    color: #fff;
+    padding-left: 30px;
+  }
+  
+  .teacher-sidebar > .games-list-container > .game-list-content > .to-spell-hand-sign:hover {
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .teacher-sidebar > .games-list-container:hover .game-list-content{
+    display: block;
+  }
+  
+  .teacher-sidebar > .sl-btn > .logout-btn {
+    height: 50px;
+    width: 170px;
+    background-color: inherit;
+    border: none;
+    color: #fff;
+    font-size: .9rem;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    font-family: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .teacher-sidebar > .sl-btn > .settings-btn {
+    height: 120px;
+    width: 170px;
+    background-color: inherit;
+    border: none;
+    color: #fff;
+    font-size: .9rem;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    font-family: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .teacher-sidebar > .sl-btn > .settings-btn >  #icons {
+    margin-right: 10px;
+  }
+  .teacher-sidebar > .sl-btn > .logout-btn >  #icons {
+    margin-right: 10px;
+  }
+  
+  .teacher-sidebar > .logout-btn:hover {
+    background-color: darkslategrey;
+  }
+  
+  .teacher-sidebar > .logout-btn > span {
+    margin-top: 7px;
+    font-size: 20px;
+    margin-right: 5px;
+  }
