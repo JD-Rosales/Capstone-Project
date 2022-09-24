@@ -12,7 +12,8 @@ import Learn from "./pages/Learn/Learn";
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
-
+import StudentDashboard from "./pages/StudentDashboard/StudentDashboard"
+import TeacherDashboard from "./pages/TeacherDashboard/TeacherDashboard";
 //Admin Pages
 import AdminLogin from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
@@ -42,6 +43,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/teacher-dashboard" element={<TeacherDashboard/>} />
 
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
