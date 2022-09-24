@@ -22,7 +22,7 @@ import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/Admin
 import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
 
 //Test Pages
-// import AppDrawer from "./pages/MUI/AppDrawer";
+import Test from "./pages/Test"
 function App() {
   const { user } = useSelector(
     (state) => state.auth
@@ -49,6 +49,8 @@ function App() {
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
         <Route path="/manage-request" element={<AdminManageRequest />} />
+
+        <Route path="/test" element={<Test />} />
 
         </Routes>
 
