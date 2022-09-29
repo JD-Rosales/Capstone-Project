@@ -51,10 +51,7 @@ const TeacherDashboard = () => {
             TOTAL
             <br /> <span>STUDENTS</span>
           </h1>
-
           <span className="total-student">{students?.students?.length}</span>
-
-          <div className="student-list"></div>
         </div>
         <div className="sub-container">
           <div className="first-sub-section">
@@ -76,8 +73,7 @@ const TeacherDashboard = () => {
           </h1>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quos
-            animi laborum blanditiis fuga explicabo tempora autem, a incidunt
-            nobis minima ullam aperiam sed oluta unde possimus beatae esse ex.
+            animlicabo tempora autem, a incidunt sse ex.
           </p>
           <button className="btn-learn">MANAGE</button>
         </div>

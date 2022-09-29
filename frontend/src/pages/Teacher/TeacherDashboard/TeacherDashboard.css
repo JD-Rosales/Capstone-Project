@@ -46,15 +46,19 @@
 .teacher-dashboard .body-container .first-section{
     border-radius: 20px;
     padding: 50px 50px 50px 50px;
+    height: 180px;
     text-align: center;
     margin-right: 20px;
     background-color: #182240;
     line-height: 1.7rem;
+    border: 1px green  dashed;
 }
 
-.teacher-dashboard .body-container .first-section .total-student{
+.teacher-dashboard > .body-container > .first-section  > .total-student{
     font-size: 35px;
-    border: 1px red dashed;
+    margin-top: 30px !important;
+ 
+    display:block;
 }
 
 
@@ -98,11 +102,13 @@
 .teacher-dashboard .body-container .second-section{
     border-radius: 20px;
     background-color: #182240;
-    padding: 23px 7% 15px 7%;
+    padding: 40px 40px 50px 50px;
     line-height: 1.7rem;
     text-align: center;
     display: flex;
     flex-direction: column;
+    width: 240px;
+    border: 1px green dashed;
 }
 .teacher-dashboard .body-container .second-section span{
     color: #42C9A3;     
