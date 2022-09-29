@@ -1,5 +1,5 @@
 import "./TeacherDashboard.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import teacher2 from "../../../assets/Teacher2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,18 +8,29 @@ import { getStudents } from "../../../features/teacher/teacherSlice";
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
 
+  const [studentList, setStudentList] = useState([]);
+
   const { user } = useSelector((state) => state.auth);
-  const { students } = useSelector((state) => state.teacher);
+  const { students, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.teacher
+  );
 
   useEffect(() => {
-    dispatch(getStudents({ classCode: "Dynu97UV" }));
+    setStudentList(
+      dispatch(getStudents({ classCode: user.userInfo.classCode }))
+    );
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    // console.log(students.students.length);
-    // eslint-disable-next-line
-  }, [students]);
+    if (isSuccess) {
+      setStudentList(students.students);
+    }
+
+    if (isError) {
+      alert(message);
+    }
+  }, [students, isLoading, isError, isSuccess, message]);
 
   return (
     <div className="teacher-dashboard">
@@ -51,7 +62,7 @@ const TeacherDashboard = () => {
             TOTAL
             <br /> <span>STUDENTS</span>
           </h1>
-          <span className="total-student">{students?.students?.length}</span>
+          <span className="total-student">{studentList.length}</span>
         </div>
         <div className="sub-container">
           <div className="first-sub-section">
