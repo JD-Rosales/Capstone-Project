@@ -1,8 +1,36 @@
 import "./EnrolledModal.css";
-import Grid from "@mui/material/Unstable_Grid2";
-import Item from "@mui/material/ListItem";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getStudents } from "../../../features/teacher/teacherSlice";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const EnrolledModal = () => {
+  const dispatch = useDispatch();
+  const { students, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.teacher
+  );
+
+  const [studentList, setStudentList] = useState([]);
+
+  useEffect(() => {
+    const data = {
+      classCode: "Dynu97UV",
+    };
+    dispatch(getStudents(data));
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(students);
+      setStudentList(students);
+    }
+
+    if (isError) {
+      alert(message);
+    }
+  }, [students, isLoading, isError, isSuccess, message]);
+
   return (
     <div className="enrolledModal">
       <h1>
@@ -10,20 +38,37 @@ const EnrolledModal = () => {
         <span className="closeBtn">X</span>
       </h1>
 
-      <Grid container spacing={2}>
-        <Grid xs={8}>
-          <Item>xs=8</Item>
-        </Grid>
-        <Grid xs={4}>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid xs={4}>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid xs={8}>
-          <Item>xs=8</Item>
-        </Grid>
-      </Grid>
+      <div className="studentListHeader">
+        <div></div>
+        <div>Name</div>
+        <div>Progress</div>
+        <div></div>
+      </div>
+
+      <div className="dataContainer">
+        {studentList.map((data) => {
+          return (
+            <div key={data._id} className="studentListContainer">
+              <div className="userIconContainer">
+                <AccountCircleIcon className="icon" />
+              </div>
+              <div className="name">
+                {data.userInfo.lastName}, {data.userInfo.firstName}{" "}
+                {data.userInfo.middleInitial}.
+              </div>
+              <div className="progressContainer">
+                <div className="progress">
+                  <div className="lineProgress"></div>
+                </div>
+              </div>
+
+              <div className="option">
+                <MoreVertIcon />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

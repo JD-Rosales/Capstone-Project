@@ -95,9 +95,17 @@ const Login = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      alert("Login Success");
       clearInputs();
       dispatch(reset());
+
+      console.log(user.role);
+      if (user.role === "teacher") {
+        navigate("/teacher-dashboard");
+      } else if (user.role === "student") {
+        navigate("/student-dashboard");
+      } else {
+        navigate("/home");
+      }
     }
 
     if (isError) {

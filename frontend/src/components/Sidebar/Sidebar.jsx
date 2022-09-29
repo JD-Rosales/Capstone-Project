@@ -1,19 +1,26 @@
 import "./Sidebar.css";
 import logo2 from "../../assets/logo2.png";
-import { Link, useNavigate } from "react-router-dom";
-import { CgLogOut } from "react-icons/cg";
+import { Link, useNavigate, NavLink } from "react-router-dom";
+import { RiLogoutCircleLine } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
-import { MdGamepad } from "react-icons/md";
 import { BiDumbbell } from "react-icons/bi";
-import { GiHand } from "react-icons/gi";
-import { FaUniversalAccess } from "react-icons/fa";
+import { RiDashboardFill } from "react-icons/ri";
+import { MdPeopleAlt } from "react-icons/md";
+import { FaGamepad } from "react-icons/fa";
+import { GiTeacher } from "react-icons/gi";
+import { useSelector, useDispatch } from "react-redux";
+import { resetAll } from "../../features/auth/authSlice";
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.auth);
 
   const logout = () => {
     localStorage.clear();
+    dispatch(resetAll());
     navigate("/login");
   };
 
@@ -21,33 +28,69 @@ const Sidebar = (props) => {
     <div className="sidebar">
       <div className="sidebar-header">
         <img src={logo2} alt="logo"></img>
-
-        {props.isAdmin !== "true" ? (
-          <div className="greeting">
+        <div className="greeting">
+          <span>
+            <FaUserCircle />
+          </span>
+          <span>
+            Hello, {user.userInfo.firstName}! <br />
             <span>
-              <FaUserCircle />
+              ({user.role.charAt(0).toUpperCase() + user.role.slice(1)})
             </span>
-            <span>
-              Hello, User! <br />
-              <span>(User)</span>
-            </span>
-          </div>
-        ) : (
-          <div className="greeting">
-            <span>
-              <FaUserCircle />
-            </span>
-            <span>
-              Hello, {props.username}! <br />
-              <span>(Administrator)</span>
-            </span>
-          </div>
-        )}
+          </span>
+        </div>
       </div>
 
-      {/* Elements to be shown in Sidebar if user is not an Administrator */}
-      {props.isAdmin !== "true" ? (
-        <div className="list-container">
+      <div className="list-container">
+        {user.role === "teacher" ? (
+          <ul>
+            <li>
+              <NavLink to="/teacher-dashboard">
+                <RiDashboardFill className="icon" /> <span>Dashboard</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <Link to="/enrolled-students">
+                <MdPeopleAlt className="icon" /> <span>Enrolled Students</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/play-game">
+                <FaGamepad className="icon" /> <span>Play a Game</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/learn">
+                <GiTeacher className="icon" /> <span>Learn ASL</span>
+              </Link>
+            </li>
+          </ul>
+        ) : user.role === "student" ? (
+          <ul>
+            <li>
+              <Link to="/student-dashboard">
+                <RiDashboardFill className="icon" /> <span>Dashboard</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/play-game">
+                <FaGamepad className="icon" /> <span>Play a Game</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/learn">
+                <GiTeacher className="icon" /> <span>Learn ASL</span>
+              </Link>
+            </li>
+          </ul>
+        ) : user.role === "admin" ? (
+          <></>
+        ) : (
           <ul>
             <li>
               <Link to="/home">
@@ -56,7 +99,7 @@ const Sidebar = (props) => {
             </li>
             <li>
               <Link to="/play-game">
-                <MdGamepad className="icon" /> <span>Play a Game!</span>
+                <FaGamepad className="icon" /> <span>Play a Game!</span>
               </Link>
             </li>
             <li>
@@ -64,63 +107,16 @@ const Sidebar = (props) => {
                 <BiDumbbell className="icon" /> <span>Practice</span>
               </Link>
             </li>
-
-            <li>
-              <Link to="/learn">
-                <GiHand className="icon" /> <span>Learn ASL</span>
-              </Link>
-            </li>
           </ul>
-        </div>
-      ) : (
-        <div className="list-container">
-          <ul>
-            <li>
-              <Link to="/administrator">
-                <FaUniversalAccess className="icon" /> <span>Manage Games</span>
-              </Link>
-            </li>
+        )}
+      </div>
 
-            <li>
-              <Link to="/manage-request">
-                <FaUniversalAccess className="icon" />{" "}
-                <span>Manage Request</span>
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
-
-      {/* {props.isAdmin === "true" ? (
-        <div className="games-list-container">
-          <button className="games-btn">Manage Games</button>
-
-          <div className="game-list-content">
-            <Link className="to-fingerspell" to="/administrator/finger-spell">
-              Finger Spell
-            </Link>
-            <Link
-              className="to-spell-hand-sign"
-              to="/administrator/spell-hand-sign"
-            >
-              Spell Hand Sign
-            </Link>
-          </div>
-        </div>
-      ) : (
-        ""
-      )} */}
-
-      {props.isAdmin === "true" ? (
-        <button className="logout-btn" onClick={logout}>
-          <span>
-            <CgLogOut />
-          </span>
-          Logout
-        </button>
-      ) : (
-        ""
-      )}
+      <button className="logout-btn" onClick={logout}>
+        <span>
+          <RiLogoutCircleLine />
+        </span>
+        Logout
+      </button>
     </div>
   );
 };

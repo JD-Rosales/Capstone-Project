@@ -1,0 +1,13 @@
+.enrolled-student main {
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.enrolled-student main .table-container {
+  height: 500px;
+  width: 800px;
+}

@@ -8,6 +8,7 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 650,
+  height: 400,
   background: "#fff",
   borderRadius: "15px",
   boxShadow: 20,

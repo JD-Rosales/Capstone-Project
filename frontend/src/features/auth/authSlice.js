@@ -5,7 +5,7 @@ import axios from "axios"
 const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
-  user: user ? user : null,
+  user: user ? user.user : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -35,7 +35,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data
+      return response.data.user
     }
     
   } catch (error) {
@@ -50,6 +50,13 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.isLoading = false
+      state.isSuccess = false
+      state.isError = false
+      state.message = ""
+    },
+    resetAll: (state) => {
+      state.user = null
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
@@ -92,5 +99,5 @@ export const authSlice = createSlice({
   }
 })
 
-export const { reset, updateMessage } = authSlice.actions
+export const { reset, resetAll, updateMessage } = authSlice.actions
 export default authSlice.reducer

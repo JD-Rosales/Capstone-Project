@@ -26,6 +26,8 @@ app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
 
 app.use('/api/users', require('./routes/api/userRoutes'))
 
+app.use('/api/teacher', require('./routes/api/teacherRoutes'))
+
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)
 
