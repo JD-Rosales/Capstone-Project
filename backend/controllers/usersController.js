@@ -163,6 +163,8 @@ const signUp = async (req, res) => {
   }
 }
 
+
+//api/users/login
 const login = async (req, res) => {
   try {
     const { email, password, role } = req.body
@@ -246,6 +248,10 @@ const login = async (req, res) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const updateProfile = async (req, res) => {
+  console.log("Update Profile")
 }
 
 // const loginUser = async (req, res) => {

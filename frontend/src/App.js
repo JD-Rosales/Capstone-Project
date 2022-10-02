@@ -12,6 +12,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
 import StudentDashboard from "./pages/StudentDashboard/StudentDashboard"
+import Profile from "./pages/Profile/Profile";
 
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
@@ -31,7 +32,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* {console.log(user?.user)} */}
 
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -46,11 +46,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/profile" element={<Profile />} />
 
         {/* Teacher Pages */}
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/enrolled-students" element={<EnrolledStudent />} />
+
+        {/* Student Pages */}
+        <Route path="/student-dashboard" element={<StudentDashboard />} />
 
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/administrator" element={<Administrator />} />
@@ -60,34 +63,6 @@ function App() {
         <Route path="/manage-request" element={<AdminManageRequest />} />
         <Route path="/test" element={<Test />} />
         </Routes>
-
-        {/* {
-          !user ? (   //routes if user is not logged in
-          <>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
-          </>
-          )
-          : user?.user?.role === "teacher" ? (   //routes if user is logged in as teacher
-          <>
-          <Routes>
-            <Route path="/" element={<TeacherDashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
-          </>
-          )
-
-          : user?.user?.role === "student" ? (   //routes if user is logged in as student
-            ""
-          )
-          : (   //default routes
-            ""
-          )
-        } */}
 
     </div>
   );

@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
     require: [true, 'Role is required']
   },
   userInfo: {
+    image: {
+      type: String,
+      default: "http://res.cloudinary.com/dsdlseso2/image/upload/v1664716394/gdqncwijdswy0mwf7jdl.png"
+    },
     firstName: {
       type: String,
       required: [true, 'First Name is required']

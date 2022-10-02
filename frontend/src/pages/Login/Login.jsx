@@ -98,7 +98,6 @@ const Login = () => {
       clearInputs();
       dispatch(reset());
 
-      console.log(user.role);
       if (user.role === "teacher") {
         navigate("/teacher-dashboard");
       } else if (user.role === "student") {
