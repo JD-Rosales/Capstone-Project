@@ -2,6 +2,7 @@ import "./TeacherDashboard.css";
 import { useState, useEffect } from "react";
 import teacher2 from "../../../assets/Teacher2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../../../features/teacher/teacherSlice";
 
@@ -35,60 +36,78 @@ const TeacherDashboard = () => {
   return (
     <div className="teacher-dashboard">
       <Sidebar />
-      <div className="main">
+
+      <main>
         <div className="header-container">
-          <div className="header">
+          <div className="text-container">
             <h1>
-              WELCOME BACK
-              <span>
-                {user.userInfo.firstName + " " + user.userInfo.lastName}
-              </span>
+              Welcome Back, <span>{user.userInfo.firstName + "!"}</span>
             </h1>
+
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi,
-              consequatur sed, expedita quidem at aut aperiam, nemo iure sit
-              quam eaque exercitationem debitis sunt accusamus. Quis, provident.
-              Incidunt, ratione xercitationem debitis sunt accusamus. Quis,
-              provident. Incidunt, rationquis. Quis, provident. I sed, expedita
-              quidem
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum
+              eum voluptate dicta, assumenda recusandae tempora quia porro
+              exercitationem.
             </p>
           </div>
-          <img src={teacher2} alt="Teacher icon" />
-        </div>
-      </div>
-      <div className="body-container">
-        <div className="first-section">
-          <h1>
-            TOTAL
-            <br /> <span>STUDENTS</span>
-          </h1>
-          <span className="total-student">{studentList.length}</span>
-        </div>
-        <div className="sub-container">
-          <div className="first-sub-section">
-            <h1>
-              CLASS<span>CODE</span>
-            </h1>
-            <p>{user.userInfo.classCode}</p>
-          </div>
-          <div className="second-sub-section">
-            <h1>
-              TOTAL <span>LESSONS</span>
-            </h1>
-            <h1 id="FL">5</h1>
+
+          <div className="img-container">
+            <img src={teacher2} alt="Teacher Logo" />
           </div>
         </div>
-        <div className="second-section">
-          <h1>
-            MANAGE <span>LESSONS</span>
-          </h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quos
-            animlicabo tempora autem, a incidunt sse ex.
-          </p>
-          <button className="btn-learn">MANAGE</button>
+
+        <div className="body-container">
+          <div className="enrolled-student-container">
+            <h1>
+              ENROLLED <span>STUDENTS</span>
+            </h1>
+
+            <div className="total-student">
+              <span>{studentList.length}</span>
+            </div>
+
+            <span>Tap to view</span>
+          </div>
+
+          <div className="code-lesson">
+            <div className="code-container">
+              <h1>
+                CLASS <span>CODE</span>
+              </h1>
+
+              <span>{user.userInfo.classCode}</span>
+            </div>
+
+            <div className="total-lessons">
+              <h1>
+                TOTAL <span>LESSONS</span>
+              </h1>
+
+              <span>6</span>
+            </div>
+          </div>
+
+          <div className="manage-lesson">
+            <h1>
+              MANAGE <span>LESSONS</span>
+            </h1>
+
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Asperiores, dicta voluptatibus? Ipsam fugit maiores vero quaerat
+              numquam.
+            </p>
+
+            <Button
+              variant="contained"
+              size="large"
+              sx={{ backgroundColor: "#42C9A3" }}
+            >
+              MANAGE
+            </Button>
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };

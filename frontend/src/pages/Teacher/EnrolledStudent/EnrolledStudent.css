@@ -8,6 +8,22 @@
 }
 
 .enrolled-student main .table-container {
-  height: 500px;
-  width: 800px;
+  background-color: red;
+  min-height: 400px;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.enrolled-student main .table-container .table-header {
+  background-color: aqua;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.enrolled-student main .table-container .table-data {
+  background-color: blue;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 }

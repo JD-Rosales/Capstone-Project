@@ -9,8 +9,11 @@ import { RiDashboardFill } from "react-icons/ri";
 import { MdPeopleAlt } from "react-icons/md";
 import { FaGamepad } from "react-icons/fa";
 import { GiTeacher } from "react-icons/gi";
+import { IoMdSettings } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -33,7 +36,7 @@ const Sidebar = () => {
             <FaUserCircle />
           </span>
           <span>
-            Hello, {user.userInfo.firstName}! <br />
+            {user.userInfo.firstName + " " + user.userInfo.lastName} <br />
             <span>
               ({user.role.charAt(0).toUpperCase() + user.role.slice(1)})
             </span>
@@ -53,18 +56,6 @@ const Sidebar = () => {
             <li>
               <Link to="/enrolled-students">
                 <MdPeopleAlt className="icon" /> <span>Enrolled Students</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/play-game">
-                <FaGamepad className="icon" /> <span>Play a Game</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/learn">
-                <GiTeacher className="icon" /> <span>Learn ASL</span>
               </Link>
             </li>
           </ul>
@@ -111,12 +102,22 @@ const Sidebar = () => {
         )}
       </div>
 
-      <button className="logout-btn" onClick={logout}>
-        <span>
-          <RiLogoutCircleLine />
-        </span>
-        Logout
-      </button>
+      <div className="button-container">
+        <Stack direction="column" spacing={1}>
+          <Button variant="contained" startIcon={<IoMdSettings />}>
+            Settings
+          </Button>
+          <Button
+            onClick={() => {
+              logout();
+            }}
+            variant="contained"
+            startIcon={<RiLogoutCircleLine />}
+          >
+            Logout
+          </Button>
+        </Stack>
+      </div>
     </div>
   );
 };
