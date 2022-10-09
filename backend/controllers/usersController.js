@@ -34,6 +34,12 @@ const signUp = async (req, res) => {
       } else {
 
         if(role === "admin"){
+          const secretCode = req.body.secretCode
+
+          if(secretCode !== process.env.ADMIN_SECRET_CODE) {
+            return res.status(403).json({ message: 'Invalid Secret Code' })
+          }
+
           const user = await User.create({
             email: email,
             password: hashPassword,

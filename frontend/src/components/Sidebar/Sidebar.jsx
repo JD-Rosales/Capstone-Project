@@ -1,4 +1,5 @@
 import "./Sidebar.css";
+import { useState } from "react";
 import logo2 from "../../assets/logo2.png";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
@@ -10,10 +11,13 @@ import { MdPeopleAlt } from "react-icons/md";
 import { FaGamepad } from "react-icons/fa";
 import { GiTeacher } from "react-icons/gi";
 import { IoMdSettings } from "react-icons/io";
+import { HiOutlineUserGroup } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -24,7 +28,16 @@ const Sidebar = () => {
   const logout = () => {
     localStorage.clear();
     dispatch(resetAll());
-    navigate("/login");
+    navigate("/");
+  };
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -80,7 +93,20 @@ const Sidebar = () => {
             </li>
           </ul>
         ) : user.role === "admin" ? (
-          <></>
+          <ul>
+            <li>
+              <Link to="/admin/account-activation">
+                <HiOutlineUserGroup className="icon" />{" "}
+                <span>Account Activation</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="">
+                <RiDashboardFill className="icon" /> <span>Manage Games</span>
+              </Link>
+            </li>
+          </ul>
         ) : (
           <ul>
             <li>
@@ -104,7 +130,21 @@ const Sidebar = () => {
 
       <div className="button-container">
         <Stack direction="column" spacing={1}>
-          <Button variant="contained" startIcon={<IoMdSettings />}>
+          <Button
+            id="settings-button"
+            aria-controls={open ? "settings-menu" : undefined}
+            aria-haspopup="true"
+            onClick={handleClick}
+            variant="contained"
+            startIcon={<IoMdSettings />}
+            sx={{
+              background: "#1d2549",
+              ":hover": {
+                bgcolor: "#42C9A3",
+                color: "white",
+              },
+            }}
+          >
             Settings
           </Button>
           <Button
@@ -113,10 +153,38 @@ const Sidebar = () => {
             }}
             variant="contained"
             startIcon={<RiLogoutCircleLine />}
+            sx={{
+              background: "#1d2549",
+              ":hover": {
+                bgcolor: "#42C9A3",
+                color: "white",
+              },
+            }}
           >
             Logout
           </Button>
         </Stack>
+
+        <Menu
+          id="settings-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            "aria-labelledby": "settings-button",
+          }}
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+        >
+          <MenuItem onClick={handleClose}>Menu ine</MenuItem>
+          <MenuItem onClick={handleClose}>Adi ghap</MenuItem>
+        </Menu>
       </div>
     </div>
   );

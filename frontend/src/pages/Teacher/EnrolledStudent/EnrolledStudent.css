@@ -8,22 +8,46 @@
 }
 
 .enrolled-student main .table-container {
-  background-color: red;
   min-height: 400px;
-  width: 100%;
-  padding: 0 20px;
+  width: 90%;
 }
 
 .enrolled-student main .table-container .table-header {
-  background-color: aqua;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 3fr 1fr 1fr;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .enrolled-student main .table-container .table-data {
-  background-color: blue;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 3fr 1fr 1fr;
+}
+
+.enrolled-student main .table-container .table-data:hover {
+  background-color: var(--aquaGreen);
+}
+
+.enrolled-student main .user-img {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: cover;
+  background-size: cover;
+}
+
+.enrolled-student main .table-container .table-data .table-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid lightgray;
+}
+
+.enrolled-student main .table-container .table-data .table-option {
+  font-size: 1.5rem;
+  justify-content: center;
 }

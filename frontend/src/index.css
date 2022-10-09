@@ -7,6 +7,9 @@
 
 :root{
   --backgroundColor: #1d2549;
+  --navyBlue: #182240;
+  --aquaGreen: #42C9A3;
+  --whiteGray: #F0F0F0;
 }
 
 body {

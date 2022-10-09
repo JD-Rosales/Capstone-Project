@@ -5,13 +5,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const AdminManageRequest = () => {
-  const BASE_URL = "http://localhost:5000";
-
   const [teacherData, setTeacherData] = useState([]);
 
   const fetchTeacherData = async () => {
     axios
-      .get(BASE_URL + "/api/teacher")
+      .get("/api/teacher")
       .then((response) => {
         setTeacherData(response.data);
       })
