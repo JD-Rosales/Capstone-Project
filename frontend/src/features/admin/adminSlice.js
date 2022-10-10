@@ -21,6 +21,18 @@ export const getUnactivated = createAsyncThunk('admin/getUnactivated', async (th
   }
 })
 
+export const updateAccountStatus = createAsyncThunk('admin/updateAccountStatus', async (id, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/admin/update-status/' + id)
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const adminSlice = createSlice({
   name: 'admin',
   initialState,
@@ -47,6 +59,18 @@ export const adminSlice = createSlice({
         state.isError = true
         state.message = action.payload
         state.data = []
+      })
+      .addCase(updateAccountStatus.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateAccountStatus.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+      })
+      .addCase(updateAccountStatus.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
       })
   }
 })
