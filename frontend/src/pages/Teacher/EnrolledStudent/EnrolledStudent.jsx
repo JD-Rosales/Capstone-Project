@@ -2,28 +2,29 @@ import "./EnrolledStudent.css";
 import SideBar from "../../../components/Sidebar/Sidebar";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getStudents } from "../../../features/teacher/teacherSlice";
+import { getEnrolledStudents } from "../../../features/student/studentSlice";
 import { CgOptions } from "react-icons/cg";
 
 const EnrolledStudent = () => {
   const dispatch = useDispatch();
-  const { students, isSuccess } = useSelector((state) => state.teacher);
+  const { data, isSuccess } = useSelector((state) => state.student);
   const { user } = useSelector((state) => state.auth);
 
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    dispatch(getStudents({ classCode: user.userInfo.classCode }));
+    // dispatch(getStudents({ classCode: user.userInfo.classCode }));
+    return () => dispatch(getEnrolledStudents(user.userInfo.classCode));
     // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(students.students);
-      setTableData(students.students);
+      // console.log(teachers.teachers);
+      setTableData(data.students);
     }
     // eslint-disable-next-line
-  }, [students, isSuccess]);
+  }, [data, isSuccess]);
 
   return (
     <div className="enrolled-student">

@@ -7,7 +7,7 @@ import {
   getUnactivated,
   updateAccountStatus,
   reset,
-} from "../../../features/admin/adminSlice";
+} from "../../../features/teacher/teacherSlice";
 import Button from "@mui/material/Button";
 import { Fade, Modal, Box, Backdrop, Typography } from "@mui/material";
 
@@ -29,19 +29,20 @@ const modalStyle = {
 const AccountActivation = () => {
   const dispatch = useDispatch();
   const [ID, setID] = useState("");
-  const { data, isSuccess } = useSelector((state) => state.admin);
+  const { data, isSuccess } = useSelector((state) => state.teacher);
   const [tableData, setTableData] = useState([]);
   const [open, setOpen] = useState(false);
   const handleModal = () => {
     setOpen(!open);
   };
 
-  // const confirmUpdate = async () => {
-  //   dispatch()
-  // }
+  const updateStatus = () => {
+    dispatch(updateAccountStatus(ID));
+    setOpen(false);
+  };
 
   useEffect(() => {
-    dispatch(getUnactivated());
+    return () => dispatch(getUnactivated());
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -165,9 +166,7 @@ const AccountActivation = () => {
               </Button>
 
               <Button
-                onClick={() => {
-                  dispatch(updateAccountStatus(ID));
-                }}
+                onClick={updateStatus}
                 aria-haspopup="true"
                 variant="contained"
                 sx={{

@@ -1,7 +1,7 @@
 import "./EnrolledModal.css";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getStudents } from "../../../features/teacher/teacherSlice";
+// import { getStudents } from "../../../features/teacher/teacherSlice";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
@@ -17,7 +17,7 @@ const EnrolledModal = () => {
     const data = {
       classCode: "Dynu97UV",
     };
-    dispatch(getStudents(data));
+    // dispatch(getStudents(data));
   }, []);
 
   useEffect(() => {

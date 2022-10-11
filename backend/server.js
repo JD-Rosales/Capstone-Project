@@ -28,7 +28,7 @@ app.use('/api/users', require('./routes/api/userRoutes'))
 
 app.use('/api/teacher', require('./routes/api/teacherRoutes'))
 
-app.use('/api/admin', require('./routes/api/adminRoutes'))
+app.use('/api/student', require('./routes/api/studentRoutes'))
 
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)

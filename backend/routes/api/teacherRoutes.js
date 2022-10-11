@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const { getStudents } = require('../../controllers/teachersController')
+const { getUnactivated, updateStatus } = require('../../controllers/teachersController')
 
-router.post('/get-students', getStudents)
+// router.post('/get-students', getStudents)
+router.get('/get-unactivated', getUnactivated)
+router.patch('/update-status/:id', updateStatus)
 
 module.exports = router

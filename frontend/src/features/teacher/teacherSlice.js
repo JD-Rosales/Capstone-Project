@@ -2,16 +2,28 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  students: [],
+  data: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: ""
 }
 
-export const getStudents = createAsyncThunk('teacher/getStudents', async (data, thunkAPI) => {
+export const getUnactivated = createAsyncThunk('teacher/getUnactivated', async (thunkAPI) => {
   try {
-    const response = await axios.post('/api/teacher/get-students', data)
+    const response = await axios.get('/api/teacher/get-unactivated')
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const updateAccountStatus = createAsyncThunk('teacher/updateAccountStatus', async (id, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/teacher/update-status/' + id)
     if (response.data) {
       return response.data
     }
@@ -34,19 +46,33 @@ export const teacherSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getStudents.pending, (state) => {
+      .addCase(getUnactivated.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(getStudents.fulfilled, (state, action) => {
+      .addCase(getUnactivated.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.students = action.payload
+        state.data = action.payload
       })
-      .addCase(getStudents.rejected, (state, action) => {
+      .addCase(getUnactivated.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
-        state.students = []
+        state.data = []
+      })
+      .addCase(updateAccountStatus.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateAccountStatus.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload
+      })
+      .addCase(updateAccountStatus.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
       })
   }
 })

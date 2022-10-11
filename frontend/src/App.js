@@ -34,7 +34,7 @@ import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/Admin
 import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
 
 //Test Pages
-import Test from "./pages/Test"
+
 function App() {
 
   return (
@@ -55,6 +55,8 @@ function App() {
         <Route path="/waiting-approval" element={<WaitingApproval />} />
         <Route path="/profile" element={<Profile />} />
 
+        {/* Test */}
+
         {/* Teacher Pages */}
         <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
         <Route path="/enrolled-students" element={<EnrolledStudent />} />
@@ -73,7 +75,7 @@ function App() {
         <Route path="/manage-spell-hand-sign" element={<AdminSpellHandSign />} />
         <Route path="/manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
         <Route path="/manage-request" element={<AdminManageRequest />} />
-        <Route path="/test" element={<Test />} />
+
         </Routes>
 
     </div>

@@ -1,37 +1,34 @@
 import "./TeacherDashboard.css";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import teacher2 from "../../../assets/Teacher2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { getStudents } from "../../../features/teacher/teacherSlice";
+import { getEnrolledStudents } from "../../../features/student/studentSlice";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
 
-  const [studentList, setStudentList] = useState([]);
-
   const { user } = useSelector((state) => state.auth);
-  const { students, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.teacher
+  const { data, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.student
   );
 
   useEffect(() => {
-    setStudentList(
-      dispatch(getStudents({ classCode: user.userInfo.classCode }))
-    );
+    return () => dispatch(getEnrolledStudents(user.userInfo.classCode));
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (isSuccess) {
-      setStudentList(students.students);
+      // console.log(data);
+      // setStudentList(data.students);
     }
 
     if (isError) {
       alert(message);
     }
-  }, [students, isLoading, isError, isSuccess, message]);
+  }, [data, isLoading, isError, isSuccess, message]);
 
   return (
     <div className="teacher-dashboard">
@@ -63,7 +60,7 @@ const TeacherDashboard = () => {
             </h1>
 
             <div className="total-student">
-              <span>{studentList.length}</span>
+              <span>{data?.students?.length}</span>
             </div>
 
             <span>Tap to view</span>
