@@ -10,7 +10,6 @@ import {
   FormControlLabel,
   TextField,
   Switch,
-  Button,
   Fade,
   Modal,
   Box,
@@ -18,6 +17,8 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ChooseRole from "../../components/ChooseRole/ChooseRole";
+import { toast } from "react-toastify"; //toast
+import LoadingButton from "@mui/lab/LoadingButton"; //loadingbutton
 
 const modalStyle = {
   position: "absolute",
@@ -69,7 +70,9 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 const Login = () => {
   const [open, setOpen] = useState(true);
   const handleModal = () => {
-    setOpen(!open);
+    if (!isLoading) {
+      setOpen(!open);
+    }
   };
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -108,7 +111,7 @@ const Login = () => {
     }
 
     if (isError) {
-      alert(message);
+      toast.error(message);
       dispatch(reset());
     }
     // eslint-disable-next-line
@@ -195,14 +198,23 @@ const Login = () => {
               label="Show Password"
             />
 
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{ background: "#182142", height: 50, mt: 2 }}
+            <LoadingButton
               onClick={submit}
+              loading={isLoading}
+              loadingPosition="start"
+              variant="contained"
+              sx={{
+                background: "#182142",
+                height: 50,
+                mt: 2,
+                "& .MuiLoadingButton-loadingIndicator": {
+                  //Loading indicator
+                  marginLeft: "3em",
+                },
+              }}
             >
-              Login
-            </Button>
+              {isLoading ? "Logging in" : "Login"}
+            </LoadingButton>
           </FormControl>
         </form>
         <span className="forgetPassword">Forgot password?</span>

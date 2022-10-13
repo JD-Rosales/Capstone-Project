@@ -173,10 +173,11 @@ const SignUp = () => {
                   autoComplete="middleInitial"
                   fullWidth
                   sx={{ mt: 2 }}
+                  inputProps={{ maxLength: 1 }} //Set the input max length to 1
                   InputProps={{ sx: { height: 50 } }}
                   value={middleInitial}
                   onChange={(e) => {
-                    setMiddleInitial(e.target.value);
+                    setMiddleInitial(e.target.value.toUpperCase());
                   }}
                 />
               </Grid2>

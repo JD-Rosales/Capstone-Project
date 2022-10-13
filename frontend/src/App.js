@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Landing from './pages/Landing/Landing';
 import Home from './pages/Home/Home';
 import Play from "./pages/Play/Play";
@@ -12,6 +14,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
 import Profile from "./pages/Profile/Profile";
+import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
@@ -54,6 +57,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/waiting-approval" element={<WaitingApproval />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/update-profile" element={<UpdateProfile />} />
 
         {/* Test */}
 
@@ -77,6 +81,23 @@ function App() {
         <Route path="/manage-request" element={<AdminManageRequest />} />
 
         </Routes>
+
+        <ToastContainer 
+          toastStyle={{ backgroundColor: "#42C9A3",
+            color: "#000",
+          }}
+          position="bottom-right"
+          autoClose={2000}
+          limit={5}
+          hideProgressBar={true}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
 
     </div>
   );

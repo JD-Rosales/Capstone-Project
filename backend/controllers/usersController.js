@@ -195,6 +195,7 @@ const login = async (req, res) => {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password)
           if (auth) {
+            delete user.password  //removes the password key
             res.status(200).json({ user })
           } else {
             res.status(401).json({ message: "Invalid password"})
@@ -211,6 +212,7 @@ const login = async (req, res) => {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password)
           if (auth) {
+            delete user.password  //removes the password key
             res.status(200).json({ user })
           } else {
             res.status(401).json({ message: "Invalid password"})
@@ -226,6 +228,7 @@ const login = async (req, res) => {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password)
           if(auth) {
+            delete user.password  //removes the password key
             res.status(200).json({ user })
           } else {
             res.status(401).json({ message: "Invalid password"})
@@ -242,6 +245,7 @@ const login = async (req, res) => {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password)
           if(auth) {
+            delete user.password  //removes the password key
             res.status(200).json({ user })
           } else {
             res.status(401).json({ message: "Invalid password"})
@@ -257,7 +261,67 @@ const login = async (req, res) => {
 }
 
 const updateProfile = async (req, res) => {
-  console.log("Update Profile")
+  try {
+    const { lastName, firstName, middleInitial, school, email, image,  prevPassword, newPassword } = req.body
+
+    if (!lastName || lastName === "") {
+      res.status(400).json({ message: 'Last Name is required'})
+    } else if (!firstName || firstName === "") {
+      res.status(400).json({ message: 'First Name is required'})
+    } else if (!middleInitial || middleInitial === "") {
+      res.status(400).json({ message: 'Middle Initial is required'})
+    } else if (!school || school === "") {
+      res.status(400).json({ message: 'School is required'})
+    } else if (!email || email === "") {
+      res.status(400).json({ message: 'Email is required'})
+    } else if (!image || image === "") {
+      res.status(400).json({ message: 'Invalid image'})
+    } else if (!prevPassword || prevPassword === "") {
+      res.status(400).json({ message: 'Password is required'})
+    } else if (!newPassword || newPassword === "") {
+      res.status(400).json({ message: 'Password is required'})
+    } else {
+      
+      const user = await User.findById(req.params.id).lean().exec()
+      if(!user){
+        return res.status(404).json({ message: 'User not found!'})
+      }
+
+      // Check if input password match the old password
+      const auth = await bcrypt.compare(prevPassword, user.password)
+
+      if (!auth) {
+        return res.status(401).json({ message: "Invalid password"})
+      }
+
+      //hash the password
+      const salt = await bcrypt.genSalt(10)
+      const hashPassword = await bcrypt.hash(newPassword, salt)
+
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          "userInfo.lastName": lastName,
+          "userInfo.firstName": firstName,
+          "userInfo.middleInitial": middleInitial,
+          "userInfo.school": school,
+          "email": email,
+          "password": hashPassword,
+          "userInfo.image": image
+        },
+        {new: true}
+      )
+
+
+      delete updatedUser.password  //removes the password key
+      res.status(200).json({ user: updatedUser })
+
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 
 // const loginUser = async (req, res) => {
@@ -311,5 +375,6 @@ const generateToken = (id) => {
 
 module.exports = {
   signUp,
-  login
+  login,
+  updateProfile
 }

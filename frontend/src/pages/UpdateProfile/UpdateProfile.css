@@ -1,0 +1,91 @@
+.update-profile {
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 40px;
+}
+
+.update-profile main {
+  width: 100%;
+}
+
+.update-profile main h1 span{
+  color: var(--aquaGreen);
+}
+
+.update-profile main form {
+  display: grid;
+  grid-template-columns: 8fr 6fr;
+}
+
+.update-profile main form .profile-information {
+  height: 100%;
+  width: 100%;
+  padding-left: 1em;
+  padding-top: 1em;
+}
+
+.update-profile main form .profile-information > div {
+  background-color: var(--navyBlue);
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.update-profile main form .profile-information > div .img-container {
+  height: 130px;
+  width: 130px;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: #F0F0F0;
+}
+
+.update-profile main form .profile-information > div .img-container .image {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #182240;
+}
+
+.update-profile main form .profile-information > div h2 {
+  text-align: center;
+  line-height: 1.2rem;
+}
+
+.update-profile main form .profile-information > div h2 span {
+  color: var(--aquaGreen);
+}
+
+.update-profile main form .profile-information > div .select-image {
+  color: var(--aquaGreen);
+  padding: 5px 0;
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.update-profile main form .profile-information > div .select-image:hover {
+  color: #F0F0F0;
+}
+
+.update-profile main form .profile-information > div .information-container {
+  width: 100%;
+  margin-top: 10px;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.update-profile main form .profile-information > div .information-container span > span {
+  color: var(--aquaGreen);
+  margin-left: 10px;
+}

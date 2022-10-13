@@ -11,6 +11,7 @@
   "author": "Jake Rosales",
   "license": "ISC",
   "dependencies": {
+    "@mui/lab": "^5.0.0-alpha.103",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",

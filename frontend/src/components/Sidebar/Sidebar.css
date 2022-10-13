@@ -18,32 +18,46 @@
   flex-direction: column;
 }
 
-.sidebar > .sidebar-header img {
-  margin-left: 30px;
-  height: 45px;
-  width: 240px;
+.sidebar > .sidebar-header .img-container {
+  /* margin-left: 30px; */
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: #42C9A3;
+}
+
+.sidebar > .sidebar-header .img-container .image {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #182240;
 }
 
 .sidebar > .sidebar-header > .greeting {
   margin-top: 35px;
   margin-left: 30px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.sidebar > .sidebar-header > .greeting > span:nth-child(1) {
-  font-size: 3rem;
+.sidebar > .sidebar-header > .greeting > .name-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
 }
 
-.sidebar > .sidebar-header > .greeting > span:nth-child(2) {
+.sidebar > .sidebar-header > .greeting > .name-container > span:nth-child(1) {
   margin-bottom: 8px;
-  margin-left: 20px;
   font-size: 1.3rem;
   line-height: 1.2rem;
 }
 
-.sidebar > .sidebar-header > .greeting > span > span {
+.sidebar > .sidebar-header > .greeting > .name-container > span:nth-child(2) {
   font-size: .8rem;
   color: #42C9A3;
 }

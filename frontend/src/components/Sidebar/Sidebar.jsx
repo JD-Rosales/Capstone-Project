@@ -3,7 +3,6 @@ import { useState } from "react";
 import logo2 from "../../assets/logo2.png";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { RiLogoutCircleLine } from "react-icons/ri";
-import { FaUserCircle } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { BiDumbbell } from "react-icons/bi";
 import { RiDashboardFill } from "react-icons/ri";
@@ -45,15 +44,20 @@ const Sidebar = () => {
       <div className="sidebar-header">
         <img src={logo2} alt="logo"></img>
         <div className="greeting">
-          <span>
-            <FaUserCircle />
-          </span>
-          <span>
-            {user.userInfo.firstName + " " + user.userInfo.lastName} <br />
+          <div className="img-container">
+            <div
+              className="image"
+              style={{ backgroundImage: `url(${user.userInfo.image})` }}
+            ></div>
+          </div>
+          <div className="name-container">
+            <span>
+              {user.userInfo.firstName + " " + user.userInfo.lastName}{" "}
+            </span>
             <span>
               ({user.role.charAt(0).toUpperCase() + user.role.slice(1)})
             </span>
-          </span>
+          </div>
         </div>
       </div>
 
