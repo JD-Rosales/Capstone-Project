@@ -17,8 +17,8 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ChooseRole from "../../components/ChooseRole/ChooseRole";
-import { toast } from "react-toastify"; //toast
-import LoadingButton from "@mui/lab/LoadingButton"; //loadingbutton
+import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const modalStyle = {
   position: "absolute",
@@ -204,11 +204,15 @@ const Login = () => {
               loadingPosition="start"
               variant="contained"
               sx={{
-                background: "#182142",
+                background: "#42C9A3",
                 height: 50,
+                borderRadius: "10px",
                 mt: 2,
+                ":hover": {
+                  bgcolor: "#182240",
+                  color: "white",
+                },
                 "& .MuiLoadingButton-loadingIndicator": {
-                  //Loading indicator
                   marginLeft: "3em",
                 },
               }}

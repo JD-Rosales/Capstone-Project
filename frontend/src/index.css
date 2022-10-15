@@ -24,3 +24,11 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+/* MUI global styles */
+
+/* Loading Button true  */
+.MuiLoadingButton-loading {
+  background-color: var(--aquaGreen) !important;
+  opacity: .8;
+}

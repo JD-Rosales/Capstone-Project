@@ -299,7 +299,6 @@ const UpdateProfile = () => {
                 borderRadius: "5px",
                 fontSize: "15px",
                 "& .MuiLoadingButton-loadingIndicator": {
-                  //Loading indicator
                   marginLeft: "1.5em",
                 },
               }}
