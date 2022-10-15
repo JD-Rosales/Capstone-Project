@@ -19,7 +19,8 @@ import { styled } from "@mui/material/styles";
 import ChooseRole from "../../components/ChooseRole/ChooseRole";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, register } from "../../features/auth/authSlice";
-
+import { toast } from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -133,9 +134,10 @@ const SignUp = () => {
     }
 
     if (isError) {
-      alert(message);
+      toast.error(message)
       dispatch(reset());
     }
+
     // eslint-disable-next-line
   }, [user, isError, isSuccess, isLoading, message]);
 
@@ -359,6 +361,22 @@ const SignUp = () => {
             >
               Sign up
             </Button>
+            {/* <LoadingButton
+                onClick={submit}
+                loading={isLoading}
+                loadingPosition="start"
+                variant="contained"
+                sx={{ 
+                  background: "#182142",
+                  height: 50,
+                  mt: 2,
+                  "& .MuiLoadingButton-loadingIndicator": {
+                    //Loading indicator
+                    marginLeft: "3em",
+                  },
+                 }}
+                 >
+                 </LoadingButton> */}
           </FormControl>
         </form>
       </div>
