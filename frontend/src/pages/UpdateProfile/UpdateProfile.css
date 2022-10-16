@@ -50,10 +50,12 @@
 }
 
 .update-profile main .profile-container .img-container {
-  height: 100px;
-  width: 100px;
   height: 150px;
   width: 150px;
+  min-width: 150px;
+  min-height: 150px;
+  max-width: 150px;
+  max-height: 150px;
   padding: 5px;
   margin-top: 10px;
   border-radius: 50%;

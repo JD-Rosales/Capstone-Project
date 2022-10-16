@@ -9,6 +9,7 @@ import {
   reset,
 } from "../../../features/teacher/teacherSlice";
 import Button from "@mui/material/Button";
+import { DataGrid } from "@mui/x-data-grid";
 import { Fade, Modal, Box, Backdrop, Typography } from "@mui/material";
 
 const modalStyle = {
@@ -25,6 +26,17 @@ const modalStyle = {
   p: 4,
   pb: 4,
 };
+
+// const columns = [
+//   { field: "_id", headerName: "ID", width: 70 },
+//   { field: "userInfo.role", headerName: "First name", width: 200 },
+//   { field: "userInfo.lastName", headerName: "Last name", width: 200 },
+//   {
+//     field: "email",
+//     headerName: "Email",
+//     width: 200,
+//   },
+// ];
 
 const AccountActivation = () => {
   const dispatch = useDispatch();
@@ -112,6 +124,17 @@ const AccountActivation = () => {
               </div>
             );
           })}
+
+          {/* <div style={{ height: "200px" }}>
+            <DataGrid
+              getRowId={(tableData) => tableData._id}
+              rows={tableData}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[5]}
+              checkboxSelection
+            />
+          </div> */}
         </div>
       </main>
 

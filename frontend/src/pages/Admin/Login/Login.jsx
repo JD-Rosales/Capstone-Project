@@ -68,7 +68,7 @@ const Login = () => {
       clearInputs();
       dispatch(reset());
 
-      navigate("/admin/account-activation");
+      navigate("/admin");
     }
 
     if (isError) {

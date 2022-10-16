@@ -215,7 +215,7 @@ const login = async (req, res) => {
           const auth = await bcrypt.compare(password, user.password)
           if (auth) {
             delete user.password  //removes the password key
-            res.status(200).json({ user })
+            res.status(200).json({ user, token: generateToken(user._id) })
           } else {
             res.status(401).json({ message: "Invalid password"})
           }
@@ -231,7 +231,7 @@ const login = async (req, res) => {
           const auth = await bcrypt.compare(password, user.password)
           if(auth) {
             delete user.password  //removes the password key
-            res.status(200).json({ user })
+            res.status(200).json({ user, token: generateToken(user._id) })
           } else {
             res.status(401).json({ message: "Invalid password"})
           }
@@ -298,7 +298,7 @@ const updateProfile = async (req, res) => {
         )
 
         delete updatedUser.password  //remove the password key
-        return res.status(200).json({ user: updatedUser })
+        return res.status(200).json({ user: updatedUser, token: generateToken(user._id) })
       } else {
 
         const uploadResponse = await cloudinary.uploader.upload(image, {
@@ -321,7 +321,7 @@ const updateProfile = async (req, res) => {
           )
   
           delete updatedUser.password  //remove the password key
-          return res.status(200).json({ user: updatedUser })
+          return res.status(200).json({ user: updatedUser, token: generateToken(user._id) })
 
         } else {
           return res.status(400).json({ message: "An error has occured!" })
@@ -338,14 +338,24 @@ const updateProfile = async (req, res) => {
 
 const updateUserSettings = async (req, res) => {
   try {
-
+    
     //check if user exist in the database
     const user = await User.findById(req.params.id).lean().exec()
     if(!user){
       return res.status(404).json({ message: 'User not found!'})
-    } else {
-
-      
+    } else { 
+      if(req.body.hand === undefined){
+        return res.status(400).json({ message: 'Please choose hand preference'})
+      }
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          "userSettings.hand" : req.body.hand 
+        },
+        {new: true}
+      )
+      delete updatedUser.password  //remove the password key
+      return res.status(200).json({user:updatedUser, token: generateToken(user._id)})
     }
     
   } catch (error) {
@@ -355,7 +365,7 @@ const updateUserSettings = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-    const { currentPassword, newPassword ,newPassword2} = req.body
+    const { currentPassword, newPassword , newPassword2} = req.body
 
     if (!currentPassword || !newPassword || !newPassword2) {
       res.status(400).json({ message: 'Input all required fields'})

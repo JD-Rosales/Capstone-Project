@@ -20,8 +20,13 @@
 }
 
 .sidebar > .sidebar-header .img-container {
+  display: block;
   height: 50px;
   width: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
   border-radius: 50%;
   padding: 3px;
   background-color: var(--whiteGray);

@@ -91,7 +91,7 @@ const Login = () => {
 
   const notify = () =>
     (toastID.current = toast.loading("Logging in...", {
-      autoClose: 2000,
+      autoClose: 15000,
       position: "top-right",
     }));
 

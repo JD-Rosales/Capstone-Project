@@ -120,6 +120,12 @@ const Sidebar = () => {
         ) : user?.role === "admin" ? (
           <ul>
             <li>
+              <Link to="/admin">
+                <RiDashboardFill className="icon" /> <span>Dashboard</span>
+              </Link>
+            </li>
+
+            <li>
               <Link to="/admin/account-activation">
                 <HiOutlineUserGroup className="icon" />{" "}
                 <span>Account Activation</span>
@@ -181,11 +187,15 @@ const Sidebar = () => {
                   </Link>
                 </li>
 
-                <li>
-                  <Link to="/choose-hand">
-                    <span>Choose hand</span>
-                  </Link>
-                </li>
+                {user.role !== "admin" ? ( //removes choose hand in settings menu if role is admin
+                  <li>
+                    <Link to="/choose-hand">
+                      <span>Choose hand</span>
+                    </Link>
+                  </li>
+                ) : (
+                  ""
+                )}
               </ul>
             </div>
           ) : (
@@ -199,24 +209,6 @@ const Sidebar = () => {
             </Link>
           </li>
         </ul>
-
-        {/* <Button
-            onClick={() => {
-              logout();
-            }}
-            variant="contained"
-            startIcon={<RiLogoutCircleLine />}
-            sx={{
-              background: "#1d2549",
-              ":hover": {
-                bgcolor: "#42C9A3",
-                color: "white",
-              },
-            }}
-          >
-            Logout
-          </Button>
-        </Stack> */}
       </div>
       <Modal
         aria-labelledby="transition-modal-title"

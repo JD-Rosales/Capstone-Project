@@ -89,6 +89,7 @@
   .choose-hand main .hand-container .choices-container span span {
      color: var(--aquaGreen);
   }
+
   .choose-hand main .hand-container .choices-container {
     display: flex;
     flex-direction: column;
@@ -98,6 +99,15 @@
     background-color: var(--navyBlue);
     margin-right: 20px;
     border-radius: 15px;
+    cursor: pointer;
+  }
+
+  .choose-hand main .hand-container .choices-container:hover {
+    box-shadow: -1px 1px 20px 4px rgba(18,148,148,0.55);
+    -webkit-box-shadow: -1px 1px 20px 4px rgba(18,148,148,0.55);
+    -moz-box-shadow: -1px 1px 20px 4px rgba(18,148,148,0.55);
+    transition: box-shadow 0.4s ease-in-out;
+    
   }
   
   .choose-hand main .hand-container .choices-container img {

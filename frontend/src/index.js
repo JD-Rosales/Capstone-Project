@@ -2,7 +2,8 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import './index.css';
-import { BrowserRouter } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store"
 import { Provider } from 'react-redux';
 
@@ -13,7 +14,23 @@ root.render(
   <React.StrictMode>
         <BrowserRouter>
           <Provider store={store}>
-            <App />
+            <Routes>
+              <Route path="/*" element={<App />} />
+            </Routes>
+            
+            <ToastContainer
+                position="top-right"
+                autoClose={2000}
+                limit={5}
+                hideProgressBar={true}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+              />
           </Provider>
         </BrowserRouter>
   </React.StrictMode>

@@ -389,7 +389,7 @@ const SignUp = () => {
                 },
               }}
             >
-              Login
+              Sign up
             </LoadingButton>
           </FormControl>
         </form>

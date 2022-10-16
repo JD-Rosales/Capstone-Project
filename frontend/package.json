@@ -10,6 +10,7 @@
     "@mui/icons-material": "^5.10.3",
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.5",
+    "@mui/x-data-grid": "^5.17.7",
     "@reduxjs/toolkit": "^1.8.5",
     "@tensorflow-models/handpose": "^0.0.7",
     "@tensorflow/tfjs-backend-webgl": "^3.18.0",
