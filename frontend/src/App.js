@@ -15,7 +15,8 @@ import SignUp from "./pages/SignUp/SignUp";
 import WaitingApproval  from "./pages/WaitingApproval/WaitingApproval"
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
-
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import ChooseHand from "./pages/ChooseHand/ChooseHand";
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
 import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
@@ -58,6 +59,8 @@ function App() {
         <Route path="/waiting-approval" element={<WaitingApproval />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/update-profile" element={<UpdateProfile />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/choose-hand" element={<ChooseHand />} />
 
         {/* Test */}
 
@@ -82,10 +85,7 @@ function App() {
 
         </Routes>
 
-        <ToastContainer 
-          toastStyle={{ backgroundColor: "#42C9A3",
-            color: "#000",
-          }}
+        <ToastContainer
           position="bottom-right"
           autoClose={2000}
           limit={5}

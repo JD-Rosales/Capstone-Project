@@ -1,7 +1,7 @@
 import "./Login.css";
 import back from "../../assets/back.png";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, login } from "../../features/auth/authSlice";
@@ -16,6 +16,7 @@ import {
   Backdrop,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { CircularProgress } from "@mui/material";
 import ChooseRole from "../../components/ChooseRole/ChooseRole";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -69,6 +70,7 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 
 const Login = () => {
   const [open, setOpen] = useState(true);
+
   const handleModal = () => {
     if (!isLoading) {
       setOpen(!open);
@@ -85,6 +87,14 @@ const Login = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [choosenRole, setChoosenRole] = useState(null);
 
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Logging in...", {
+      autoClose: 2000,
+      position: "top-right",
+    }));
+
   const setRole = (role) => {
     setChoosenRole(role);
     handleModal();
@@ -100,6 +110,12 @@ const Login = () => {
     if (isSuccess) {
       clearInputs();
       dispatch(reset());
+      toast.update(toastID.current, {
+        render: "Login Successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
 
       if (user.role === "teacher") {
         navigate("/teacher-dashboard");
@@ -111,7 +127,12 @@ const Login = () => {
     }
 
     if (isError) {
-      toast.error(message);
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
     }
     // eslint-disable-next-line
@@ -124,6 +145,7 @@ const Login = () => {
       password,
       role: choosenRole,
     };
+    notify();
     dispatch(login(userData));
   };
 
@@ -201,7 +223,9 @@ const Login = () => {
             <LoadingButton
               onClick={submit}
               loading={isLoading}
-              loadingPosition="start"
+              loadingIndicator={
+                <CircularProgress size="2em" sx={{ color: "#182240" }} />
+              }
               variant="contained"
               sx={{
                 background: "#42C9A3",
@@ -212,12 +236,9 @@ const Login = () => {
                   bgcolor: "#182240",
                   color: "white",
                 },
-                "& .MuiLoadingButton-loadingIndicator": {
-                  marginLeft: "3em",
-                },
               }}
             >
-              {isLoading ? "Logging in" : "Login"}
+              Login
             </LoadingButton>
           </FormControl>
         </form>

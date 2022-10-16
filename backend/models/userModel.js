@@ -17,7 +17,7 @@ const userSchema = mongoose.Schema({
   userInfo: {
     image: {
       type: String,
-      default: "http://res.cloudinary.com/dsdlseso2/image/upload/v1664716394/gdqncwijdswy0mwf7jdl.png"
+      default: process.env.DEFAULT_PROFILE_IMAGE
     },
     firstName: {
       type: String,
@@ -39,6 +39,12 @@ const userSchema = mongoose.Schema({
     status: {
       type: Boolean,
       default: false
+    }
+  },
+  userSettings: {
+    hand: {
+      type: Boolean,
+      default: true
     }
   }
 }, {

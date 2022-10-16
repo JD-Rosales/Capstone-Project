@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
   user: user ? user.user : null,
+  token: user ? user.token : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -35,7 +36,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data.user
+      return response.data
     }
     
   } catch (error) {
@@ -45,13 +46,46 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
   }
 })
 
-//Update user
+//Update user profile
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (userData, thunkAPI) => {
   try {
     const response = await axios.patch('/api/users/update-profile/' + user.user._id, userData)
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
+      return response.data
+    }
+    
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+//Update user settings
+export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', async (userData, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/users/update-userSettings/' + user.user._id, userData)
+
+    if(response.data) {
+      localStorage.setItem('user', JSON.stringify(response.data))
+      return response.data
+    }
+    
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+//Change user password
+export const changePassword = createAsyncThunk('auth/changePassword', async (userData, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/users/change-password/' + user.user._id, userData)
+
+    if(response.data) {
       return response.data.user
     }
     
@@ -79,6 +113,11 @@ export const authSlice = createSlice({
       state.isError = false
       state.message = ""
     },
+    logOut: (state, action) => {
+      localStorage.clear()
+      state.user = null
+      state.token = null
+    },
     updateMessage: (state, action) => {
       state.message = action.payload
     }
@@ -99,13 +138,15 @@ export const authSlice = createSlice({
         state.message = action.payload
         state.user = null
       })
+      
       .addCase(login.pending, (state) => {
         state.isLoading = true
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
+        state.user = action.payload.user
+        state.token = action.payload.token
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false
@@ -120,9 +161,24 @@ export const authSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.user = action.payload
+        state.user = action.payload.user
+        state.token = action.payload.token
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      .addCase(changePassword.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload
+      })
+      .addCase(changePassword.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

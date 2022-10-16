@@ -30,5 +30,27 @@ body {
 /* Loading Button true  */
 .MuiLoadingButton-loading {
   background-color: var(--aquaGreen) !important;
-  opacity: .8;
+  /* opacity: .8; */
+}
+
+/* end MUI global styles */
+
+/* https://fkhadra.github.io/react-toastify/how-to-style/ */
+
+.Toastify__toast {
+  background-color: var(--aquaGreen);
+  border-radius: 15px;
+  font-size: 1rem;
+  color: var(--navyBlue)
+}
+
+.Toastify__toast-body {
+  margin: auto;
+  flex: none;
+}
+
+.Toastify__toast--error {
+}
+
+.Toastify__toast--success {
 }

@@ -13,7 +13,6 @@ export const getEnrolledStudents = createAsyncThunk('student/getEnrolledStudents
   try {
     const response = await axios.get('/api/student/get-students/' + data)
     if (response.data) {
-      console.log(response)
       return response.data
     }
   } catch (error) {

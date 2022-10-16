@@ -1,4 +1,4 @@
-import "./UpdateProfile.css";
+import "./ChangePassword.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { useState, useEffect, useRef } from "react";
 import { FormControl, TextField } from "@mui/material";
@@ -7,10 +7,10 @@ import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { reset, updateProfile } from "../../features/auth/authSlice";
+import { reset, changePassword } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import Spinner from "../../components/Spinner/Spinner";
-import editProfile from "../../assets/edit_profile.png";
+import change_password from "../../assets/change_password.png";
 
 const textfieldStyle = {
   mt: 2,
@@ -39,24 +39,20 @@ const textfieldStyle = {
   },
 };
 
-const UpdateProfile = () => {
+const ChangePassword = () => {
   const dispatch = useDispatch();
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
-  const inputFile = useRef(null);
   const toastID = useRef(null);
 
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleInitial, setMiddleInitial] = useState("");
-  const [school, setSchool] = useState("");
-  const [email, setEmail] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPassword2, setNewPassword2] = useState("");
 
   const notify = () =>
-    (toastID.current = toast.loading("Updating Profile...", {
+    (toastID.current = toast.loading("Updating Password...", {
       autoClose: 10000,
       position: "top-right",
     }));
@@ -65,31 +61,33 @@ const UpdateProfile = () => {
     e.preventDefault();
 
     const userData = {
-      lastName,
-      firstName,
-      middleInitial,
-      school,
-      email,
-      image: !selectedImage || selectedImage === "" ? null : selectedImage,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      newPassword2: newPassword2,
     };
-    notify();
-    dispatch(updateProfile(userData));
+
+    if (newPassword !== newPassword2) {
+      toast.warning("Password do not match!", {
+        autoClose: 2000,
+        position: "top-right",
+      });
+    } else {
+      notify();
+      dispatch(changePassword(userData));
+    }
   };
 
   useEffect(() => {
     if (isSuccess) {
       toast.update(toastID.current, {
-        render: "Profile Updated Successfully",
+        render: "Password Change!",
         type: "success",
         isLoading: false,
         autoClose: 2000,
       });
-      setFirstName("");
-      setLastName("");
-      setMiddleInitial("");
-      setSchool("");
-      setEmail("");
-      setSelectedImage("");
+      setCurrentPassword("");
+      setNewPassword("");
+      setNewPassword2("");
       dispatch(reset());
     }
 
@@ -105,34 +103,8 @@ const UpdateProfile = () => {
     // eslint-disable-next-line
   }, [user, isError, isSuccess, message]);
 
-  const chooseFile = () => {
-    inputFile.current.click();
-  };
-
-  const previewImage = (e) => {
-    if (e.target.files[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
-      reader.onerror = () => {
-        toast.error("An error has occured!");
-      };
-    }
-  };
-
-  useEffect(() => {
-    setFirstName(user.userInfo.firstName);
-    setLastName(user.userInfo.lastName);
-    setMiddleInitial(user.userInfo.middleInitial);
-    setSchool(user.userInfo.school);
-    setEmail(user.email);
-    // eslint-disable-next-line
-  }, []); 
-
   return (
-    <div className="update-profile">
+    <div className="change-password">
       <Sidebar />
 
       <main>
@@ -148,12 +120,12 @@ const UpdateProfile = () => {
               }}
             >
               <h1>
-                EDIT <br /> <span>PROFILE</span>
+                CHANGE <br /> <span>PASSWORD</span>
               </h1>
               <p>
-                Want to edit you profile? Change your email? School University?
-                Found an error in your inputs? Don't worry! You can do it all
-                here.{" "}
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
+                error excepturi, distinctio laborum explicabo suscipit, velit
+                veniam quia voluptatibus quas ipsa numquam dolore.
               </p>
             </Grid2>
             <Grid2
@@ -165,7 +137,7 @@ const UpdateProfile = () => {
                 alignItems: "center",
               }}
             >
-              <img src={editProfile} alt="Edit Profile Logo" />
+              <img src={change_password} alt="Change Password Logo" />
             </Grid2>
           </Grid2>
         </header>
@@ -173,119 +145,79 @@ const UpdateProfile = () => {
         <form>
           <FormControl fullWidth={true}>
             <Grid2 container spacing={1}>
-              <Grid2 xs={3}>
+              <Grid2 xs={4}>
                 <div className="profile-container">
                   <div className="img-container">
-                    {!selectedImage ? (
-                      <div
-                        onClick={chooseFile}
-                        className="img"
-                        style={{
-                          backgroundImage: `url(${user.userInfo.image})`,
-                        }}
-                      ></div>
-                    ) : (
-                      <div
-                        onClick={chooseFile}
-                        className="img"
-                        style={{ backgroundImage: `url(${selectedImage})` }}
-                      ></div>
-                    )}
+                    <div
+                      className="img"
+                      style={{
+                        backgroundImage: `url(${user?.userInfo.image})`,
+                      }}
+                    ></div>
                   </div>
 
-                  <span onClick={chooseFile} className="select-image">
-                    Change Profile Picture
+                  <span style={{ marginTop: "8px" }}>
+                    School/University: <span>{user?.userInfo.school}</span>
                   </span>
-                  <input
-                    type="file"
-                    ref={inputFile}
-                    style={{ display: "none" }}
-                    accept="image/x-png,image/gif,image/jpeg"
-                    onChange={previewImage}
-                  />
+                  <span>
+                    Name:{" "}
+                    <span>
+                      {user?.userInfo.firstName + " "}
+                      {user?.userInfo.middleInitial + " "}
+                      {user?.userInfo.lastName}
+                    </span>
+                  </span>
+                  <span>
+                    Email: <span>{user?.email}</span>
+                  </span>
                 </div>
               </Grid2>
-              <Grid2 xs={9}>
+              <Grid2 xs={8}>
                 <Grid2 xs={12}>
                   <TextField
-                    label="School/University"
+                    label="Current Password"
                     type="text"
-                    name="school"
+                    name="current_password"
                     fullWidth
                     autoComplete="off"
                     sx={textfieldStyle}
                     InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
-                    value={school}
+                    value={currentPassword}
                     onChange={(e) => {
-                      setSchool(e.target.value);
+                      setCurrentPassword(e.target.value);
                     }}
                   />
                 </Grid2>
 
                 <Grid2 xs={12}>
                   <TextField
-                    label="Email"
+                    label="New Password"
                     type="text"
-                    name="email"
+                    name="new_password"
                     autoComplete="off"
                     fullWidth
                     sx={textfieldStyle}
                     InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
-                    value={email}
+                    value={newPassword}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setNewPassword(e.target.value);
                     }}
                   />
                 </Grid2>
 
                 <Grid2 container spacing={1}>
-                  <Grid2 xs={5}>
+                  <Grid2 xs={12}>
                     <TextField
-                      label="Last Name"
+                      label="Re-enter New Password"
                       type="text"
-                      name="lastName"
+                      name="new_password2"
                       autoComplete="off"
                       fullWidth
                       sx={textfieldStyle}
                       InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
-                      value={lastName}
+                      value={newPassword2}
                       onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    />
-                  </Grid2>
-
-                  <Grid2 xs={5}>
-                    <TextField
-                      label="First Name"
-                      type="text"
-                      name="firstName"
-                      autoComplete="off"
-                      fullWidth
-                      sx={textfieldStyle}
-                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    />
-                  </Grid2>
-
-                  <Grid2 xs={2}>
-                    <TextField
-                      label="M.I."
-                      type="text"
-                      name="middleInitial"
-                      fullWidth
-                      autoComplete="off"
-                      sx={textfieldStyle}
-                      inputProps={{ maxLength: 1 }} //Set the input max length to 1
-                      InputProps={{
-                        sx: { height: 50, color: "#F0F0F0" },
-                      }}
-                      value={middleInitial}
-                      onChange={(e) => {
-                        setMiddleInitial(e.target.value.toUpperCase());
+                        setNewPassword2(e.target.value);
                       }}
                     />
                   </Grid2>
@@ -348,4 +280,4 @@ const UpdateProfile = () => {
   );
 };
 
-export default UpdateProfile;
+export default ChangePassword;

@@ -1,5 +1,5 @@
 import "./SignUp.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import back from "../../assets/back.png";
@@ -9,7 +9,6 @@ import {
   FormControlLabel,
   TextField,
   Switch,
-  Button,
   Fade,
   Modal,
   Box,
@@ -21,6 +20,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { reset, register } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { CircularProgress } from "@mui/material";
+
 const modalStyle = {
   position: "absolute",
   top: "50%",
@@ -87,6 +88,14 @@ const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [formHeight, setFormHeight] = useState("470px");
 
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Creating your account....", {
+      autoClose: 10000,
+      position: "top-right",
+    }));
+
   const [open, setOpen] = useState(true);
   const handleModal = () => {
     setOpen(!open);
@@ -113,8 +122,12 @@ const SignUp = () => {
     };
 
     if (password !== password2) {
-      alert("Password do not match");
+      toast.warning("Password do not match", {
+        autoClose: 2000,
+        position: "top-right",
+      });
     } else {
+      notify();
       dispatch(register(userData));
     }
   };
@@ -130,12 +143,22 @@ const SignUp = () => {
       setSchool("");
       setClassCode("");
       dispatch(reset());
-      alert("Account Created Successfully");
+      toast.update(toastID.current, {
+        render: "Account Created Successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
 
     if (isError) {
-      toast.error(message)
       dispatch(reset());
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
 
     // eslint-disable-next-line
@@ -271,10 +294,11 @@ const SignUp = () => {
                   autoComplete="middleInitial"
                   fullWidth
                   sx={{ mt: 2 }}
+                  inputProps={{ maxLength: 1 }} //Set the input max length to 1
                   InputProps={{ sx: { height: 50 } }}
                   value={middleInitial}
                   onChange={(e) => {
-                    setMiddleInitial(e.target.value);
+                    setMiddleInitial(e.target.value.toUpperCase());
                   }}
                 />
               </Grid2>
@@ -345,38 +369,28 @@ const SignUp = () => {
               label="Show Password"
             />
 
-            <Button
-              type="submit"
+            <LoadingButton
+              onClick={submit}
+              loading={isLoading}
+              loadingIndicator={
+                <CircularProgress size="2em" sx={{ color: "#182240" }} />
+              }
               variant="contained"
               sx={{
+                width: "70%",
+                mx: "auto",
                 background: "#42C9A3",
                 height: 50,
+                borderRadius: "10px",
                 mt: 2,
-                width: "80%",
-                mx: "auto",
-                borderRadius: "5px",
-                fontSize: "18px",
+                ":hover": {
+                  bgcolor: "#182240",
+                  color: "white",
+                },
               }}
-              onClick={submit}
             >
-              Sign up
-            </Button>
-            {/* <LoadingButton
-                onClick={submit}
-                loading={isLoading}
-                loadingPosition="start"
-                variant="contained"
-                sx={{ 
-                  background: "#182142",
-                  height: 50,
-                  mt: 2,
-                  "& .MuiLoadingButton-loadingIndicator": {
-                    //Loading indicator
-                    marginLeft: "3em",
-                  },
-                 }}
-                 >
-                 </LoadingButton> */}
+              Login
+            </LoadingButton>
           </FormControl>
         </form>
       </div>

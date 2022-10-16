@@ -1,7 +1,10 @@
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/userModel')
 const randomString = require('randomstring')
+const { cloudinary } = require('../config/cloudinary')
+const { generateToken } = require('../utils/generateToken');
+// const express = require('express')
+// const app = express()
 
 //api/users
 const signUp = async (req, res) => {
@@ -169,7 +172,6 @@ const signUp = async (req, res) => {
   }
 }
 
-
 //api/users/login
 const login = async (req, res) => {
   try {
@@ -196,7 +198,7 @@ const login = async (req, res) => {
           const auth = await bcrypt.compare(password, user.password)
           if (auth) {
             delete user.password  //removes the password key
-            res.status(200).json({ user })
+            res.status(200).json({ user, token: generateToken(user._id) })
           } else {
             res.status(401).json({ message: "Invalid password"})
           }
@@ -262,7 +264,13 @@ const login = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
-    const { lastName, firstName, middleInitial, school, email, image,  prevPassword, newPassword } = req.body
+    const { lastName, firstName, middleInitial, school, email, image } = req.body
+
+    //check if user exist in the database
+    const user = await User.findById(req.params.id).lean().exec()
+    if(!user){
+      return res.status(404).json({ message: 'User not found!'})
+    }
 
     if (!lastName || lastName === "") {
       res.status(400).json({ message: 'Last Name is required'})
@@ -274,107 +282,122 @@ const updateProfile = async (req, res) => {
       res.status(400).json({ message: 'School is required'})
     } else if (!email || email === "") {
       res.status(400).json({ message: 'Email is required'})
-    } else if (!image || image === "") {
-      res.status(400).json({ message: 'Invalid image'})
-    } else if (!prevPassword || prevPassword === "") {
-      res.status(400).json({ message: 'Password is required'})
-    } else if (!newPassword || newPassword === "") {
-      res.status(400).json({ message: 'Password is required'})
     } else {
-      
-      const user = await User.findById(req.params.id).lean().exec()
-      if(!user){
-        return res.status(404).json({ message: 'User not found!'})
+
+      if(!image) {  //retain prev image if there is no image
+        const updatedUser = await User.findByIdAndUpdate(
+          req.params.id,
+          {
+            "userInfo.lastName": lastName,
+            "userInfo.firstName": firstName,
+            "userInfo.middleInitial": middleInitial,
+            "userInfo.school": school,
+            "email": email 
+          },
+          {new: true}
+        )
+
+        delete updatedUser.password  //remove the password key
+        return res.status(200).json({ user: updatedUser })
+      } else {
+
+        const uploadResponse = await cloudinary.uploader.upload(image, {
+          upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET
+        })
+
+        if (uploadResponse.url) { //check if image upload return an image url
+
+          const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+              "userInfo.lastName": lastName,
+              "userInfo.firstName": firstName,
+              "userInfo.middleInitial": middleInitial,
+              "userInfo.school": school,
+              "email": email,
+              "userInfo.image": uploadResponse.url
+            },
+            {new: true}
+          )
+  
+          delete updatedUser.password  //remove the password key
+          return res.status(200).json({ user: updatedUser })
+
+        } else {
+          return res.status(400).json({ message: "An error has occured!" })
+        }
+
       }
-
-      // Check if input password match the old password
-      const auth = await bcrypt.compare(prevPassword, user.password)
-
-      if (!auth) {
-        return res.status(401).json({ message: "Invalid password"})
-      }
-
-      //hash the password
-      const salt = await bcrypt.genSalt(10)
-      const hashPassword = await bcrypt.hash(newPassword, salt)
-
-      const updatedUser = await User.findByIdAndUpdate(
-        req.params.id,
-        {
-          "userInfo.lastName": lastName,
-          "userInfo.firstName": firstName,
-          "userInfo.middleInitial": middleInitial,
-          "userInfo.school": school,
-          "email": email,
-          "password": hashPassword,
-          "userInfo.image": image
-        },
-        {new: true}
-      )
-
-
-      delete updatedUser.password  //removes the password key
-      res.status(200).json({ user: updatedUser })
 
     }
 
   } catch (error) {
     console.log(error)
   }
-
 }
 
-// const loginUser = async (req, res) => {
-//   try {
-//     const {email, password} = req.body
-//     console.log(req.body)
+const updateUserSettings = async (req, res) => {
+  try {
 
-//     //check if user exist
-//     const user = await User.findOne({email})
-//     if(!user){
-//       res.status(404).json({ message: 'Email not found!'})
-//     } else {
-//       //compare hash password
-//       const authPassword = await bcrypt.compare(password, user.password)
-//       if(authPassword){
-//         res.status(200).json({
-//           _id: user.id,
-//           email: user.email,
-//           token: generateToken(user._id)
-//         })
-//       } else {
-//         res.status(401).json({ message: 'Invalid Password' })
-//       }
-//     }
+    //check if user exist in the database
+    const user = await User.findById(req.params.id).lean().exec()
+    if(!user){
+      return res.status(404).json({ message: 'User not found!'})
+    } else {
 
-//   } catch (error) {
-//     console.log(error)
-//   }
-  
-// }
+      
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
 
-// const getUser = async (req, res) => {
-//   try {
-//     //req.user.id from middleware token
-//     const { _id, username } = await User.findById(req.user.id)
-//     res.status(200).json({
-//       id: _id,
-//       username
-//     })
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword ,newPassword2} = req.body
 
-//Generate JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: '1d',
-  })
+    if (!currentPassword || !newPassword || !newPassword2) {
+      res.status(400).json({ message: 'Input all required fields'})
+    }
+
+    const user = await User.findById(req.params.id).lean().exec()
+
+    if(!user){
+      return res.status(404).json({ message: 'User not found!'})
+    }
+
+    // Check if input password match the old password
+    const auth = await bcrypt.compare(currentPassword, user.password)
+
+    if (!auth) {
+      return res.status(401).json({ message: "Invalid Current Password!"})
+    }
+
+    //hash the password
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(newPassword, salt)
+
+    const updatedPassword = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        "password": hashPassword
+      },
+      {new: true}
+    )
+
+    delete user.password  //removes the password field
+    res.status(200).json({ message: "Password Updated Successfully" })
+    
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 module.exports = {
   signUp,
   login,
-  updateProfile
+  updateProfile,
+  updateUserSettings,
+  changePassword
 }
