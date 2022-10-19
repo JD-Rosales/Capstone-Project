@@ -5,6 +5,7 @@ import clock from "../../assets/waiting.png";
 
 const WaitingApproval = () => {
   const navigate = useNavigate();
+
   return (
     <div className="waitingApproval">
       <div className="container">

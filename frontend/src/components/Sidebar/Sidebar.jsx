@@ -96,6 +96,12 @@ const Sidebar = () => {
                 <MdPeopleAlt className="icon" /> <span>Enrolled Students</span>
               </Link>
             </li>
+
+            <li>
+              <Link to="">
+                <MdPeopleAlt className="icon" /> <span>Assignments</span>
+              </Link>
+            </li>
           </ul>
         ) : user?.role === "student" ? (
           <ul>

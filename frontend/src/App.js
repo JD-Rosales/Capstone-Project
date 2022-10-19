@@ -2,7 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from './components/Layout';
 import RequireAuth from "./components/RequireAuth"
+
+// Public Pages
 import Landing from './pages/Landing/Landing';
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
+
+// Authenticated Pages
 import Home from './pages/Home/Home';
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
@@ -11,17 +18,15 @@ import FingerSpell from "./pages/FingerSpell/FingerSpell";
 import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
 import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
 import Learn from "./pages/Learn/Learn";
-import Login from "./pages/Login/Login";
-import SignUp from "./pages/SignUp/SignUp";
 import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChooseHand from "./pages/ChooseHand/ChooseHand";
 
+
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
 import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
-
 import WaitingApproval from "./pages/WaitingApproval/WaitingApproval";
 
 //Student Pages
@@ -48,18 +53,16 @@ function App() {
   return (
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* Unprotected Pages */}
+          {/* Unprotected Routes */}
           <Route path="" element={<Landing />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />
           <Route path="profile" element={<Profile />} />
-
-          <Route path="waiting-approval" element={<WaitingApproval />} />
-
           <Route path="admin/signup" element={<AdminSignUp />} />
           <Route path="admin/login" element={<AdminLogin />} />
+          <Route path="waiting-approval" element={<WaitingApproval />} />
 
-          {/* General User, Students Pages*/}
+          {/* Student and General User Routes */}
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
             <Route path="home" element={<Home />} />
             <Route path="play-game" element={<Play />} />
@@ -70,25 +73,27 @@ function App() {
             <Route path="4-pics-1-word" element={<FourPicOneWord />} />
             <Route path="learn" element={<Learn />} />
           </Route>
-          {/* Teacher, Student, General User Pages */}
+
+          {/* Authenticated Routes */}
           <Route element={<RequireAuth allowedRoles={["teacher", "student", "generaluser", "admin"]} />}>
             <Route path="update-profile" element={<UpdateProfile />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="choose-hand" element={<ChooseHand />} />
+            <Route path="unauthorized" element={<Unauthorized />} />
           </Route>
     
-          {/* Teacher Pages */}
+          {/* Teacher Routes */}
           <Route element={<RequireAuth allowedRoles={["teacher"]} />}>
             <Route path="teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="enrolled-students" element={<EnrolledStudent />} />
           </Route>
 
-          {/* Student Pages */}
+          {/* Student Routes */}
           <Route element={<RequireAuth allowedRoles={["student"]} />}>
             <Route path="student-dashboard" element={<StudentDashboard />} />
           </Route>
 
-          {/* Admin Pages */}
+          {/* Admin Routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
             <Route path="admin" element={<Admin />} />
             <Route path="admin/account-activation" element={<AccountActivation />} />
@@ -106,3 +111,4 @@ function App() {
 }
 
 export default App;
+{{  }}

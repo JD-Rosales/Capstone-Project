@@ -129,7 +129,7 @@ const UpdateProfile = () => {
     setSchool(user.userInfo.school);
     setEmail(user.email);
     // eslint-disable-next-line
-  }, []); 
+  }, []);
 
   return (
     <div className="update-profile">
@@ -207,19 +207,23 @@ const UpdateProfile = () => {
               </Grid2>
               <Grid2 xs={9}>
                 <Grid2 xs={12}>
-                  <TextField
-                    label="School/University"
-                    type="text"
-                    name="school"
-                    fullWidth
-                    autoComplete="off"
-                    sx={textfieldStyle}
-                    InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
-                    value={school}
-                    onChange={(e) => {
-                      setSchool(e.target.value);
-                    }}
-                  />
+                  {user.role !== "admin" ? (
+                    <TextField
+                      label="School/University"
+                      type="text"
+                      name="school"
+                      fullWidth
+                      autoComplete="off"
+                      sx={textfieldStyle}
+                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                      value={school}
+                      onChange={(e) => {
+                        setSchool(e.target.value);
+                      }}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </Grid2>
 
                 <Grid2 xs={12}>

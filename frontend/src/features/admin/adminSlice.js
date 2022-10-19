@@ -23,7 +23,7 @@ export const getUnactivated = createAsyncThunk('admin/getUnactivated', async (th
 
 export const updateAccountStatus = createAsyncThunk('admin/updateAccountStatus', async (id, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/admin/update-status/' + id)
+    const response = await axios.patch('/api/teacher/update-status/' + id)
     if (response.data) {
       return response.data
     }
@@ -66,6 +66,7 @@ export const adminSlice = createSlice({
       .addCase(updateAccountStatus.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
+        state.data = action.payload
       })
       .addCase(updateAccountStatus.rejected, (state, action) => {
         state.isLoading = false

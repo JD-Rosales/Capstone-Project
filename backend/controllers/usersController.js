@@ -90,7 +90,7 @@ const signUp = async (req, res) => {
             role: role,
             userInfo: userInfo
           })
-
+          
           //return user data if success
           if(user) {
             res.status(201).json({

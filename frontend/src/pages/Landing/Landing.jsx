@@ -2,9 +2,14 @@ import "./Landing.css";
 import illustration1 from "../../assets/illustration1.png";
 import logo2 from "../../assets/logo2.png";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Landing = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
 
   return (
     <div className="landing">

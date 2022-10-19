@@ -88,6 +88,10 @@ const Login = () => {
     dispatch(login(userData));
   };
 
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   return (
     <div className="admin-login">
       <div

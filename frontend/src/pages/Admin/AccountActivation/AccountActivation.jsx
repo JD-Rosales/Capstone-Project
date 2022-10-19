@@ -9,15 +9,22 @@ import {
   reset,
 } from "../../../features/teacher/teacherSlice";
 import Button from "@mui/material/Button";
+import {
+  Fade,
+  Modal,
+  Box,
+  Backdrop,
+  Typography,
+  Skeleton,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { Fade, Modal, Box, Backdrop, Typography } from "@mui/material";
 
 const modalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 480,
+  width: 310,
   background: "#fff",
   color: "#000",
   borderRadius: "15px",
@@ -27,25 +34,76 @@ const modalStyle = {
   pb: 4,
 };
 
-// const columns = [
-//   { field: "_id", headerName: "ID", width: 70 },
-//   { field: "userInfo.role", headerName: "First name", width: 200 },
-//   { field: "userInfo.lastName", headerName: "Last name", width: 200 },
-//   {
-//     field: "email",
-//     headerName: "Email",
-//     width: 200,
-//   },
-// ];
+const dataGridstyle = {
+  color: "#fff",
+  "& .MuiDataGrid-virtualScrollerRenderZone": {
+    "& .MuiDataGrid-row": {
+      "&:nth-of-type(odd)": {
+        backgroundColor: "var(--navyBlue)",
+      },
+    },
+  },
+  "& .MuiDataGrid-columnHeaders": {
+    //Header Style
+    fontSize: 16,
+  },
+};
 
 const AccountActivation = () => {
   const dispatch = useDispatch();
   const [ID, setID] = useState("");
-  const { data, isSuccess } = useSelector((state) => state.teacher);
+  const { data, isSuccess, isLoading } = useSelector((state) => state.teacher);
   const [tableData, setTableData] = useState([]);
+
+  const columns = [
+    { field: "_id", headerName: "ID", hide: true },
+    { field: "email", headerName: "Email", flex: 2 },
+    { field: "school", headerName: "School", flex: 2 },
+    { field: "fullName", headerName: "Full Name", flex: 2 },
+    {
+      field: "col4",
+      headerName: "",
+      renderCell: (cellValues) => {
+        return (
+          <Button
+            variant="contained"
+            onClick={(event) => {
+              event.stopPropagation();
+              setID(cellValues.row._id);
+              handleModal();
+            }}
+          >
+            APPROVE
+          </Button>
+        );
+      },
+      flex: 1,
+      align: "right",
+    },
+  ];
+
   const [open, setOpen] = useState(false);
   const handleModal = () => {
     setOpen(!open);
+  };
+
+  const setRow = (data) => {
+    const table = [];
+    data.map((data) => {
+      return table.push({
+        _id: data._id,
+        email: data.email,
+        fullName:
+          data.userInfo.lastName +
+          " " +
+          data.userInfo.firstName +
+          " " +
+          data.userInfo.middleInitial,
+        school: data.userInfo.school,
+      });
+    });
+
+    setTableData(table);
   };
 
   const updateStatus = () => {
@@ -60,7 +118,8 @@ const AccountActivation = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setTableData(data.teachers);
+      // setTableData(data.teachers);
+      setRow(data.teachers);
       dispatch(reset());
     }
     // eslint-disable-next-line
@@ -92,50 +151,83 @@ const AccountActivation = () => {
       </header>
 
       <main>
-        <div className="tbl-contianer">
-          <div className="tbl-header">
-            <div>Email</div>
-            <div></div>
-          </div>
-
-          {tableData.map((data) => {
-            return (
-              <div key={data._id} className="tbl-data">
-                <div className="tbl-item">{data.email}</div>
-                <div className="tbl-item">
-                  <Button
-                    onClick={() => {
-                      handleModal();
-                      setID(data._id);
-                    }}
-                    aria-haspopup="true"
-                    variant="contained"
-                    sx={{
-                      background: "#42C9A3",
-                      ":hover": {
-                        bgcolor: "#42C9A3",
-                        color: "white",
-                      },
-                    }}
-                  >
-                    Activate
-                  </Button>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* <div style={{ height: "200px" }}>
+        <Box
+          sx={{
+            height: 280,
+            width: "100%",
+            backgroundColor: "var(--navyBlue)",
+          }}
+        >
+          {!isLoading ? (
             <DataGrid
               getRowId={(tableData) => tableData._id}
+              sx={dataGridstyle}
               rows={tableData}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
-              checkboxSelection
             />
-          </div> */}
-        </div>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "20px",
+              }}
+            >
+              <Skeleton
+                sx={{
+                  backgroundColor: "gray",
+                }}
+                variant="rectangular"
+                width={"100%"}
+                height={"40px"}
+              />
+              <Skeleton
+                variant="rectangular"
+                width="60%"
+                sx={{
+                  backgroundColor: "gray",
+                  marginTop: "20px",
+                }}
+              />
+
+              <Skeleton
+                variant="rectangular"
+                width="90%"
+                sx={{
+                  backgroundColor: "gray",
+                  marginTop: "20px",
+                }}
+              />
+
+              <Skeleton
+                variant="rectangular"
+                width="85%"
+                sx={{
+                  backgroundColor: "gray",
+                  marginTop: "20px",
+                }}
+              />
+
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                sx={{
+                  backgroundColor: "gray",
+                  marginTop: "20px",
+                }}
+              />
+
+              <Skeleton
+                variant="rectangular"
+                width="80%"
+                sx={{
+                  backgroundColor: "gray",
+                  marginTop: "20px",
+                }}
+              />
+            </Box>
+          )}
+        </Box>
       </main>
 
       <Modal
@@ -152,12 +244,10 @@ const AccountActivation = () => {
         <Fade in={open}>
           <Box sx={modalStyle}>
             <Typography
-              variant="h4"
-              sx={{
-                textAlign: "center",
-                fontWeight: "300",
-                fontFamily: ["Poppins", "sans-serif"].join(","),
-              }}
+              variant="h5"
+              textAlign={"center"}
+              fontWeight="600"
+              lineHeight={"25px"}
             >
               Are you sure you want to activate this account?
             </Typography>
@@ -171,39 +261,38 @@ const AccountActivation = () => {
               }}
             >
               <Button
-                onClick={handleModal}
-                aria-haspopup="true"
-                variant="contained"
-                sx={{
-                  background: "#42C9A3",
-                  marginRight: "10px",
-                  height: "60px",
-                  width: "130px",
-                  ":hover": {
-                    bgcolor: "#42C9A3",
-                    color: "white",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-
-              <Button
                 onClick={updateStatus}
                 aria-haspopup="true"
                 variant="contained"
                 sx={{
                   background: "#42C9A3",
-                  marginLeft: "10px",
-                  height: "60px",
-                  width: "130px",
+                  marginRight: "10px",
+                  height: "35px",
+                  width: "90px",
                   ":hover": {
-                    bgcolor: "#42C9A3",
+                    bgcolor: "#4283C9",
                     color: "white",
                   },
                 }}
               >
                 Confirm
+              </Button>
+              <Button
+                onClick={handleModal}
+                aria-haspopup="true"
+                variant="contained"
+                sx={{
+                  background: "#42C9A3",
+                  marginLeft: "10px",
+                  height: "35px",
+                  width: "90px",
+                  ":hover": {
+                    bgcolor: "#4283C9",
+                    color: "white",
+                  },
+                }}
+              >
+                Cancel
               </Button>
             </Box>
           </Box>

@@ -138,6 +138,10 @@ const Login = () => {
     // eslint-disable-next-line
   }, [user, isLoading, isError, isSuccess, message]);
 
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const submit = async (e) => {
     e.preventDefault();
     const userData = {

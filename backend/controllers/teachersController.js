@@ -20,7 +20,7 @@ const updateStatus = async (req, res) => {
       return res.status(404).json({ message: 'ID not found!'})
     }
 
-    const updatedTeacher = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.params.id,
       {"userInfo.status": true},
       {new: true}
