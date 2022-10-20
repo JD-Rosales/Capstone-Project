@@ -98,7 +98,7 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link to="">
+              <Link to="/assignment">
                 <MdPeopleAlt className="icon" /> <span>Assignments</span>
               </Link>
             </li>
@@ -118,7 +118,7 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link to="/learn">
+              <Link to="/lesson-list">
                 <GiTeacher className="icon" /> <span>Learn ASL</span>
               </Link>
             </li>
@@ -159,6 +159,11 @@ const Sidebar = () => {
             <li>
               <Link to="/practice">
                 <BiDumbbell className="icon" /> <span>Practice</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/learn">
+                <BiDumbbell className="icon" /> <span>Learn ASL</span>
               </Link>
             </li>
           </ul>

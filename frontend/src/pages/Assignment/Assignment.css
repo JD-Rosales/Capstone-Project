@@ -1,0 +1,63 @@
+.assignment {
+    margin-left: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  
+  .assignment main {
+    width: 100%;
+    padding: 0 30px;
+  }
+  
+  .assignment main hr{
+    size: 10px;
+}
+  
+  .assignment main header  {
+    background-color: var(--navyBlue);
+    border-radius: 15px;
+    padding: 20px 50px;
+    margin-bottom: 20px;  
+  }
+
+  .assignment main header  h1 {
+
+  }
+  
+  .assignment main .header-content{
+    display: flex;
+    align-items: center;
+  }
+  
+  .assignment main header h1 {
+    line-height: 2rem;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+ 
+  .assignment main header h1 span{
+    color: var(--aquaGreen);
+  }
+  
+  .assignment main header p {
+    color: var(--whiteGray);
+  }
+  
+  .assignment main header img {
+    height: 200px;
+  }
+
+  .assignment main .body h1 {
+    margin-top: 10px;
+
+  }
+
+  .assignment main .body h1 span{
+    margin-top: 10px;
+    color: var(--aquaGreen);
+  }
+  

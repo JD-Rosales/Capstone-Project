@@ -13,14 +13,12 @@ const EnrolledStudent = () => {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    // dispatch(getStudents({ classCode: user.userInfo.classCode }));
     return () => dispatch(getEnrolledStudents(user.userInfo.classCode));
     // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
     if (isSuccess) {
-      // console.log(teachers.teachers);
       setTableData(data.students);
     }
     // eslint-disable-next-line

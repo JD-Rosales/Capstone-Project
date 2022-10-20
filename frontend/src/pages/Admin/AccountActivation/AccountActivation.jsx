@@ -16,15 +16,17 @@ import {
   Backdrop,
   Typography,
   Skeleton,
+  Pagination,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+// import NoRowsOverlay from "../../../components/MUIComponents/NoRowsOverlay";
 
 const modalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 310,
+  width: 380,
   background: "#fff",
   color: "#000",
   borderRadius: "15px",
@@ -36,6 +38,8 @@ const modalStyle = {
 
 const dataGridstyle = {
   color: "#fff",
+  border: "none",
+  "& .MuiDataGrid-main": { borderRadius: 2 },
   "& .MuiDataGrid-virtualScrollerRenderZone": {
     "& .MuiDataGrid-row": {
       "&:nth-of-type(odd)": {
@@ -46,6 +50,10 @@ const dataGridstyle = {
   "& .MuiDataGrid-columnHeaders": {
     //Header Style
     fontSize: 16,
+    backgroundColor: "var(--aquaGreen)",
+  },
+  "& .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus": {
+    outline: "none",
   },
 };
 
@@ -57,9 +65,15 @@ const AccountActivation = () => {
 
   const columns = [
     { field: "_id", headerName: "ID", hide: true },
-    { field: "email", headerName: "Email", flex: 2 },
-    { field: "school", headerName: "School", flex: 2 },
-    { field: "fullName", headerName: "Full Name", flex: 2 },
+    { field: "email", headerName: "Email", flex: 3, headerAlign: "center" },
+    {},
+    { field: "school", headerName: "School", flex: 3, headerAlign: "center" },
+    {
+      field: "fullName",
+      headerName: "Full Name",
+      flex: 3,
+      headerAlign: "center",
+    },
     {
       field: "col4",
       headerName: "",
@@ -78,7 +92,7 @@ const AccountActivation = () => {
         );
       },
       flex: 1,
-      align: "right",
+      align: "center",
     },
   ];
 
@@ -153,9 +167,10 @@ const AccountActivation = () => {
       <main>
         <Box
           sx={{
-            height: 280,
+            height: 350,
             width: "100%",
             backgroundColor: "var(--navyBlue)",
+            marginTop: "20px",
           }}
         >
           {!isLoading ? (
@@ -164,6 +179,7 @@ const AccountActivation = () => {
               sx={dataGridstyle}
               rows={tableData}
               columns={columns}
+              hideFooter={true}
             />
           ) : (
             <Box
@@ -244,10 +260,10 @@ const AccountActivation = () => {
         <Fade in={open}>
           <Box sx={modalStyle}>
             <Typography
-              variant="h5"
+              variant="h4"
               textAlign={"center"}
               fontWeight="600"
-              lineHeight={"25px"}
+              lineHeight={"2rem"}
             >
               Are you sure you want to activate this account?
             </Typography>
@@ -257,34 +273,16 @@ const AccountActivation = () => {
                 display: "flex",
                 justifyContent: "center",
                 textAlign: "center",
-                marginTop: "1em",
+                marginTop: "1.5em",
               }}
             >
-              <Button
-                onClick={updateStatus}
-                aria-haspopup="true"
-                variant="contained"
-                sx={{
-                  background: "#42C9A3",
-                  marginRight: "10px",
-                  height: "35px",
-                  width: "90px",
-                  ":hover": {
-                    bgcolor: "#4283C9",
-                    color: "white",
-                  },
-                }}
-              >
-                Confirm
-              </Button>
               <Button
                 onClick={handleModal}
                 aria-haspopup="true"
                 variant="contained"
                 sx={{
                   background: "#42C9A3",
-                  marginLeft: "10px",
-                  height: "35px",
+                  height: "40px",
                   width: "90px",
                   ":hover": {
                     bgcolor: "#4283C9",
@@ -293,6 +291,25 @@ const AccountActivation = () => {
                 }}
               >
                 Cancel
+              </Button>
+
+              <Button
+                onClick={updateStatus}
+                aria-haspopup="true"
+                variant="contained"
+                sx={{
+                  background: "#42C9A3",
+                  marginRight: "10px",
+                  height: "40px",
+                  width: "90px",
+                  marginLeft: "20px",
+                  ":hover": {
+                    bgcolor: "#4283C9",
+                    color: "white",
+                  },
+                }}
+              >
+                Confirm
               </Button>
             </Box>
           </Box>

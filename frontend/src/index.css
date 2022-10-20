@@ -10,13 +10,13 @@
   --navyBlue: #182240;
   --aquaGreen: #42C9A3;
   --whiteGray: #F0F0F0;
+  --sidebarMargin: 300px;
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #1d2549;
   color: #fff;
-  /* overflow: hidden; */
 }
 
 * {

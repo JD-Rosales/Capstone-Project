@@ -1,16 +1,13 @@
 import "./Unauthorized.css";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import back from "../../assets/back.png";
-import clock from "../../assets/waiting.png";
+import unauthorize from "../../assets/unauthorized_illustration.png";
 
 const Unauthorized = () => {
   const navigate = useNavigate();
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
+
   return (
-    <div className="waitingApproval">
+    <div className="unauthorized">
       <div className="container">
         <div className="header">
           <h1>
@@ -26,12 +23,12 @@ const Unauthorized = () => {
         </div>
         <div className="body">
           <div className="side">
-            <img src={clock} alt="clock" />
+            <img src={unauthorize} alt="unauthorize illustration" />
           </div>
           <div className="content">
             <p>
               The server could not verify that you are authorized to access the
-              Teacher's Dashboard{" "}
+              Teacher's Dashboard.
             </p>
             <br />
             <p>

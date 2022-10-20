@@ -41,10 +41,16 @@ const userSchema = mongoose.Schema({
       default: false
     }
   },
-  userSettings: {
-    hand: {
+  lesson: {
+    progress: {
       type: Boolean,
       default: true
+    }
+  },
+  userSettings: {
+    hand: {
+      type: Number,
+      default: 0
     }
   }
 }, {

@@ -1,10 +1,17 @@
 import "./WaitingApproval.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import back from "../../assets/back.png";
 import clock from "../../assets/waiting.png";
 
 const WaitingApproval = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      localStorage.clear();
+    }, 2000);
+  }, []);
 
   return (
     <div className="waitingApproval">

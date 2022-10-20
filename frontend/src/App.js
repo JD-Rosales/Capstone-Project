@@ -8,6 +8,9 @@ import Landing from './pages/Landing/Landing';
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+//bago ini kuys nga mga pages
+import LessonList from "./pages/LessonList/LessonList"
+import Assignment from "./pages/Assignment/Assignment"
 
 // Authenticated Pages
 import Home from './pages/Home/Home';
@@ -22,7 +25,6 @@ import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChooseHand from "./pages/ChooseHand/ChooseHand";
-
 
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
@@ -62,6 +64,9 @@ function App() {
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="waiting-approval" element={<WaitingApproval />} />
 
+          {/* Lessons Pages */}
+          <Route path="lesson-1" element={<LessonList />} />
+
           {/* Student and General User Routes */}
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
             <Route path="home" element={<Home />} />
@@ -86,6 +91,7 @@ function App() {
           <Route element={<RequireAuth allowedRoles={["teacher"]} />}>
             <Route path="teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="enrolled-students" element={<EnrolledStudent />} />
+            <Route path="assignment" element={<Assignment />} />
           </Route>
 
           {/* Student Routes */}
@@ -111,4 +117,3 @@ function App() {
 }
 
 export default App;
-{{  }}
