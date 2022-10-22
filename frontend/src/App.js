@@ -63,7 +63,7 @@ function App() {
           <Route path="admin/signup" element={<AdminSignUp />} />
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="waiting-approval" element={<WaitingApproval />} />
-
+          
           {/* Lessons Pages */}
           <Route path="lesson-1" element={<LessonList />} />
 

@@ -337,15 +337,14 @@ const updateProfile = async (req, res) => {
 }
 
 const updateUserSettings = async (req, res) => {
-  try {
-    
+  try {    
     //check if user exist in the database
     const user = await User.findById(req.params.id).lean().exec()
     if(!user){
       return res.status(404).json({ message: 'User not found!'})
     } else { 
       if(req.body.hand === undefined){
-        return res.status(400).json({ message: 'Please choose hand preference'})
+        return res.status(400).json({ message: 'Please choose hand'})
       }
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -355,7 +354,7 @@ const updateUserSettings = async (req, res) => {
         {new: true}
       )
       delete updatedUser.password  //remove the password key
-      return res.status(200).json({user:updatedUser, token: generateToken(user._id)})
+      return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id)})
     }
     
   } catch (error) {

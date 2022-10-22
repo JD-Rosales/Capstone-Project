@@ -2,11 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
 // Get user from local storage
-const user = JSON.parse(localStorage.getItem('user'))
+const localUser = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
-  user: user ? user.user : null,
-  token: user ? user.token : null,
+  user: localUser ? localUser.user : null,
+  token: localUser ? localUser.token : null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -49,7 +49,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 //Update user profile
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (userData, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/update-profile/' + user.user._id, userData)
+    const response = await axios.patch('/api/users/update-profile/' + localUser.user._id, userData)
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
@@ -66,7 +66,7 @@ export const updateProfile = createAsyncThunk('auth/updateProfile', async (userD
 //Update user settings
 export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', async (userData, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/update-userSettings/' + user.user._id, userData)
+    const response = await axios.patch('/api/users/update-userSettings/' + localUser.user._id, userData)
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
@@ -83,7 +83,7 @@ export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', as
 //Change user password
 export const changePassword = createAsyncThunk('auth/changePassword', async (userData, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/change-password/' + user.user._id, userData)
+    const response = await axios.patch('/api/users/change-password/' + localUser.user._id, userData)
 
     if(response.data) {
       return response.data.user
