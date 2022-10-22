@@ -9,91 +9,20 @@ import * as fingerpose from "fingerpose";
 import correct from "../../assets/correct.gif";
 import wrong from "../../assets/wrong.gif";
 import GameLoader from "../../components/GameLoader/GameLoader";
-
-import { a } from "../../asl/A";
-import { b } from "../../asl/B";
-import { c } from "../../asl/C";
-import { d } from "../../asl/D";
-import { e } from "../../asl/E";
-import { f } from "../../asl/F";
-import { g } from "../../asl/G";
-import { h } from "../../asl/H";
-import { i } from "../../asl/I";
-import { j } from "../../asl/J";
-import { k } from "../../asl/K";
-import { l } from "../../asl/L";
-import { m } from "../../asl/M";
-import { n } from "../../asl/N";
-import { o } from "../../asl/O";
-import { p } from "../../asl/P";
-import { q } from "../../asl/Q";
-import { r } from "../../asl/R";
-import { s } from "../../asl/S";
-//T asl
-import { u } from "../../asl/U";
-import { v } from "../../asl/V";
-import { w } from "../../asl/W";
-import { x } from "../../asl/X";
-import { y } from "../../asl/Y";
-//z asl
-
-import A from "../../assets/asl-img/A.png";
-import B from "../../assets/asl-img/B.png";
-import C from "../../assets/asl-img/C.png";
-import D from "../../assets/asl-img/D.png";
-import E from "../../assets/asl-img/E.png";
-import F from "../../assets/asl-img/F.png";
-import G from "../../assets/asl-img/G.png";
-import H from "../../assets/asl-img/H.png";
-import I from "../../assets/asl-img/I.png";
-import J from "../../assets/asl-img/J.png";
-import K from "../../assets/asl-img/K.png";
-import L from "../../assets/asl-img/L.png";
-import M from "../../assets/asl-img/M.png";
-import N from "../../assets/asl-img/N.png";
-import O from "../../assets/asl-img/O.png";
-import P from "../../assets/asl-img/P.png";
-import Q from "../../assets/asl-img/Q.png";
-import R from "../../assets/asl-img/R.png";
-import S from "../../assets/asl-img/S.png";
-import T from "../../assets/asl-img/T.png";
-import U from "../../assets/asl-img/U.png";
-import V from "../../assets/asl-img/V.png";
-import W from "../../assets/asl-img/W.png";
-import X from "../../assets/asl-img/X.png";
-import Y from "../../assets/asl-img/Y.png";
-import Z from "../../assets/asl-img/Z.png";
+import { useSelector } from "react-redux";
+import { rightSigns } from "../../util/rightASL/rightSigns";
+import { leftSigns } from "../../util/leftASL/leftSigns";
+import { toast } from "react-toastify";
+import { images as rightImages } from "../../util/rightImages";
+import { images as leftImages } from "../../util/LeftImages";
 
 const Practice = () => {
-  const asl = [
-    a,
-    b,
-    c,
-    d,
-    e,
-    f,
-    g,
-    h,
-    i,
-    j,
-    k,
-    l,
-    m,
-    n,
-    o,
-    p,
-    q,
-    r,
-    s,
-    u,
-    v,
-    w,
-    x,
-    y,
-  ];
+  const { user } = useSelector((state) => state.auth);
 
   const cameraRef = useRef(null);
 
+  const [handImage, setHandImage] = useState();
+  const [asl, setASL] = useState([]);
   const [handsign, setHandsign] = useState("");
   const [handView, setHandView] = useState("False");
   const [cameraEnable, setCameraEnable] = useState(false);
@@ -107,12 +36,9 @@ const Practice = () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraEnable(true);
-
-      //if video feed is available start hand detection
-      startDetection();
     } catch (error) {
       setCameraEnable(false);
-      alert("Cannot access camera!");
+      toast.error("Cannot Access Camera!");
     }
   };
 
@@ -168,11 +94,23 @@ const Practice = () => {
   }
 
   useEffect(() => {
-    return () => {
-      checkCamera();
-    };
+    if (cameraEnable) {
+      startDetection();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [cameraEnable]);
+
+  useEffect(() => {
+    if (user.userSettings.hand) {
+      setASL(rightSigns);
+      setHandImage(rightImages);
+    } else {
+      setASL(leftSigns);
+      setHandImage(leftImages);
+    }
+    checkCamera();
+    // eslint-disable-next-line
+  }, [cameraEnable]);
 
   useEffect(() => {
     if (handsign === letter) {
@@ -257,82 +195,186 @@ const Practice = () => {
         <span className="text">Click any letter to start</span>
 
         <div className="btn-container">
-          <button type="button" value="A" onClick={(e) => btnClick(e, A)}>
+          <button
+            type="button"
+            value="A"
+            onClick={(e) => btnClick(e, handImage.A)}
+          >
             A
           </button>
-          <button type="button" value="B" onClick={(e) => btnClick(e, B)}>
+          <button
+            type="button"
+            value="B"
+            onClick={(e) => btnClick(e, handImage.B)}
+          >
             B
           </button>
-          <button type="button" value="C" onClick={(e) => btnClick(e, C)}>
+          <button
+            type="button"
+            value="C"
+            onClick={(e) => btnClick(e, handImage.C)}
+          >
             C
           </button>
-          <button type="button" value="D" onClick={(e) => btnClick(e, D)}>
+          <button
+            type="button"
+            value="D"
+            onClick={(e) => btnClick(e, handImage.D)}
+          >
             D
           </button>
-          <button type="button" value="E" onClick={(e) => btnClick(e, E)}>
+          <button
+            type="button"
+            value="E"
+            onClick={(e) => btnClick(e, handImage.E)}
+          >
             E
           </button>
-          <button type="button" value="F" onClick={(e) => btnClick(e, F)}>
+          <button
+            type="button"
+            value="F"
+            onClick={(e) => btnClick(e, handImage.F)}
+          >
             F
           </button>
-          <button type="button" value="G" onClick={(e) => btnClick(e, G)}>
+          <button
+            type="button"
+            value="G"
+            onClick={(e) => btnClick(e, handImage.G)}
+          >
             G
           </button>
-          <button type="button" value="H" onClick={(e) => btnClick(e, H)}>
+          <button
+            type="button"
+            value="H"
+            onClick={(e) => btnClick(e, handImage.H)}
+          >
             H
           </button>
-          <button type="button" value="I" onClick={(e) => btnClick(e, I)}>
+          <button
+            type="button"
+            value="I"
+            onClick={(e) => btnClick(e, handImage.I)}
+          >
             I
           </button>
-          <button type="button" value="J" onClick={(e) => btnClick(e, J)}>
+          <button
+            type="button"
+            value="J"
+            onClick={(e) => btnClick(e, handImage.J)}
+          >
             J
           </button>
-          <button type="button" value="K" onClick={(e) => btnClick(e, K)}>
+          <button
+            type="button"
+            value="K"
+            onClick={(e) => btnClick(e, handImage.K)}
+          >
             K
           </button>
-          <button type="button" value="L" onClick={(e) => btnClick(e, L)}>
+          <button
+            type="button"
+            value="L"
+            onClick={(e) => btnClick(e, handImage.L)}
+          >
             L
           </button>
-          <button type="button" value="M" onClick={(e) => btnClick(e, M)}>
+          <button
+            type="button"
+            value="M"
+            onClick={(e) => btnClick(e, handImage.M)}
+          >
             M
           </button>
-          <button type="button" value="N" onClick={(e) => btnClick(e, N)}>
+          <button
+            type="button"
+            value="N"
+            onClick={(e) => btnClick(e, handImage.N)}
+          >
             N
           </button>
-          <button type="button" value="O" onClick={(e) => btnClick(e, O)}>
+          <button
+            type="button"
+            value="O"
+            onClick={(e) => btnClick(e, handImage.O)}
+          >
             O
           </button>
-          <button type="button" value="P" onClick={(e) => btnClick(e, P)}>
+          <button
+            type="button"
+            value="P"
+            onClick={(e) => btnClick(e, handImage.P)}
+          >
             P
           </button>
-          <button type="button" value="Q" onClick={(e) => btnClick(e, Q)}>
+          <button
+            type="button"
+            value="Q"
+            onClick={(e) => btnClick(e, handImage.Q)}
+          >
             Q
           </button>
-          <button type="button" value="R" onClick={(e) => btnClick(e, R)}>
+          <button
+            type="button"
+            value="R"
+            onClick={(e) => btnClick(e, handImage.R)}
+          >
             R
           </button>
-          <button type="button" value="S" onClick={(e) => btnClick(e, S)}>
+          <button
+            type="button"
+            value="S"
+            onClick={(e) => btnClick(e, handImage.S)}
+          >
             S
           </button>
-          <button type="button" value="T" onClick={(e) => btnClick(e, T)}>
+          <button
+            type="button"
+            value="T"
+            onClick={(e) => btnClick(e, handImage.T)}
+          >
             T
           </button>
-          <button type="button" value="U" onClick={(e) => btnClick(e, U)}>
+          <button
+            type="button"
+            value="U"
+            onClick={(e) => btnClick(e, handImage.U)}
+          >
             U
           </button>
-          <button type="button" value="V" onClick={(e) => btnClick(e, V)}>
+          <button
+            type="button"
+            value="V"
+            onClick={(e) => btnClick(e, handImage.V)}
+          >
             V
           </button>
-          <button type="button" value="W" onClick={(e) => btnClick(e, W)}>
+          <button
+            type="button"
+            value="W"
+            onClick={(e) => btnClick(e, handImage.W)}
+          >
             W
           </button>
-          <button type="button" value="X" onClick={(e) => btnClick(e, X)}>
+          <button
+            type="button"
+            value="X"
+            onClick={(e) => btnClick(e, handImage.X)}
+          >
             X
           </button>
-          <button type="button" value="Y" onClick={(e) => btnClick(e, Y)}>
+          <button
+            type="button"
+            value="Y"
+            onClick={(e) => btnClick(e, handImage.Y)}
+          >
             Y
           </button>
-          <button type="button" value="Z" onClick={(e) => btnClick(e, Z)}>
+          <button
+            type="button"
+            value="Z"
+            onClick={(e) => btnClick(e, handImage.Z)}
+          >
             Z
           </button>
         </div>

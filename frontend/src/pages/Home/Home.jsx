@@ -8,69 +8,22 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as fingerpose from "fingerpose";
 import { drawHand } from "../../util/Drawing";
 import GameLoader from "../../components/GameLoader/GameLoader";
-
-import { a } from "../../asl/A";
-import { b } from "../../asl/B";
-import { c } from "../../asl/C";
-import { d } from "../../asl/D";
-import { e } from "../../asl/E";
-import { f } from "../../asl/F";
-import { g } from "../../asl/G";
-import { h } from "../../asl/H";
-import { i } from "../../asl/I";
-import { j } from "../../asl/J";
-import { k } from "../../asl/K";
-import { l } from "../../asl/L";
-import { m } from "../../asl/M";
-import { n } from "../../asl/N";
-import { o } from "../../asl/O";
-import { p } from "../../asl/P";
-import { q } from "../../asl/Q";
-import { r } from "../../asl/R";
-import { s } from "../../asl/S";
-//T asl
-import { u } from "../../asl/U";
-import { v } from "../../asl/V";
-import { w } from "../../asl/W";
-import { x } from "../../asl/X";
-import { y } from "../../asl/Y";
-//z asl
+import { useSelector } from "react-redux";
+import { rightSigns } from "../../util/rightASL/rightSigns";
+import { leftSigns } from "../../util/leftASL/leftSigns";
+import { toast } from "react-toastify";
 
 const Home = () => {
-  const asl = [
-    a,
-    b,
-    c,
-    d,
-    e,
-    f,
-    g,
-    h,
-    i,
-    j,
-    k,
-    l,
-    m,
-    n,
-    o,
-    p,
-    q,
-    r,
-    s,
-    u,
-    v,
-    w,
-    x,
-    y,
-  ];
+  const { user } = useSelector((state) => state.auth);
 
   const cameraRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const [asl, setASL] = useState([]);
   const [handsign, setHandsign] = useState("");
   const [gestureConfidence, setGestureConfidence] = useState(null);
   const [cameraEnable, setCameraEnable] = useState(false);
-  const [loading, setloading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   let hasHand = 0;
 
@@ -79,12 +32,9 @@ const Home = () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraEnable(true);
-
-      //if video feed is available start hand detection
-      startDetection();
     } catch (error) {
       setCameraEnable(false);
-      alert("Cannot access camera!");
+      toast.error("Cannot Access Camera!");
     }
   };
 
@@ -105,7 +55,7 @@ const Home = () => {
 
       const hand = await model.estimateHands(video, true);
 
-      if (loading) setloading(false);
+      if (loading) setLoading(false);
 
       if (hand.length === 0) {
         hasHand++;
@@ -154,11 +104,21 @@ const Home = () => {
   }
 
   useEffect(() => {
-    return () => {
-      checkCamera();
-    };
+    if (cameraEnable) {
+      startDetection();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [cameraEnable]);
+
+  useEffect(() => {
+    if (user.userSettings.hand) {
+      setASL(rightSigns);
+    } else {
+      setASL(leftSigns);
+    }
+    checkCamera();
+    // eslint-disable-next-line
+  }, [cameraEnable]);
 
   return (
     <div className="home">
