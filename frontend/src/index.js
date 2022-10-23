@@ -22,11 +22,10 @@ root.render(
                 position="top-right"
                 autoClose={2000}
                 limit={5}
-                hideProgressBar={true}
+                hideProgressBar={false}
                 newestOnTop={true}
                 closeOnClick
                 rtl={false}
-                pauseOnFocusLoss
                 draggable
                 pauseOnHover
                 theme="dark"

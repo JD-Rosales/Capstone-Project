@@ -67,7 +67,7 @@ const deleteFingerSpell = async (req, res) => {
     const fingerspell = await Fingerspell.findById(req.params.id)
 
     if(!fingerspell){
-      res.status(404).json({ message: 'ID not found!'})
+      return res.status(404).json({ message: 'ID not found!'})
     }
 
     // //check for user

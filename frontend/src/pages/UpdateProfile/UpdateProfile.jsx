@@ -41,7 +41,7 @@ const textfieldStyle = {
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, token, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -64,7 +64,7 @@ const UpdateProfile = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    const userData = {
+    const userInputs = {
       lastName,
       firstName,
       middleInitial,
@@ -72,8 +72,19 @@ const UpdateProfile = () => {
       email,
       image: !selectedImage || selectedImage === "" ? null : selectedImage,
     };
+
+    const userData = {
+      id: user._id,
+      token: token,
+    };
+
+    const params = {
+      userInputs,
+      userData,
+    };
+
     notify();
-    dispatch(updateProfile(userData));
+    dispatch(updateProfile(params));
   };
 
   useEffect(() => {

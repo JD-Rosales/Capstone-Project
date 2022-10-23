@@ -1,7 +1,7 @@
 import "./AccountActivation.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import manageRequestIllustration from "../../../assets/manageRequest.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getUnactivated,
@@ -9,10 +9,10 @@ import {
   reset,
 } from "../../../features/teacher/teacherSlice";
 import {
-  Fade,
-  Modal,
-  Box,
-  Backdrop,
+  deleteAccount,
+  reset as authReset,
+} from "../../../features/auth/authSlice";
+import {
   Typography,
   TableContainer,
   Table,
@@ -22,25 +22,12 @@ import {
   TableRow,
   TableCell,
   Pagination,
-  Button,
   IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 380,
-  background: "#fff",
-  color: "#000",
-  borderRadius: "15px",
-  boxShadow: 20,
-  outline: "none",
-  p: 4,
-  pb: 4,
-};
+import { toast } from "react-toastify";
 
 const textStyle = {
   color: "#fff",
@@ -49,14 +36,94 @@ const textStyle = {
 const AccountActivation = () => {
   const dispatch = useDispatch();
 
-  const { data, isSuccess, isLoading } = useSelector((state) => state.teacher);
+  const toastID = useRef(null);
+  const notify = () =>
+    (toastID.current = toast.loading("Activating Account...", {
+      autoClose: false,
+      position: "top-right",
+    }));
 
-  const [ID, setID] = useState("");
+  const toastID2 = useRef(null);
+  const notify2 = () =>
+    (toastID2.current = toast.loading("Deleting Teacher Account...", {
+      autoClose: false,
+      position: "top-right",
+    }));
+
+  // state from teacherSlice
+  const { data, isSuccess, isError, isLoading, message } = useSelector(
+    (state) => state.teacher
+  );
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      setTableData(data.teachers);
+      toast.update(toastID.current, {
+        render: "Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
+
+    if (isError) {
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+      dispatch(reset());
+    }
+
+    // eslint-disable-next-line
+  }, [data, isSuccess, isError, isLoading, message]);
+
+  // state from authSlice
+  const {
+    user: auth,
+    token,
+    isSuccess: authSuccess,
+    isError: authError,
+    isLoading: authLoading,
+    message: authMessage,
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (authSuccess) {
+      const params = {
+        token,
+      };
+      dispatch(getUnactivated(params));
+      dispatch(authReset());
+      toast.update(toastID2.current, {
+        render: "Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
+
+    if (authError) {
+      dispatch(authReset());
+      toast.update(toastID2.current, {
+        render: authMessage,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+    }
+
+    // eslint-disable-next-line
+  }, [auth, authSuccess, authError, authLoading, authMessage]);
+
+  const [selectedID, setSelectedID] = useState(null);
 
   // State for Table
   const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage] = useState(5);
   const [pageCount, setPageCount] = useState(0);
 
   const handleChangePage = (event, newPage) => {
@@ -65,7 +132,6 @@ const AccountActivation = () => {
 
   useEffect(() => {
     if (tableData.length > 0) {
-      // const count = tableData.length / rowsPerPage;
       const count = tableData.length / rowsPerPage;
 
       setPageCount(Math.ceil(count));
@@ -75,28 +141,37 @@ const AccountActivation = () => {
 
   // State for Table
 
-  const [open, setOpen] = useState(false);
-  const handleModal = () => {
-    setOpen(!open);
+  // State for Menu
+  const [anchorEl, setAnchorEl] = useState(null);
+  const menuOpen = Boolean(anchorEl);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const updateStatus = () => {
-    dispatch(updateAccountStatus(ID));
-    setOpen(false);
+    const params = {
+      id: selectedID,
+      token: token,
+    };
+    notify();
+    dispatch(updateAccountStatus(params));
+  };
+
+  const deleteTeacherAccount = () => {
+    notify2();
+    dispatch(deleteAccount(selectedID));
   };
 
   useEffect(() => {
-    return () => dispatch(getUnactivated());
+    const params = {
+      token,
+    };
+    return () => dispatch(getUnactivated(params));
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (isSuccess) {
-      setTableData(data.teachers);
-      dispatch(reset());
-    }
-    // eslint-disable-next-line
-  }, [data, isSuccess]);
 
   return (
     <div className="account-activation">
@@ -136,7 +211,7 @@ const AccountActivation = () => {
               }}
             >
               <TableRow>
-                <TableCell sx={{ borderTopLeftRadius: "20px" }}>
+                <TableCell sx={{ borderTopLeftRadius: "10px" }}>
                   <Typography sx={textStyle}>Email</Typography>
                 </TableCell>
 
@@ -148,7 +223,7 @@ const AccountActivation = () => {
                   <Typography sx={textStyle}>Full Name</Typography>
                 </TableCell>
 
-                <TableCell align="center" sx={{ borderTopRightRadius: "20px" }}>
+                <TableCell align="center" sx={{ borderTopRightRadius: "10px" }}>
                   <Typography sx={textStyle}>Action</Typography>
                 </TableCell>
               </TableRow>
@@ -190,18 +265,80 @@ const AccountActivation = () => {
 
                       <TableCell align="center" sx={{ padding: 1 }}>
                         <IconButton
+                          id="admin-menu-btn"
+                          aria-controls={menuOpen ? "admin-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={menuOpen ? "true" : undefined}
+                          onClick={(e) => {
+                            setSelectedID(data._id);
+                            handleMenu(e);
+                          }}
                           sx={{
-                            backgroundColor: "var(--aquaGreen)",
                             color: "#fff",
-
+                            transition: "0.3s",
                             "&:hover": {
                               backgroundColor: "var(--aquaGreen)",
-                              opacity: 0.8,
                             },
                           }}
                         >
                           <MenuIcon />
                         </IconButton>
+                        <Menu
+                          id="admin-menu"
+                          anchorEl={anchorEl}
+                          open={menuOpen}
+                          onClose={handleMenuClose}
+                          MenuListProps={{
+                            "aria-labelledby": "admin-menu-btn",
+                          }}
+                          anchorOrigin={{
+                            vertical: "center",
+                            horizontal: "center",
+                          }}
+                          transformOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                          }}
+                          sx={{
+                            backdropFilter: "blur(0.8px)",
+                            ".MuiMenu-paper": {
+                              backgroundColor: "var(--aquaGreen)",
+                              color: "#fff",
+                            },
+                          }}
+                        >
+                          <MenuItem
+                            divider={true}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              paddingX: 5,
+                              color: "green",
+                            }}
+                            onClick={() => {
+                              handleMenuClose();
+                              updateStatus();
+                            }}
+                          >
+                            Activate
+                          </MenuItem>
+                          <MenuItem
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              paddingX: 5,
+                              color: "red",
+                            }}
+                            onClick={() => {
+                              handleMenuClose();
+                              deleteTeacherAccount();
+                            }}
+                          >
+                            Remove
+                          </MenuItem>
+                        </Menu>
                       </TableCell>
                     </TableRow>
                   );
@@ -219,7 +356,9 @@ const AccountActivation = () => {
                     siblingCount={2}
                     color="primary"
                     sx={{
-                      // color: "white",
+                      ".MuiPaginationItem-text": {
+                        color: "#fff",
+                      },
                       ".css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected":
                         {
                           backgroundColor: "var(--aquaGreen)",
@@ -232,76 +371,6 @@ const AccountActivation = () => {
           </Table>
         </TableContainer>
       </main>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={modalStyle}>
-            <Typography
-              variant="h4"
-              textAlign={"center"}
-              fontWeight="600"
-              lineHeight={"2rem"}
-            >
-              Are you sure you want to activate this account?
-            </Typography>
-
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                textAlign: "center",
-                marginTop: "1.5em",
-              }}
-            >
-              <Button
-                onClick={handleModal}
-                aria-haspopup="true"
-                variant="contained"
-                sx={{
-                  background: "#42C9A3",
-                  height: "40px",
-                  width: "90px",
-                  ":hover": {
-                    bgcolor: "#4283C9",
-                    color: "white",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-
-              <Button
-                onClick={updateStatus}
-                aria-haspopup="true"
-                variant="contained"
-                sx={{
-                  background: "#42C9A3",
-                  marginRight: "10px",
-                  height: "40px",
-                  width: "90px",
-                  marginLeft: "20px",
-                  ":hover": {
-                    bgcolor: "#4283C9",
-                    color: "white",
-                  },
-                }}
-              >
-                Confirm
-              </Button>
-            </Box>
-          </Box>
-        </Fade>
-      </Modal>
     </div>
   );
 };

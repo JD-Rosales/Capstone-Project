@@ -16,7 +16,7 @@ import right_hand_selected from "../../assets/right_hand_selected.png";
 
 const ChooseHand = () => {
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, token, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -31,8 +31,17 @@ const ChooseHand = () => {
     }));
 
   const submit = () => {
+    const params = {
+      userInputs: {
+        hand: isHandActive,
+      },
+      userData: {
+        id: user._id,
+        token: token,
+      },
+    };
     notify();
-    dispatch(updateUserSettings({ hand: isHandActive }));
+    dispatch(updateUserSettings(params));
   };
 
   useEffect(() => {

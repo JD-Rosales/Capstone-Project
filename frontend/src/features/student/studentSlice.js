@@ -9,12 +9,16 @@ const initialState = {
   message: ""
 }
 
-export const getEnrolledStudents = createAsyncThunk('student/getEnrolledStudents', async (data, thunkAPI) => {
+export const getEnrolledStudents = createAsyncThunk('student/getEnrolledStudents', async (params, thunkAPI) => {
   try {
-    const response = await axios.get('/api/student/get-students/' + data)
+    const response = await axios.get('/api/student/get-students/' + params.classCode, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
     if (response.data) {
       return response.data
     }
+
   } catch (error) {
     const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
     return thunkAPI.rejectWithValue(message)

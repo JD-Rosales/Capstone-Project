@@ -3,8 +3,6 @@ const User = require('../models/userModel')
 const randomString = require('randomstring')
 const { cloudinary } = require('../config/cloudinary')
 const { generateToken } = require('../utils/generateToken');
-// const express = require('express')
-// const app = express()
 
 //api/users
 const signUp = async (req, res) => {
@@ -169,6 +167,7 @@ const signUp = async (req, res) => {
 
   } catch (error) {
     console.log(error)
+    return res.status(400).json({message: "An error has occured"})
   }
 }
 
@@ -259,17 +258,32 @@ const login = async (req, res) => {
 
   } catch (error) {
     console.log(error)
+    return res.status(400).json({message: "An error has occured"})
   }
 }
 
 const updateProfile = async (req, res) => {
   try {
-    const { lastName, firstName, middleInitial, school, email, image } = req.body
-
     //check if user exist in the database
     const user = await User.findById(req.params.id).lean().exec()
     if(!user){
       return res.status(404).json({ message: 'User not found!'})
+    }
+
+    const auth = req.user
+
+    // check if user from request header match the user that is currently logged
+    if(!auth._id.equals(user._id)){
+      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    }
+
+    const { lastName, firstName, middleInitial, school, email, image } = req.body
+
+    // if logged user is teacher or student, school field is required
+    if(auth.role === "teacher" || auth.role === "student"){
+      if(!school || school === ""){
+        return res.status(400).json({ message: 'School is required'})
+      }
     }
 
     if (!lastName || lastName === "") {
@@ -278,8 +292,6 @@ const updateProfile = async (req, res) => {
       res.status(400).json({ message: 'First Name is required'})
     } else if (!middleInitial || middleInitial === "") {
       res.status(400).json({ message: 'Middle Initial is required'})
-    } else if (!school || school === "") {
-      res.status(400).json({ message: 'School is required'})
     } else if (!email || email === "") {
       res.status(400).json({ message: 'Email is required'})
     } else {
@@ -298,7 +310,7 @@ const updateProfile = async (req, res) => {
         )
 
         delete updatedUser.password  //remove the password key
-        return res.status(200).json({ user: updatedUser, token: generateToken(user._id) })
+        return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
       } else {
 
         const uploadResponse = await cloudinary.uploader.upload(image, {
@@ -321,7 +333,7 @@ const updateProfile = async (req, res) => {
           )
   
           delete updatedUser.password  //remove the password key
-          return res.status(200).json({ user: updatedUser, token: generateToken(user._id) })
+          return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
 
         } else {
           return res.status(400).json({ message: "An error has occured!" })
@@ -333,16 +345,27 @@ const updateProfile = async (req, res) => {
 
   } catch (error) {
     console.log(error)
+    return res.status(400).json({message: "An error has occured"})
   }
 }
 
 const updateUserSettings = async (req, res) => {
   try {    
+
     //check if user exist in the database
     const user = await User.findById(req.params.id).lean().exec()
     if(!user){
       return res.status(404).json({ message: 'User not found!'})
     } else { 
+
+      const auth = req.user
+
+      // check if user from request header match the user that is currently logged
+      if(!auth._id.equals(user._id)){
+        return res.status(401).json({message: "Unauthorized, invalid credentials"})
+      }
+
+
       if(req.body.hand === undefined){
         return res.status(400).json({ message: 'Please choose hand'})
       }
@@ -359,6 +382,7 @@ const updateUserSettings = async (req, res) => {
     
   } catch (error) {
     console.log(error)
+    return res.status(400).json({message: "An error has occured"})
   }
 }
 
@@ -376,10 +400,17 @@ const changePassword = async (req, res) => {
       return res.status(404).json({ message: 'User not found!'})
     }
 
-    // Check if input password match the old password
-    const auth = await bcrypt.compare(currentPassword, user.password)
+    const auth = req.user
 
-    if (!auth) {
+    // check if user from request header match the user that is currently logged
+    if(!auth._id.equals(user._id)){
+      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    }
+
+    // Check if input password match the old password
+    const isMatch = await bcrypt.compare(currentPassword, user.password)
+
+    if (!isMatch) {
       return res.status(401).json({ message: "Invalid Current Password!"})
     }
 
@@ -387,7 +418,7 @@ const changePassword = async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const hashPassword = await bcrypt.hash(newPassword, salt)
 
-    const updatedPassword = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.params.id,
       {
         "password": hashPassword
@@ -400,7 +431,27 @@ const changePassword = async (req, res) => {
     
   } catch (error) {
     console.log(error)
+    return res.status(400).json({message: "An error has occured"})
   }
+}
+
+//DELETE api/deleteAccount/:id
+const deleteAccount = async (req, res) => {
+  try {
+
+    const user = await User.findById(req.params.id)
+
+    if(!user) {
+      return res.status(404).json({message: "Account not found!"})
+    }
+
+    await user.remove()
+    return res.status(200).json({message: "Account has been deleted"})
+
+  } catch (error) {
+    return res.status(400).json({message: "An error has occured"})
+  }
+  
 }
 
 module.exports = {
@@ -408,5 +459,6 @@ module.exports = {
   login,
   updateProfile,
   updateUserSettings,
-  changePassword
+  changePassword,
+  deleteAccount
 }

@@ -5,17 +5,22 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import Button from "@mui/material/Button";
 import { useSelector, useDispatch } from "react-redux";
 import { getEnrolledStudents } from "../../../features/student/studentSlice";
+import { toast } from "react-toastify";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
 
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const { data, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.student
   );
 
   useEffect(() => {
-    return () => dispatch(getEnrolledStudents(user.userInfo.classCode));
+    const params = {
+      classCode: user.userInfo.classCode,
+      token: token,
+    };
+    return () => dispatch(getEnrolledStudents(params));
     // eslint-disable-next-line
   }, []);
 
@@ -26,7 +31,7 @@ const TeacherDashboard = () => {
     }
 
     if (isError) {
-      alert(message);
+      toast.error(message);
     }
   }, [data, isLoading, isError, isSuccess, message]);
 

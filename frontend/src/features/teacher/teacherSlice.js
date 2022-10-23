@@ -9,9 +9,11 @@ const initialState = {
   message: ""
 }
 
-export const getUnactivated = createAsyncThunk('teacher/getUnactivated', async (thunkAPI) => {
+export const getUnactivated = createAsyncThunk('teacher/getUnactivated', async (params, thunkAPI) => {
   try {
-    const response = await axios.get('/api/teacher/get-unactivated')
+    const response = await axios.get('/api/teacher/get-unactivated', {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
     if (response.data) {
       return response.data
     }
@@ -21,9 +23,12 @@ export const getUnactivated = createAsyncThunk('teacher/getUnactivated', async (
   }
 })
 
-export const updateAccountStatus = createAsyncThunk('teacher/updateAccountStatus', async (id, thunkAPI) => {
+export const updateAccountStatus = createAsyncThunk('teacher/updateAccountStatus', async (params, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/teacher/update-status/' + id)
+    const response = await axios.patch('/api/teacher/update-status/' + params.id, {}, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
     if (response.data) {
       return response.data
     }

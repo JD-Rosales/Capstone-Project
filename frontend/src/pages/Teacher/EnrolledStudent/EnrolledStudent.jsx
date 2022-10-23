@@ -8,12 +8,16 @@ import { CgOptions } from "react-icons/cg";
 const EnrolledStudent = () => {
   const dispatch = useDispatch();
   const { data, isSuccess } = useSelector((state) => state.student);
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
 
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    return () => dispatch(getEnrolledStudents(user.userInfo.classCode));
+    const params = {
+      classCode: user.userInfo.classCode,
+      token: token,
+    };
+    return () => dispatch(getEnrolledStudents(params));
     // eslint-disable-next-line
   }, [dispatch]);
 

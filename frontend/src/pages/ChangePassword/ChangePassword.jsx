@@ -41,7 +41,7 @@ const textfieldStyle = {
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
+  const { user, token, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
 
@@ -60,7 +60,7 @@ const ChangePassword = () => {
   const submit = async (e) => {
     e.preventDefault();
 
-    const userData = {
+    const userInputs = {
       currentPassword: currentPassword,
       newPassword: newPassword,
       newPassword2: newPassword2,
@@ -72,8 +72,16 @@ const ChangePassword = () => {
         position: "top-right",
       });
     } else {
+      const params = {
+        userInputs,
+        userData: {
+          id: user._id,
+          token: token,
+        },
+      };
+
       notify();
-      dispatch(changePassword(userData));
+      dispatch(changePassword(params));
     }
   };
 

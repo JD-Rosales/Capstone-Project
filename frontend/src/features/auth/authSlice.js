@@ -47,10 +47,12 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 })
 
 //Update user profile
-export const updateProfile = createAsyncThunk('auth/updateProfile', async (userData, thunkAPI) => {
+export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/update-profile/' + localUser.user._id, userData)
-
+    const response = await axios.patch('/api/users/update-profile/' + params.userData.id, params.userInputs, {
+      headers: { Authorization: `Bearer ${params.userData.token}` },
+    })
+    
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
       return response.data
@@ -64,9 +66,11 @@ export const updateProfile = createAsyncThunk('auth/updateProfile', async (userD
 })
 
 //Update user settings
-export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', async (userData, thunkAPI) => {
+export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', async (params, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/update-userSettings/' + localUser.user._id, userData)
+    const response = await axios.patch('/api/users/update-userSettings/' + params.userData.id, params.userInputs, {
+      headers: { Authorization: `Bearer ${params.userData.token}` },
+    })
 
     if(response.data) {
       localStorage.setItem('user', JSON.stringify(response.data))
@@ -81,12 +85,32 @@ export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', as
 })
 
 //Change user password
-export const changePassword = createAsyncThunk('auth/changePassword', async (userData, thunkAPI) => {
+export const changePassword = createAsyncThunk('auth/changePassword', async (params, thunkAPI) => {
   try {
-    const response = await axios.patch('/api/users/change-password/' + localUser.user._id, userData)
+    const response = await axios.patch('/api/users/change-password/' + params.userData.id, params.userInputs, {
+      headers: { Authorization: `Bearer ${params.userData.token}` },
+    })
 
     if(response.data) {
       return response.data.user
+    }
+    
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+//Delete user account
+export const deleteAccount = createAsyncThunk('auth/deleteAccount', async (id, thunkAPI) => {
+  try {
+    const response = await axios.delete('/api/users/delete-account/' + id, {
+      headers: { authorization: `Bearer ${localUser.token}` },
+    })
+
+    if(response.data) {
+      return response.data
     }
     
   } catch (error) {
@@ -195,6 +219,20 @@ export const authSlice = createSlice({
         state.token = action.payload.token
       })
       .addCase(updateUserSettings.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      .addCase(deleteAccount.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteAccount.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload.message
+      })
+      .addCase(deleteAccount.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

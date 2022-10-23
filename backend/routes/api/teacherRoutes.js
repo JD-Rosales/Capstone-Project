@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { getUnactivated, updateStatus } = require('../../controllers/teachersController')
+const { protected } = require('../../middlewares/authMiddleware')
 
-// router.post('/get-students', getStudents)
-router.get('/get-unactivated', getUnactivated)
-router.patch('/update-status/:id', updateStatus)
+router.get('/get-unactivated', protected, getUnactivated)
+router.patch('/update-status/:id', protected, updateStatus)
 
 module.exports = router
