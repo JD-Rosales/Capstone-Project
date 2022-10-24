@@ -122,7 +122,7 @@ const Login = () => {
       } else if (user.role === "student") {
         navigate("/student-dashboard");
       } else {
-        navigate("/home");
+        navigate("/asl-translator");
       }
     }
 

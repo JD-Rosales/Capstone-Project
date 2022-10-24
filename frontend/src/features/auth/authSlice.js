@@ -49,6 +49,7 @@ export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) =
 //Update user profile
 export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, thunkAPI) => {
   try {
+    console.log(params)
     const response = await axios.patch('/api/users/update-profile/' + params.userData.id, params.userInputs, {
       headers: { Authorization: `Bearer ${params.userData.token}` },
     })

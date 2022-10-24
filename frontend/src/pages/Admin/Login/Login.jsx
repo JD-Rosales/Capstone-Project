@@ -11,8 +11,8 @@ import {
   TextField,
   Switch,
   Button,
+  styled,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -68,7 +68,7 @@ const Login = () => {
       clearInputs();
       dispatch(reset());
 
-      navigate("/admin");
+      navigate("/manage-games");
     }
 
     if (isError) {

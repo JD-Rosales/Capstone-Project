@@ -7,12 +7,9 @@ import RequireAuth from "./components/RequireAuth"
 import Landing from './pages/Landing/Landing';
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
-import Unauthorized from "./pages/Unauthorized/Unauthorized";
-//bago ini kuys nga mga pages
-import LessonList from "./pages/LessonList/LessonList"
-import Assignment from "./pages/Assignment/Assignment"
 
 // Authenticated Pages
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import Home from './pages/Home/Home';
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
@@ -25,28 +22,28 @@ import Profile from "./pages/Profile/Profile";
 import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChooseHand from "./pages/ChooseHand/ChooseHand";
+import Lesson1 from "./pages/Lessons/Lesson1/Lesson1";
 
 //Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
 import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
 import WaitingApproval from "./pages/WaitingApproval/WaitingApproval";
+import Assignments from "./pages/Teacher/Assignments/Assignments";
 
 //Student Pages
 import StudentDashboard from "./pages/Student/StudentDashboard/StudentDashboard"
 
 //Admin Pages
-import Admin from "./pages/Admin/Admin"
 import AdminSignUp from "./pages/Admin/SignUp/SignUp"
 import AdminLogin from "./pages/Admin/Login/Login"
 import AccountActivation from "./pages/Admin/AccountActivation/AccountActivation";
+import ManageGames from "./pages/Admin/ManageGames/ManageGames";
 
-// 
 // import AdminLogin from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
 import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSpellHandSign";
 import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/AdminFourPicOneWord"
-import AdminManageRequest from "./pages/Administrator/AdminManageRequest/AdminManageRequest";
 
 //Test Pages
 
@@ -64,12 +61,10 @@ function App() {
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="waiting-approval" element={<WaitingApproval />} />
           
-          {/* Lessons Pages */}
-          <Route path="lesson-1" element={<LessonList />} />
 
           {/* Student and General User Routes */}
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
-            <Route path="home" element={<Home />} />
+            <Route path="asl-translator" element={<Home />} />
             <Route path="play-game" element={<Play />} />
             <Route path="practice" element={<Practice />} />
             <Route path="guess-hand-sign" element={<GuessHandSign />} />
@@ -77,6 +72,8 @@ function App() {
             <Route path="spell-hand-sign" element={<SpellHandSign />} />
             <Route path="4-pics-1-word" element={<FourPicOneWord />} />
             <Route path="learn" element={<Learn />} />
+
+            <Route path="/lesson-1" element={<Lesson1 />} />
           </Route>
 
           {/* Authenticated Routes */}
@@ -91,7 +88,8 @@ function App() {
           <Route element={<RequireAuth allowedRoles={["teacher"]} />}>
             <Route path="teacher-dashboard" element={<TeacherDashboard />} />
             <Route path="enrolled-students" element={<EnrolledStudent />} />
-            <Route path="assignment" element={<Assignment />} />
+            <Route path="teacher/assignments" element={<Assignments />} />
+
           </Route>
 
           {/* Student Routes */}
@@ -101,16 +99,14 @@ function App() {
 
           {/* Admin Routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
-            <Route path="admin" element={<Admin />} />
-            <Route path="admin/account-activation" element={<AccountActivation />} />
+            <Route path="account-activation" element={<AccountActivation />} />
+            <Route path="manage-games" element={<ManageGames />} />
           </Route>
 
-          {/* <Route path="/admin-login" element={<AdminLogin />} /> */}
           <Route path="administrator" element={<Administrator />} />
           <Route path="manage-finger-spell" element={<AdminFingerSpell />} />
           <Route path="manage-spell-hand-sign" element={<AdminSpellHandSign />} />
           <Route path="manage-4-pic-1-word" element={<AdminFourPicOneWord />} />
-          <Route path="manage-request" element={<AdminManageRequest />} />
         </Route>
       </Routes>
   );

@@ -3,14 +3,16 @@ import { useState } from "react";
 import logo2 from "../../assets/logo2.png";
 import { Link, useNavigate, NavLink } from "react-router-dom";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillControl } from "react-icons/ai";
+import { IoMdHand } from "react-icons/io";
 import { BiDumbbell } from "react-icons/bi";
 import { RiDashboardFill } from "react-icons/ri";
+import { MdAssignment } from "react-icons/md";
 import { MdPeopleAlt } from "react-icons/md";
 import { FaGamepad } from "react-icons/fa";
-import { GiTeacher } from "react-icons/gi";
 import { RiSettings3Fill } from "react-icons/ri";
-import { HiOutlineUserGroup } from "react-icons/hi";
+import { RiLightbulbFill } from "react-icons/ri";
+import { MdManageAccounts } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
 import { Fade, Modal, Box, Backdrop, Button } from "@mui/material";
@@ -98,8 +100,8 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link to="/assignment">
-                <MdPeopleAlt className="icon" /> <span>Assignments</span>
+              <Link to="/teacher/assignments">
+                <MdAssignment className="icon" /> <span>Assignments</span>
               </Link>
             </li>
           </ul>
@@ -112,58 +114,73 @@ const Sidebar = () => {
             </li>
 
             <li>
+              <Link to="/asl-translator">
+                <IoMdHand className="icon" /> <span>ASL Translator</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="">
+                <MdAssignment className="icon" /> <span>Assignments</span>
+              </Link>
+            </li>
+
+            <li>
               <Link to="/play-game">
                 <FaGamepad className="icon" /> <span>Play a Game</span>
               </Link>
             </li>
 
             <li>
-              <Link to="/lesson-list">
-                <GiTeacher className="icon" /> <span>Learn ASL</span>
+              <Link to="/practice">
+                <BiDumbbell className="icon" /> <span>Practice</span>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/learn">
+                <RiLightbulbFill className="icon" /> <span>Learn ASL</span>
               </Link>
             </li>
           </ul>
         ) : user?.role === "admin" ? (
           <ul>
             <li>
-              <Link to="/admin">
-                <RiDashboardFill className="icon" /> <span>Dashboard</span>
+              <Link to="/manage-games">
+                <AiFillControl className="icon" /> <span>Manage Games</span>
               </Link>
             </li>
 
             <li>
-              <Link to="/admin/account-activation">
-                <HiOutlineUserGroup className="icon" />{" "}
+              <Link to="/account-activation">
+                <MdManageAccounts className="icon" />{" "}
                 <span>Account Activation</span>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="">
-                <RiDashboardFill className="icon" /> <span>Manage Games</span>
               </Link>
             </li>
           </ul>
         ) : (
           <ul>
             <li>
-              <Link to="/home">
-                <AiFillHome className="icon" /> <span>Home</span>
+              <Link to="/asl-translator">
+                <IoMdHand className="icon" /> <span>ASL Translator</span>
               </Link>
             </li>
+
             <li>
               <Link to="/play-game">
                 <FaGamepad className="icon" /> <span>Play a Game!</span>
               </Link>
             </li>
+
             <li>
               <Link to="/practice">
                 <BiDumbbell className="icon" /> <span>Practice</span>
               </Link>
             </li>
+
             <li>
               <Link to="/learn">
-                <BiDumbbell className="icon" /> <span>Learn ASL</span>
+                <RiLightbulbFill className="icon" /> <span>Learn ASL</span>
               </Link>
             </li>
           </ul>

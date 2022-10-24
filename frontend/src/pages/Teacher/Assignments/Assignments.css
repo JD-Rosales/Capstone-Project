@@ -1,0 +1,21 @@
+.teacher-assignments {
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0 30px;
+}
+
+.teacher-assignments header h1 span{
+  color: var(--aquaGreen);
+}
+
+.teacher-assignments header img {
+  height: 200px;
+}
+
+.teacher-assignments main {
+  width: 100%;
+}

@@ -95,13 +95,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  transition: .1s ease-in-out;
 }
 
 .sidebar > .list-container > ul > li > a:hover{
-  background-color: #fff;
-  color: #000;
+  background-color: #f0f0f0;
+  color: var(--aquaGreen);
+  font-weight: bold;
 }
-
 
 /*  */
 .sidebar > .games-list-container {

@@ -1,6 +1,7 @@
 import "./AccountActivation.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import manageRequestIllustration from "../../../assets/manageRequest.png";
+import noDataAvailable_illustration from "../../../assets/noDataAvailable_illustration.png";
 import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -25,12 +26,13 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Box,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { toast } from "react-toastify";
 
 const textStyle = {
-  color: "#fff",
+  color: "#000",
 };
 
 const AccountActivation = () => {
@@ -197,152 +199,218 @@ const AccountActivation = () => {
       </header>
 
       <main>
-        <TableContainer sx={{ marginTop: 2, height: 420 }}>
-          <Table
-            sx={{
-              maxHeight: 330,
-            }}
-          >
+        <TableContainer
+          sx={{
+            marginTop: 2,
+            height: 410,
+            overflow: "hidden",
+            backgroundColor: "#fff",
+          }}
+        >
+          <Table>
             <TableHead
               sx={{
                 backgroundColor: "var(--aquaGreen)",
-                borderTopLeftRadius: "20px",
-                borderTopRightRadius: "20px",
               }}
             >
               <TableRow>
-                <TableCell sx={{ borderTopLeftRadius: "10px" }}>
-                  <Typography sx={textStyle}>Email</Typography>
+                <TableCell>
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Email
+                  </Typography>
                 </TableCell>
 
                 <TableCell>
-                  <Typography sx={textStyle}>School</Typography>
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    School
+                  </Typography>
                 </TableCell>
 
                 <TableCell>
-                  <Typography sx={textStyle}>Full Name</Typography>
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Full Name
+                  </Typography>
                 </TableCell>
 
-                <TableCell align="center" sx={{ borderTopRightRadius: "10px" }}>
-                  <Typography sx={textStyle}>Action</Typography>
+                <TableCell align="center">
+                  <Typography
+                    sx={{
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Action
+                  </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
-            <TableBody sx={{ backgroundColor: "var(--navyBlue)" }}>
-              {tableData
-                .slice(
-                  (page - 1) * rowsPerPage,
-                  (page - 1) * rowsPerPage + rowsPerPage
-                )
-                .map((data) => {
-                  return (
-                    <TableRow
-                      key={data._id}
-                      // sx={{
-                      //   "&:last-child td, &:last-child th": {
-                      //     // border: "0",
-                      //     color: "red",
-                      //   },
-                      // }}
+            <TableBody>
+              {tableData.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: "40px",
+                      }}
                     >
-                      <TableCell sx={{ padding: "0 0 0 5", width: "30%" }}>
-                        <Typography sx={textStyle}>{data.email}</Typography>
-                      </TableCell>
+                      <Typography
+                        variant="h4"
+                        sx={{ color: "var(--aquaGreen)", margin: "10px 0" }}
+                      >
+                        No Data Available
+                      </Typography>
 
-                      <TableCell sx={{ padding: "0 0 0 5", width: "30%" }}>
-                        <Typography sx={textStyle}>
-                          {data.userInfo.school}
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell sx={{ padding: "0 0 0 5", width: "30%" }}>
-                        <Typography sx={textStyle}>
-                          {data.userInfo.lastName + " "}
-                          {data.userInfo.firstName + " "}
-                          {data.userInfo.middleInitial}
-                        </Typography>
-                      </TableCell>
-
-                      <TableCell align="center" sx={{ padding: 1 }}>
-                        <IconButton
-                          id="admin-menu-btn"
-                          aria-controls={menuOpen ? "admin-menu" : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={menuOpen ? "true" : undefined}
-                          onClick={(e) => {
-                            setSelectedID(data._id);
-                            handleMenu(e);
-                          }}
+                      <img
+                        height="150px"
+                        src={noDataAvailable_illustration}
+                        alt="No Data Available"
+                      />
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                tableData
+                  .slice(
+                    (page - 1) * rowsPerPage,
+                    (page - 1) * rowsPerPage + rowsPerPage
+                  )
+                  .map((data) => {
+                    return (
+                      <TableRow key={data._id}>
+                        <TableCell
                           sx={{
-                            color: "#fff",
-                            transition: "0.3s",
-                            "&:hover": {
-                              backgroundColor: "var(--aquaGreen)",
-                            },
+                            padding: "0 0 0 5",
+                            width: "30%",
                           }}
                         >
-                          <MenuIcon />
-                        </IconButton>
-                        <Menu
-                          id="admin-menu"
-                          anchorEl={anchorEl}
-                          open={menuOpen}
-                          onClose={handleMenuClose}
-                          MenuListProps={{
-                            "aria-labelledby": "admin-menu-btn",
-                          }}
-                          anchorOrigin={{
-                            vertical: "center",
-                            horizontal: "center",
-                          }}
-                          transformOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                          }}
+                          <Typography sx={textStyle}>{data.email}</Typography>
+                        </TableCell>
+
+                        <TableCell
                           sx={{
-                            backdropFilter: "blur(0.8px)",
-                            ".MuiMenu-paper": {
-                              backgroundColor: "var(--aquaGreen)",
-                              color: "#fff",
-                            },
+                            padding: "0 0 0 5",
+                            width: "30%",
                           }}
                         >
-                          <MenuItem
-                            divider={true}
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              paddingX: 5,
-                              color: "green",
+                          <Typography sx={textStyle}>
+                            {data.userInfo.school}
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell
+                          sx={{
+                            padding: "0 0 0 5",
+                            width: "30%",
+                          }}
+                        >
+                          <Typography sx={textStyle}>
+                            {data.userInfo.lastName + " "}
+                            {data.userInfo.firstName + " "}
+                            {data.userInfo.middleInitial}
+                          </Typography>
+                        </TableCell>
+
+                        <TableCell align="center" sx={{ padding: 1 }}>
+                          <IconButton
+                            id="admin-menu-btn"
+                            aria-controls={menuOpen ? "admin-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={menuOpen ? "true" : undefined}
+                            onClick={(e) => {
+                              setSelectedID(data._id);
+                              handleMenu(e);
                             }}
-                            onClick={() => {
-                              handleMenuClose();
-                              updateStatus();
+                            sx={{
+                              color: "#000",
+                              transition: "0.3s",
+                              "&:hover": {
+                                backgroundColor: "var(--aquaGreen)",
+                              },
                             }}
                           >
-                            Activate
-                          </MenuItem>
-                          <MenuItem
-                            sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              paddingX: 5,
-                              color: "red",
+                            <MenuIcon />
+                          </IconButton>
+                          <Menu
+                            id="admin-menu"
+                            anchorEl={anchorEl}
+                            open={menuOpen}
+                            onClose={handleMenuClose}
+                            MenuListProps={{
+                              "aria-labelledby": "admin-menu-btn",
                             }}
-                            onClick={() => {
-                              handleMenuClose();
-                              deleteTeacherAccount();
+                            anchorOrigin={{
+                              vertical: "center",
+                              horizontal: "center",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                            sx={{
+                              backgroundColor: "rgba(0, 0, 0, 0.1)",
+                              backdropFilter: "blur(2px)",
+                              ".MuiMenu-paper": {
+                                backgroundColor: "var(--aquaGreen)",
+                                color: "#000",
+                              },
                             }}
                           >
-                            Remove
-                          </MenuItem>
-                        </Menu>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                            <MenuItem
+                              divider={true}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                paddingX: 5,
+                                color: "green",
+                              }}
+                              onClick={() => {
+                                handleMenuClose();
+                                updateStatus();
+                              }}
+                            >
+                              Activate
+                            </MenuItem>
+                            <MenuItem
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                paddingX: 5,
+                                color: "red",
+                              }}
+                              onClick={() => {
+                                handleMenuClose();
+                                deleteTeacherAccount();
+                              }}
+                            >
+                              Remove
+                            </MenuItem>
+                          </Menu>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
+              )}
             </TableBody>
             <TableFooter>
               <TableRow>
@@ -357,7 +425,7 @@ const AccountActivation = () => {
                     color="primary"
                     sx={{
                       ".MuiPaginationItem-text": {
-                        color: "#fff",
+                        color: "#000",
                       },
                       ".css-bf9wz-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected":
                         {

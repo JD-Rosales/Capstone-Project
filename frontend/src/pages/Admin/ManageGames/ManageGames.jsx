@@ -1,24 +1,24 @@
-import "./Play.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import "./ManageGames.css";
+import Sidebar from "../../../components/Sidebar/Sidebar";
 import Carousel from "react-material-ui-carousel";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import playGame_illustration from "../../assets/playGame_illustration.png";
-import fingerSpell_illustration from "../../assets/fingerSpell_illustration.png";
-import guessTheHandSign_illustration from "../../assets/guessTheHandSign_illustration.png";
-import spellHandSign_illustration from "../../assets/spellHandSign_illustration.png";
-import fourpics1word_illustration from "../../assets/fourpics1word_illustration.png";
+import illustration2 from "../../../assets/illustration2.png";
+import fingerSpell_illustration from "../../../assets/fingerSpell_illustration.png";
+import guessTheHandSign_illustration from "../../../assets/guessTheHandSign_illustration.png";
+import spellHandSign_illustration from "../../../assets/spellHandSign_illustration.png";
+import fourpics1word_illustration from "../../../assets/fourpics1word_illustration.png";
 
 const btnStyle = {
   backgroundColor: "var(--aquaGreen)",
 };
 
-const Play = () => {
+const ManageGames = () => {
   const navigate = useNavigate();
   return (
-    <div className="play">
-      <Sidebar isAdmin="false" />
+    <div className="admin-manage-games">
+      <Sidebar />
 
       <header>
         <Grid2
@@ -30,7 +30,7 @@ const Play = () => {
         >
           <Grid2 xs={6}>
             <h1>
-              PLAY A <span>GAME!</span>
+              MANAGE <span>GAMES</span>
             </h1>
 
             <p style={{ marginTop: "10px" }}>
@@ -41,7 +41,7 @@ const Play = () => {
           </Grid2>
 
           <Grid2 xs={6} textAlign="center">
-            <img src={playGame_illustration} alt="Play a Game" />
+            <img src={illustration2} alt="Illustration 2" />
           </Grid2>
         </Grid2>
       </header>
@@ -80,7 +80,11 @@ const Play = () => {
                   justifyContent: "center",
                 }}
               >
-                <img src={fingerSpell_illustration} alt="Finger Spell" />
+                <img
+                  height={200}
+                  src={fingerSpell_illustration}
+                  alt="Finger Spell the Word"
+                />
               </Grid2>
 
               <Grid2
@@ -104,12 +108,12 @@ const Play = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/finger-spell")}
+                  onClick={() => navigate("/test")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
                 >
-                  PLAY
+                  MANAGE
                 </Button>
               </Grid2>
             </Grid2>
@@ -131,6 +135,7 @@ const Play = () => {
                 }}
               >
                 <img
+                  height={200}
                   src={spellHandSign_illustration}
                   alt="Spell the Hand Sign"
                 />
@@ -157,12 +162,12 @@ const Play = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/spell-hand-sign")}
+                  onClick={() => navigate("/test")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
                 >
-                  PLAY
+                  MANAGE
                 </Button>
               </Grid2>
             </Grid2>
@@ -184,6 +189,7 @@ const Play = () => {
                 }}
               >
                 <img
+                  height={200}
                   src={guessTheHandSign_illustration}
                   alt="Guess the Hand Sign"
                 />
@@ -210,12 +216,12 @@ const Play = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/guess-hand-sign")}
+                  onClick={() => navigate("/test")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
                 >
-                  PLAY
+                  MANAGE
                 </Button>
               </Grid2>
             </Grid2>
@@ -236,7 +242,11 @@ const Play = () => {
                   justifyContent: "center",
                 }}
               >
-                <img src={fourpics1word_illustration} alt="4 Pic 1 Word" />
+                <img
+                  height={200}
+                  src={fourpics1word_illustration}
+                  alt="4 Pic 1 Word"
+                />
               </Grid2>
 
               <Grid2
@@ -260,12 +270,12 @@ const Play = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/4-pics-1-word")}
+                  onClick={() => navigate("/test")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
                 >
-                  PLAY
+                  MANAGE
                 </Button>
               </Grid2>
             </Grid2>
@@ -277,4 +287,4 @@ const Play = () => {
   );
 };
 
-export default Play;
+export default ManageGames;

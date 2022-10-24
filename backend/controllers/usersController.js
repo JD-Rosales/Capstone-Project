@@ -247,7 +247,7 @@ const login = async (req, res) => {
           const auth = await bcrypt.compare(password, user.password)
           if(auth) {
             delete user.password  //removes the password key
-            res.status(200).json({ user })
+            res.status(200).json({ user, token: generateToken(user._id) })
           } else {
             res.status(401).json({ message: "Invalid password"})
           }

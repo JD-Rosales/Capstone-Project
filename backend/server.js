@@ -30,6 +30,8 @@ app.use('/api/teacher', require('./routes/api/teacherRoutes'))
 
 app.use('/api/student', require('./routes/api/studentRoutes'))
 
+app.use('/api/assignments', require('./routes/api/assingmentRoutes'))
+
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)
 

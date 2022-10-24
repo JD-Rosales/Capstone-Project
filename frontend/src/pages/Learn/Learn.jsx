@@ -1,5 +1,6 @@
 import "./Learn.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
+import { useNavigate } from "react-router-dom";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import learn_illustration from "../../assets/edit_profile.png"; //needs to change
 import Carousel from "react-material-ui-carousel";
@@ -42,6 +43,7 @@ const CardContentStyle = {
 };
 
 const Learn = () => {
+  const navigate = useNavigate();
   return (
     <div className="learn">
       <Sidebar />
@@ -130,6 +132,9 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    onClick={() => {
+                      navigate("/lesson-1");
+                    }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
