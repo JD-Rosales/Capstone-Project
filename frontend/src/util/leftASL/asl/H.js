@@ -4,20 +4,22 @@ export const h = new GestureDescription("H");
 
 //Thumb
 h.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.5);
-h.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.5); 
+h.addDirection(Finger.Thumb, FingerDirection.HorizontalRight, 1.5); 
 
 //Index
 h.addCurl(Finger.Index, FingerCurl.NoCurl, 1.5);
-h.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.5);
+h.addDirection(Finger.Index, FingerDirection.HorizontalRight, 1.5);
 
 //Middle
 h.addCurl(Finger.Middle, FingerCurl.NoCurl, 1.0);
-h.addDirection(Finger.Middle, FingerDirection.DiagonalUpLeft, 1.0);
+h.addDirection(Finger.Middle, FingerDirection.HorizontalRight, 1.5);
 
 //Ring
 h.addCurl(Finger.Ring, FingerCurl.FullCurl, 1.0);
-h.addDirection(Finger.Ring, FingerDirection.HorizontalLeft, 1.0);
+h.addDirection(Finger.Ring, FingerDirection.HorizontalRight, 0.9);
 
 //Pinky
 h.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
-h.addDirection(Finger.Pinky, FingerDirection.HorizontalLeft, 1.0);
+h.addDirection(Finger.Pinky, FingerDirection.HorizontalRight, 0.9);
+
+

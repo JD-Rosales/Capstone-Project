@@ -3,8 +3,8 @@ import {Finger, FingerCurl, FingerDirection, GestureDescription} from 'fingerpos
 export const i = new GestureDescription("I");
 
 //Thumb
-i.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1.0);
-i.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0); 
+i.addCurl(Finger.Thumb, FingerCurl.HalfCurl, 1.5);
+i.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.5); 
 
 //Index
 i.addCurl(Finger.Index, FingerCurl.FullCurl, 1.0);
@@ -20,4 +20,4 @@ i.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0);
 
 //Pinky
 i.addCurl(Finger.Pinky, FingerCurl.NoCurl, 1.0);
-i.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0);
+i.addDirection(Finger.Pinky, FingerDirection.VerticalUp, 1.0);

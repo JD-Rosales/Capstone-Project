@@ -347,7 +347,7 @@ const GuessHandSign = () => {
       <RightNav
         header="GUESS THE"
         coloredText="HAND SIGN"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
+        text="This game shows various hand-signed images, with the learner guessing which letter/character they are. The learner’s goal is to guess what is in the image from a set of letters provided below the pictures."
       />
     </div>
   );

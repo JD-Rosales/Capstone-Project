@@ -8,12 +8,8 @@
   padding: 0 30px;
 }
 
-.teacher-assignments header h1 span{
+.teacher-assignments h1 span {
   color: var(--aquaGreen);
-}
-
-.teacher-assignments header img {
-  height: 200px;
 }
 
 .teacher-assignments main {
