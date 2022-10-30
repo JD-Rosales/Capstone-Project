@@ -1,5 +1,5 @@
 import "./SignUp.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import back from "../../../assets/back.png";
@@ -14,6 +14,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, register } from "../../../features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -64,6 +65,14 @@ const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [secretCode, setSecretCode] = useState("");
 
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Creating your account....", {
+      autoClose: 10000,
+      position: "top-right",
+    }));
+
   const submit = async (e) => {
     e.preventDefault();
     const userData = {
@@ -81,14 +90,20 @@ const SignUp = () => {
     if (password !== password2) {
       alert("Password do not match");
     } else {
+      notify();
       dispatch(register(userData));
     }
   };
 
   useEffect(() => {
     if (isSuccess) {
+      toast.update(toastID.current, {
+        render: "Account Created Successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
-      alert("Admin Account Created Successfully");
       setLastName("");
       setFirstName("");
       setMiddleInitial("");
@@ -99,7 +114,12 @@ const SignUp = () => {
     }
 
     if (isError) {
-      alert(message);
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
     }
     // eslint-disable-next-line

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const User = require('./userModel')
 
-const teacherAssignmentSchema = mongoose.Schema({
+const assignmentSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -23,16 +23,16 @@ const teacherAssignmentSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  isClose: {
+    type: Boolean,
+    default: false
+  },
   deadline: {
     type: Date,
     required: true,
-  },
-  submitions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }]
+  }
 }, {
   timestamps: true
 })
 
-module.exports = mongoose.model('TeacherAssignment', teacherAssignmentSchema)
+module.exports = mongoose.model('Assignment', assignmentSchema)

@@ -38,6 +38,7 @@ import AdminSignUp from "./pages/Admin/SignUp/SignUp"
 import AdminLogin from "./pages/Admin/Login/Login"
 import AccountActivation from "./pages/Admin/AccountActivation/AccountActivation";
 import ManageGames from "./pages/Admin/ManageGames/ManageGames";
+import ManageFingerspell from "./pages/Admin/ManageGames/Fingerspell/ManageFingerspell";
 
 // import AdminLogin from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
@@ -46,6 +47,7 @@ import AdminSpellHandSign from "./pages/Administrator/AdminSpellHandSign/AdminSp
 import AdminFourPicOneWord from "./pages/Administrator/AdminFourPicOneWord/AdminFourPicOneWord"
 
 //Test Pages
+import Test from "./pages/Test/Test";
 
 function App() {
 
@@ -60,6 +62,8 @@ function App() {
           <Route path="admin/signup" element={<AdminSignUp />} />
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="waiting-approval" element={<WaitingApproval />} />
+
+          <Route path="test" element={<Test />} />
           
 
           {/* Student and General User Routes */}
@@ -101,6 +105,7 @@ function App() {
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
             <Route path="account-activation" element={<AccountActivation />} />
             <Route path="manage-games" element={<ManageGames />} />
+            <Route path="manage-fingerspell" element={<ManageFingerspell />} />
           </Route>
 
           <Route path="administrator" element={<Administrator />} />

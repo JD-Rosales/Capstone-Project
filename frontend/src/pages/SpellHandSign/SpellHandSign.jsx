@@ -1,7 +1,8 @@
 import "./SpellHandSign.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import RightNav from "../../components/RightNav/RightNav";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Countdown, { zeroPad } from "react-countdown";
 import axios from "axios";
 import GameLoader from "../../components/GameLoader/GameLoader";
 import GameEnded from "../../components/GameEnded/GameEnded";
@@ -79,6 +80,9 @@ const SpellHandSign = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
+  const currentDate = Date.now();
+  const [timer, setTimer] = useState(currentDate + 60000);
+
   useEffect(() => {
     if (wordsArray.length !== 0 && !gameEnded) {
       console.log(wordsArray);
@@ -91,6 +95,7 @@ const SpellHandSign = () => {
     if (gameStart && wordsArray.length !== 0) {
       const sum = correct + wrong;
       if (sum === wordsArray.length) {
+        timerRef.current.stop();
         alert("Game Over");
         setGameEnded(true);
       }
@@ -145,6 +150,8 @@ const SpellHandSign = () => {
   const startGame = () => {
     resetGame();
     setGameStart(true);
+    timerRef.current.stop();
+    timerRef.current.start();
     setIsLoading(true);
     fetchWords();
   };
@@ -160,6 +167,7 @@ const SpellHandSign = () => {
     setWrong(0);
     setMinutes(0);
     setSeconds(0);
+    timerRef.current.stop();
   };
 
   const fetchWords = async () => {
@@ -167,16 +175,19 @@ const SpellHandSign = () => {
       .get(baseURL + "/api/spell-hand-sign/" + difficulty)
       .then((result) => {
         if (difficulty === "EASY") {
+          setTimer(Date.now() + 60000);
           setMinutes(1);
           setSeconds(0);
           setWordsArray(getRandomItems(result.data, 5));
           setIsLoading(false);
         } else if (difficulty === "MEDIUM") {
+          setTimer(Date.now() + 60000);
           setMinutes(1);
           setSeconds(0);
           setWordsArray(getRandomItems(result.data, 8));
           setIsLoading(false);
         } else {
+          setTimer(Date.now() + 30000);
           setMinutes(0);
           setSeconds(30);
           setWordsArray(getRandomItems(result.data, 10));
@@ -190,34 +201,34 @@ const SpellHandSign = () => {
   };
 
   //Countdown Timer
-  useEffect(() => {
-    if (gameStart && !gameEnded) {
-      const intervalId = setInterval(() => {
-        if (seconds === 0) {
-          setSeconds(59);
-        }
-        setSeconds(seconds - 1);
-        if (seconds === 0) {
-          setSeconds(59);
-        }
+  // useEffect(() => {
+  //   if (gameStart && !gameEnded) {
+  //     const intervalId = setInterval(() => {
+  //       if (seconds === 0) {
+  //         setSeconds(59);
+  //       }
+  //       setSeconds(seconds - 1);
+  //       if (seconds === 0) {
+  //         setSeconds(59);
+  //       }
 
-        //minutes
-        if (minutes !== 0 && seconds === 0) {
-          setMinutes(minutes - 1);
-        }
+  //       //minutes
+  //       if (minutes !== 0 && seconds === 0) {
+  //         setMinutes(minutes - 1);
+  //       }
 
-        //stop the timer
-        if (minutes === 0 && seconds === 0) {
-          clearInterval(intervalId);
-          setMinutes(0);
-          setSeconds(0);
-          setGameEnded(true);
-          alert("Times Up!");
-        }
-      }, 1000);
-      return () => clearInterval(intervalId);
-    }
-  });
+  //       //stop the timer
+  //       if (minutes === 0 && seconds === 0) {
+  //         clearInterval(intervalId);
+  //         setMinutes(0);
+  //         setSeconds(0);
+  //         setGameEnded(true);
+  //         alert("Times Up!");
+  //       }
+  //     }, 1000);
+  //     return () => clearInterval(intervalId);
+  //   }
+  // });
 
   function getRandomItems(arr, num) {
     const arrCopy = [...arr];
@@ -233,8 +244,20 @@ const SpellHandSign = () => {
 
   function changeDifficulty(e) {
     setDifficulty(e.target.value);
-    // resetGame();
+    resetGame();
   }
+
+  // Timer
+  const timerRef = useRef(null);
+  const renderer = ({ minutes, seconds, milliseconds }) => {
+    return (
+      <span>
+        {zeroPad(minutes)}:{zeroPad(seconds)}:
+        {zeroPad(String(milliseconds).slice(0, 2))}
+      </span>
+    );
+  };
+  // End Timer
 
   return (
     <div className="spell-hand">
@@ -261,7 +284,18 @@ const SpellHandSign = () => {
             <span>
               Time:{" "}
               <span>
-                {minutes}:{seconds}
+                {/* {minutes}:{seconds} */}
+                <Countdown
+                  ref={timerRef}
+                  date={timer}
+                  intervalDelay={0}
+                  precision={1}
+                  renderer={renderer}
+                  autoStart={false}
+                  onComplete={() => {
+                    setGameEnded(true);
+                  }}
+                />
               </span>
             </span>
           </div>

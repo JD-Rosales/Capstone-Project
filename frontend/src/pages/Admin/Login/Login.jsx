@@ -1,7 +1,7 @@
 import "./Login.css";
 import back from "../../../assets/back.png";
 import ReplyAllIcon from "@mui/icons-material/ReplyAll";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, login } from "../../../features/auth/authSlice";
@@ -13,6 +13,7 @@ import {
   Button,
   styled,
 } from "@mui/material";
+import { toast } from "react-toastify";
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -58,6 +59,14 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordShown, setPasswordShown] = useState(false);
 
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Logging in...", {
+      autoClose: 15000,
+      position: "top-right",
+    }));
+
   const clearInputs = () => {
     setEmail("");
     setPassword("");
@@ -66,13 +75,24 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       clearInputs();
+      toast.update(toastID.current, {
+        render: "Login Successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
 
       navigate("/manage-games");
     }
 
     if (isError) {
-      alert(message);
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
     }
     // eslint-disable-next-line
@@ -85,6 +105,7 @@ const Login = () => {
       password,
       role: "admin",
     };
+    notify();
     dispatch(login(userData));
   };
 

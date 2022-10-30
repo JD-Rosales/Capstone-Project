@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getEnrolledStudents } from "../../../features/student/studentSlice";
 import MenuIcon from "@mui/icons-material/Menu";
-import { CgOptions } from "react-icons/cg";
 import noDataAvailable_illustration from "../../../assets/noDataAvailable_illustration.png";
 import {
   Typography,
@@ -65,10 +64,10 @@ const EnrolledStudent = () => {
   };
 
   const updateStatus = () => {
-    const params = {
-      id: selectedID,
-      token: token,
-    };
+    // const params = {
+    //   id: selectedID,
+    //   token: token,
+    // };
     // notify();
     // dispatch(updateAccountStatus(params));
   };
@@ -311,8 +310,8 @@ const EnrolledStudent = () => {
                                 color: "green",
                               }}
                               onClick={() => {
-                                handleMenuClose();
                                 updateStatus();
+                                handleMenuClose();
                               }}
                             >
                               Activate
@@ -326,8 +325,8 @@ const EnrolledStudent = () => {
                                 color: "red",
                               }}
                               onClick={() => {
-                                handleMenuClose();
                                 deleteTeacherAccount();
+                                handleMenuClose();
                               }}
                             >
                               Remove

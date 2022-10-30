@@ -108,7 +108,7 @@ const ManageGames = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/test")}
+                  onClick={() => navigate("/manage-fingerspell")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
