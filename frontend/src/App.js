@@ -39,7 +39,8 @@ import AdminLogin from "./pages/Admin/Login/Login"
 import AccountActivation from "./pages/Admin/AccountActivation/AccountActivation";
 import ManageGames from "./pages/Admin/ManageGames/ManageGames";
 import ManageFingerspell from "./pages/Admin/ManageGames/Fingerspell/ManageFingerspell";
-
+import ManageGuessHandSign from  "./pages/Admin/ManageGames/GuessHandSign/ManageGuessHandSign";
+import ManageSpellHandSign from  "./pages/Admin/ManageGames/SpellHandSign/ManageSpellHandSign";
 // import AdminLogin from './pages/Administrator/Login/Login'
 import Administrator from "./pages/Administrator/Administrator";
 import AdminFingerSpell from "./pages/Administrator/AdminFingerSpell/AdminFingerSpell";
@@ -106,6 +107,9 @@ function App() {
             <Route path="account-activation" element={<AccountActivation />} />
             <Route path="manage-games" element={<ManageGames />} />
             <Route path="manage-fingerspell" element={<ManageFingerspell />} />
+            <Route path="manage-guesshandsign" element={<ManageGuessHandSign    />} />
+            <Route path="manage-spellhandsign" element={<ManageSpellHandSign    />} />
+            
           </Route>
 
           <Route path="administrator" element={<Administrator />} />
