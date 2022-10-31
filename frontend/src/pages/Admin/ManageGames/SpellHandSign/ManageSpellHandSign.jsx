@@ -1,4 +1,4 @@
-import "./ManageGuessHandSign.css";
+import "./ManageSpellHandSign.css";
 import Sidebar from "../../../../components/Sidebar/Sidebar";
 import RightNav from "../../../../components/RightNav/RightNav";
 import { useState, useEffect, useRef } from "react";
@@ -119,7 +119,7 @@ const styles = {
     },
   },
 };
-const ManageGuessHandSign = () => {
+const ManageSpellHandSign = () => {
   const dispatch = useDispatch();
   const { data, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.gameWord
@@ -195,7 +195,7 @@ const ManageGuessHandSign = () => {
     // eslint-disable-next-line
   }, [data, isSuccess, isError, message]);
   return (
-    <div className="manage-guesshandsign">
+    <div className="manage-spellhandsign">
       <Sidebar />
 
       <FormControl fullWidth>
@@ -377,11 +377,11 @@ const ManageGuessHandSign = () => {
 
       <RightNav
         header="MANAGE"
-        coloredText="GUESS THE HAND SIGN"
+        coloredText="SPELL THE HAND SIGN"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
       />
     </div>
   );
 };
 
-export default ManageGuessHandSign;
+export default ManageSpellHandSign;
