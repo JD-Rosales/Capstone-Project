@@ -6,7 +6,6 @@ import { Paper, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import illustration2 from "../../../assets/illustration2.png";
 import fingerSpell_illustration from "../../../assets/fingerSpell_illustration.png";
-import guessTheHandSign_illustration from "../../../assets/guessTheHandSign_illustration.png";
 import spellHandSign_illustration from "../../../assets/spellHandSign_illustration.png";
 import fourpics1word_illustration from "../../../assets/fourpics1word_illustration.png";
 
@@ -49,7 +48,7 @@ const ManageGames = () => {
       <main>
         <Carousel
           autoPlay={true}
-          interval={4000}
+          interval={3000}
           stopAutoPlayOnHover={true}
           navButtonsAlwaysVisible={false}
           fullHeightHover={true}
@@ -162,7 +161,7 @@ const ManageGames = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/test")}
+                  onClick={() => navigate("/manage-spellhandsign")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}
@@ -175,60 +174,6 @@ const ManageGames = () => {
           {/* End Carousel Item 2 */}
 
           {/* Carousel Item 3 */}
-          <Paper
-            elevation={2}
-            sx={{ height: "100%", backgroundColor: "var(--navyBlue)" }}
-          >
-            <Grid2 container spacing={3} sx={{ height: "100%" }}>
-              <Grid2
-                xs={6}
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  height={200}
-                  src={guessTheHandSign_illustration}
-                  alt="Guess the Hand Sign"
-                />
-              </Grid2>
-
-              <Grid2
-                xs={6}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  padding: "0 40px",
-                }}
-              >
-                <h2>
-                  <span>GUESS THE</span> HAND SIGN
-                </h2>
-
-                <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
-                </p>
-
-                <Button
-                  onClick={() => navigate("/test")}
-                  variant="contained"
-                  size="large"
-                  sx={btnStyle}
-                >
-                  MANAGE
-                </Button>
-              </Grid2>
-            </Grid2>
-          </Paper>
-          {/* End Carousel Item 3 */}
-
-          {/* Carousel Item 4 */}
           <Paper
             elevation={2}
             sx={{ height: "100%", backgroundColor: "var(--navyBlue)" }}
@@ -280,7 +225,7 @@ const ManageGames = () => {
               </Grid2>
             </Grid2>
           </Paper>
-          {/* End Carousel Item 4 */}
+          {/* End Carousel Item 3 */}
         </Carousel>
       </main>
     </div>

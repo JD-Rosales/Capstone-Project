@@ -26,7 +26,37 @@ export const addGameWord = createAsyncThunk('gameWord/addGameWord', async (param
 
 export const getGameWord = createAsyncThunk('gameWord/getGameWord', async (params, thunkAPI) => {
   try {
-    const response = await axios.get('/api/game-word', {
+    const response = await axios.get('/api/game-word/' + params.gameType, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const deleteGameWord = createAsyncThunk('gameWord/deleteGameWord', async (params, thunkAPI) => {
+  try {
+    const response = await axios.delete('/api/game-word/' + params.id, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const updateGameWord = createAsyncThunk('gameWord/updateGameWord', async (params, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/game-word/' + params.id, params, {
       headers: { authorization: `Bearer ${params.token}` },
     })
 
@@ -76,6 +106,36 @@ export const gameWordSlice = createSlice({
         state.data = action.payload
       })
       .addCase(getGameWord.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(deleteGameWord.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteGameWord.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload
+      })
+      .addCase(deleteGameWord.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(updateGameWord.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateGameWord.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload
+      })
+      .addCase(updateGameWord.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

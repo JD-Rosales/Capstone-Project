@@ -120,7 +120,7 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link to="">
+              <Link to="/student-assignments">
                 <MdAssignment className="icon" /> <span>Assignments</span>
               </Link>
             </li>

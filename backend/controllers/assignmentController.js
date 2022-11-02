@@ -10,7 +10,7 @@ const addAssignment = async (req, res) => {
       return res.status(401).json({message: "Unauthorized"})
     }
 
-    const { title, description, wordsArray, date, time} = req.body
+    const { title, description, wordsArray, date, time, timer} = req.body
 
     if(!title || title === ""){
       return res.status(400).json({ message: 'Assignment title is required'})
@@ -20,6 +20,10 @@ const addAssignment = async (req, res) => {
       return res.status(400).json({ message: 'Please assign atleast 1 word/letter'})
     } else if(!date || !time){
       return res.status(400).json({ message: 'Date & Time is required'})
+    } else if(!timer){
+      return res.status(400).json({ message: 'Date & Time is required'})
+    } else if(timer < 30){
+      return res.status(400).json({ message: 'Please input atleast 30 sec timer'})
     }
 
     const currentDate = moment(new Date()).format()
@@ -36,6 +40,8 @@ const addAssignment = async (req, res) => {
       title: title,
       description: description,
       deadline: deadline,
+      timer: timer * 1000,
+      submissions: [],
     })
 
     const assignment = await Assignment.find({ "classCode": auth.userInfo.classCode }).lean()
@@ -48,17 +54,46 @@ const addAssignment = async (req, res) => {
   }
 }
 
-const getAssignments = async () => {
+const getAssignments = async (req, res) => {
   try {
     const auth = req.user
 
-    if(auth.role !== "teacher"){
-      return res.status(401).json({message: "Unauthorized"})
-    }
+    const task = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
 
-    const assignment = await Assignment.find({ "classCode": auth.classCode }).select('-password').lean()
+    const currentDate = moment(new Date()).format()
 
-    return res.status(200).json({ assignment })
+    // convert assignment json object data to array
+    const data = task.map((item) => {
+      return item
+    })
+
+    // filter expired assignment that is less than the current date and time
+    const expiredAssignments = data.filter((item) => {
+      formattedDate = moment(item.deadline).format()
+      return formattedDate <= currentDate
+    })
+
+    // map all expired id into an array
+    const expiredID = expiredAssignments.map((item) => {
+      return item._id
+    })
+
+    await Assignment.updateMany(
+      {
+        _id: {
+          $in: expiredID
+        }
+      },
+      {
+        $set: {
+          isClose: true
+        }
+      }
+    )
+
+    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
+
+    return res.status(200).json({ assignments })
     
   } catch (error) {
     console.log(error)
@@ -67,5 +102,6 @@ const getAssignments = async () => {
 }
 
 module.exports = {
-  addAssignment
+  addAssignment,
+  getAssignments
 }

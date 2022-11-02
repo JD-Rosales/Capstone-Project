@@ -17,13 +17,16 @@ import {
   TextField,
   Divider,
   Paper,
+  Typography,
 } from "@mui/material";
+import { GiNotebook } from "react-icons/gi";
 import moment from "moment";
 import classwork_illustration from "../../../assets/classwork_illustration.png";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addAssignment,
+  getAssignments,
   reset,
 } from "../../../features/assignment/assignmentSlice";
 
@@ -33,6 +36,7 @@ const styles = {
     borderRadius: "15px",
     paddingX: 5,
     paddingY: 2,
+    mt: 3,
   },
   gridImage: {
     height: "150px",
@@ -63,6 +67,21 @@ const styles = {
     outline: "none",
     p: 4,
     pb: 6,
+  },
+  paperStyle: {
+    backgroundColor: "var(--navyBlue)",
+    display: "flex",
+    alignItems: "center",
+    color: "#fff",
+    py: 1,
+    px: 3,
+    borderRadius: "15px",
+    mb: 2,
+  },
+  iconStyle: {
+    fontSize: "40px",
+    color: "var(--aquaGreen)",
+    marginRight: "15px",
   },
   textfieldStyle: {
     mt: 2,
@@ -97,6 +116,7 @@ const Assignments = () => {
   const currentDate = moment(new Date()).format();
   const [date, setDate] = useState(currentDate);
   const [time, setTime] = useState(currentDate);
+  const [timer, setTimer] = useState(30);
 
   const handleDateChange = (newValue) => {
     setDate(moment(newValue).format());
@@ -175,11 +195,22 @@ const Assignments = () => {
       wordsArray: filteredWordsArray,
       date: newDate,
       time: newTime,
+      timer: timer,
       token,
     };
 
     dispatch(addAssignment(params));
   };
+
+  useEffect(() => {
+    const params = {
+      token,
+    };
+    return () => {
+      dispatch(getAssignments(params));
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {
@@ -208,6 +239,22 @@ const Assignments = () => {
     }
     // eslint-disable-next-line
   }, [data, isSuccess, isLoading, isError, message]);
+
+  const convertTimer = (time) => {
+    const timer = time / 60;
+
+    if (timer < 1) {
+      return time + " seconds";
+    } else {
+      return Math.floor(timer) + "min " + (time % 60) + "sec";
+      // return (
+      //   timer.toLocaleString(undefined, {
+      //     minimumFractionDigits: 2,
+      //     maximumFractionDigits: 2,
+      //   }) + " minutes"
+      // );
+    }
+  };
 
   return (
     <div className="teacher-assignments">
@@ -242,6 +289,87 @@ const Assignments = () => {
           >
             ADD ASSIGNMENT
           </Button>
+        </Box>
+
+        <Box
+          sx={{
+            height: "320px",
+            width: "100%",
+            maxHeight: "320px",
+            overflow: "auto",
+            mt: 2,
+          }}
+        >
+          {data
+            ? data.map((item) => {
+                return (
+                  <Paper
+                    elevation={2}
+                    sx={{
+                      ...styles.paperStyle,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <GiNotebook
+                      style={{
+                        ...styles.iconStyle,
+                        color: "var(--aquaGreen)",
+                      }}
+                    />
+                    <Typography
+                      sx={{
+                        mr: 2,
+                        fontSize: "1.5rem",
+                        color: "#fff",
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        ml: "auto",
+                        fontSize: ".9rem",
+                        color: "#fff",
+                      }}
+                    >
+                      {item.deadline}
+                    </Typography>
+                  </Paper>
+                );
+              })
+            : ""}
+          {/* <Paper
+            elevation={2}
+            sx={{
+              ...styles.paperStyle,
+              cursor: "pointer",
+            }}
+          >
+            <GiNotebook
+              style={{
+                ...styles.iconStyle,
+                color: "var(--aquaGreen)",
+              }}
+            />
+            <Typography
+              sx={{
+                mr: 2,
+                fontSize: "1.5rem",
+                color: "#fff",
+              }}
+            >
+              Test1
+            </Typography>
+            <Typography
+              sx={{
+                ml: "auto",
+                fontSize: ".9rem",
+                color: "#fff",
+              }}
+            >
+              Test2
+            </Typography>
+          </Paper> */}
         </Box>
       </main>
 
@@ -286,8 +414,8 @@ const Assignments = () => {
                   name="description"
                   fullWidth
                   multiline
-                  rows={10}
-                  sx={{ ...styles.textfieldStyle }}
+                  rows={8}
+                  sx={{ ...styles.textfieldStyle, mb: 2 }}
                   InputProps={{ sx: { height: "auto" } }}
                   value={assignmentData.description}
                   onChange={(e) => {
@@ -297,6 +425,33 @@ const Assignments = () => {
                     });
                   }}
                 />
+
+                <Paper elevation={0}>
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DesktopDatePicker
+                      label="Deadline Date"
+                      inputFormat="MM/DD/YYYY"
+                      disablePast={true}
+                      value={date}
+                      onChange={handleDateChange}
+                      renderInput={(params) => (
+                        <TextField {...params} sx={{ width: "50%" }} />
+                      )}
+                    />
+
+                    <TimePicker
+                      label="Deadline Time"
+                      value={time}
+                      onChange={handleTimeChange}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          sx={{ width: "45%", marginLeft: "5%" }}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
+                </Paper>
               </Grid>
               <Grid item={true} xs={6}>
                 <Box
@@ -327,31 +482,21 @@ const Assignments = () => {
                 </Box>
 
                 <Divider sx={{ marginY: 2 }} />
-                <Paper elevation={0}>
-                  <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DesktopDatePicker
-                      label="Deadline Date"
-                      inputFormat="MM/DD/YYYY"
-                      disablePast={true}
-                      value={date}
-                      onChange={handleDateChange}
-                      renderInput={(params) => (
-                        <TextField {...params} sx={{ width: "50%" }} />
-                      )}
-                    />
 
-                    <TimePicker
-                      label="Deadline Time"
-                      value={time}
-                      onChange={handleTimeChange}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          sx={{ width: "45%", marginLeft: "5%" }}
-                        />
-                      )}
-                    />
-                  </LocalizationProvider>
+                <Paper elevation={0}>
+                  <TextField
+                    label="Timer"
+                    type="number"
+                    name="timer"
+                    helperText={"Assignment Timer: " + convertTimer(timer)}
+                    fullWidth
+                    sx={{ ...styles.textfieldStyle, marginTop: 1 }}
+                    InputProps={{ sx: { height: 50 } }}
+                    value={timer}
+                    onChange={(e) => {
+                      setTimer(e.target.value);
+                    }}
+                  />
                 </Paper>
 
                 <Button

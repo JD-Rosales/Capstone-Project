@@ -1,0 +1,10 @@
+.assignment-complete {
+  height: 100%;
+  width: 100%;
+  background-color: var(--aquaGreen);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}

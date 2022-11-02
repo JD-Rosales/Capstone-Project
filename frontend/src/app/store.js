@@ -5,6 +5,7 @@ import studentReducer from "../features/student/studentSlice"
 import adminReducer from "../features/admin/adminSlice"
 import assignmentReducer from "../features/assignment/assignmentSlice"
 import gameWordReducer from "../features/gameWord/gameWordSlice"
+import submissionReducer from "../features/submission/submissionSlice"
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     student: studentReducer,
     admin: adminReducer,
     assignment: assignmentReducer,
-    gameWord: gameWordReducer
+    gameWord: gameWordReducer,
+    submission: submissionReducer
   }
 })
