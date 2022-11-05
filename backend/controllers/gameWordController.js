@@ -34,9 +34,9 @@ const addGameWord = async (req, res) => {
 const getGameWord = async (req, res) => {
   try {
     const auth = req.user
-    if(auth.role !== "admin"){
-      return res.status(401).json({message: "Unauthorized"})
-    }
+    // if(auth.role !== "admin"){
+    //   return res.status(401).json({message: "Unauthorized"})
+    // }
 
     const gameWord = await GameWord.find({ "gameType": req.params.gameType })
 

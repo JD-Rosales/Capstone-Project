@@ -1,12 +1,17 @@
 const mongoose = require('mongoose')
+const Assignment = require('./assignmentModel')
 const User = require('./userModel')
 
 const submissionSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    unique: true,
-    ref: User,
+    ref: 'User',
+  },
+  assignment: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Assignment'
   },
   timeLeft: {
     type: String,
@@ -19,6 +24,10 @@ const submissionSchema = mongoose.Schema({
   date: {
     type: Date,
     required: true,
+  },
+  late: {
+    type: Boolean,
+    default: false,
   }
 }, {
   timestamps: true

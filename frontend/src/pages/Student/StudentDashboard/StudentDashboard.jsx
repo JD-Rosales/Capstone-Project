@@ -3,6 +3,8 @@ import student2 from "../../../assets/student2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
+import Carousel from "react-material-ui-carousel";
+import { facts } from "../../../util/ASLFacts";
 
 const TeacherDashboard = () => {
   const { user } = useSelector((state) => state.auth);
@@ -13,15 +15,24 @@ const TeacherDashboard = () => {
       <main>
         <div className="header-container">
           <div className="text-container">
-            <h1>
-              Welcome Back, <span>{user.userInfo.firstName + "!"}</span>
-            </h1>
-
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum
-              eum voluptate dicta, assumenda recusandae tempora quia porro
-              exercitationem.
-            </p>
+            <h2 style={{ marginTop: "10px" }}>
+              DID YOU <span style={{ color: "var(--aquaGreen)" }}>KNOW</span>?
+            </h2>
+            <Carousel
+              autoPlay={true}
+              interval={6000}
+              stopAutoPlayOnHover={false}
+              navButtonsAlwaysVisible={false}
+              navButtonsAlwaysInvisible={true}
+              indicators={false}
+              fullHeightHover={true}
+              animation="slide"
+              height={130}
+            >
+              {facts.map((fact) => {
+                return <p style={{ fontSize: ".9rem" }}>{fact}</p>;
+              })}
+            </Carousel>
           </div>
 
           <div className="img-container">

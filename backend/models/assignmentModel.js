@@ -44,6 +44,10 @@ const assignmentSchema = mongoose.Schema({
     submission: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Submision
+    },
+    late: {
+      type: Boolean,
+      default: false
     }
   }],
 }, {

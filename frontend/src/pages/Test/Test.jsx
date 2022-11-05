@@ -4,6 +4,7 @@ import Countdown, {
   calcTimeDelta,
   formatTimeDelta,
 } from "react-countdown";
+import SkeletonLoader from "../../components/Loader/SkeletonLoader";
 
 // Random component
 const Completionist = () => <span>You are good to go!</span>;
@@ -86,6 +87,10 @@ const Test = () => {
       >
         Stop Timer
       </button>
+
+      <div style={{ height: "500px", width: "500px" }}>
+        <SkeletonLoader />
+      </div>
     </div>
   );
 };

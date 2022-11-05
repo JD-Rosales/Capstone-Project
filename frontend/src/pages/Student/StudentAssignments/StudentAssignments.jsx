@@ -10,6 +10,7 @@ import {
   getAssignments,
   reset,
 } from "../../../features/assignment/assignmentSlice";
+import SkeletonLoader from "../../../components/Loader/SkeletonLoader";
 import moment from "moment";
 
 const styles = {
@@ -41,19 +42,17 @@ const styles = {
 
 const StudentAssignments = () => {
   const navigate = useNavigate();
-  const { data, isSuccess, isError, message } = useSelector(
+  const { data, isSuccess, isError, isLoading, message } = useSelector(
     (state) => state.assignment
   );
-  const { token } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const params = {
       token,
     };
-    return () => {
-      dispatch(getAssignments(params));
-    };
+    dispatch(getAssignments(params));
     // eslint-disable-next-line
   }, []);
 
@@ -68,6 +67,75 @@ const StudentAssignments = () => {
     }
     // eslint-disable-next-line
   }, [data, isSuccess, isError, message]);
+
+  const renderAssignments = (array) => {
+    const assignments = array.map((item) => {
+      return (
+        <Paper
+          onClick={() => {
+            navigate("/student-classwork", { state: item });
+          }}
+          elevation={2}
+          sx={{
+            ...styles.paperStyle,
+            cursor: "pointer",
+            transition: ".3s",
+            ":hover": { backgroundColor: !item.isClose ? "" : "" },
+          }}
+          key={item._id}
+        >
+          <GiNotebook
+            style={{
+              ...styles.iconStyle,
+              color: item.isClose ? "#df5c61" : "var(--aquaGreen)",
+            }}
+          />
+          <Typography
+            sx={{
+              mr: 2,
+              fontSize: "1.5rem",
+              color: "#fff",
+            }}
+          >
+            {item.title}
+          </Typography>
+
+          <Typography
+            sx={{
+              mr: 2,
+              fontSize: "1rem",
+              color: item.isClose ? "#df5c61" : "#fff",
+            }}
+          >
+            {item.submissions.map((data) => {
+              if (data.student === user._id) {
+                if (data.late) {
+                  return "(Turned in late)";
+                } else {
+                  return "(Turned in)";
+                }
+              } else {
+                return null;
+              }
+            })}
+          </Typography>
+
+          <Typography
+            sx={{
+              ml: "auto",
+              fontSize: ".9rem",
+              color: item.isClose ? "#df5c61" : "#fff",
+            }}
+          >
+            {moment(item.deadline).format("LL")}{" "}
+            {moment(item.deadline).format("h:mma")}
+          </Typography>
+        </Paper>
+      );
+    });
+
+    return assignments;
+  };
 
   return (
     <div className="student-assignments">
@@ -115,54 +183,7 @@ const StudentAssignments = () => {
           mt: 4,
         }}
       >
-        {data
-          ? data.map((item) => {
-              return (
-                <Paper
-                  onClick={() => {
-                    if (!item.isClose) {
-                      navigate("/student-classwork", { state: item });
-                    }
-                  }}
-                  elevation={2}
-                  sx={{
-                    ...styles.paperStyle,
-                    cursor: !item.isClose ? "pointer" : "",
-                    transition: ".3s",
-                    ":hover": { backgroundColor: !item.isClose ? "" : "" },
-                  }}
-                  key={item._id}
-                >
-                  <GiNotebook
-                    style={{
-                      ...styles.iconStyle,
-                      color: item.isClose ? "gray" : "var(--aquaGreen)",
-                    }}
-                  />
-                  <Typography
-                    sx={{
-                      mr: 2,
-                      fontSize: "1.5rem",
-                      color: item.isClose ? "gray" : "#fff",
-                    }}
-                  >
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      ml: "auto",
-                      fontSize: ".9rem",
-                      color: item.isClose ? "gray" : "#fff",
-                      textDecoration: item.isClose ? "line-through" : "none",
-                    }}
-                  >
-                    {moment(item.deadline).format("LL")}{" "}
-                    {moment(item.deadline).format("h:mma")}
-                  </Typography>
-                </Paper>
-              );
-            })
-          : ""}
+        {isLoading ? <SkeletonLoader /> : data ? renderAssignments(data) : ""}
       </Box>
     </div>
   );

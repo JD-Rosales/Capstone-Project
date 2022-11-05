@@ -171,7 +171,7 @@ const AccountActivation = () => {
     const params = {
       token,
     };
-    return () => dispatch(getUnactivated(params));
+    dispatch(getUnactivated(params));
     // eslint-disable-next-line
   }, []);
 

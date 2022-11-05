@@ -25,6 +25,22 @@ export const addSubmission = createAsyncThunk('submission/addSubmission', async 
   }
 })
 
+export const checkSubmission = createAsyncThunk('submission/checkSubmission', async (params, thunkAPI) => {
+  try {
+    const response = await axios.get('/api/submission/' + params.assignmentID, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const submissionSlice = createSlice({
   name: 'submission',
   initialState,
@@ -44,9 +60,24 @@ export const submissionSlice = createSlice({
       .addCase(addSubmission.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
-        state.data = action.payload.assignments
+        state.data = action.payload.submission
       })
       .addCase(addSubmission.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(checkSubmission.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(checkSubmission.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload.submission
+      })
+      .addCase(checkSubmission.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

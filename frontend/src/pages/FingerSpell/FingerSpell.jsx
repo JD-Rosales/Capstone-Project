@@ -8,69 +8,26 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as fingerpose from "fingerpose";
 import { drawHand } from "../../util/Drawing";
 import GameLoader from "../../components/GameLoader/GameLoader";
-import axios from "axios";
-
-import { a } from "../../asl/A";
-import { b } from "../../asl/B";
-import { c } from "../../asl/C";
-import { d } from "../../asl/D";
-import { e } from "../../asl/E";
-import { f } from "../../asl/F";
-import { g } from "../../asl/G";
-import { h } from "../../asl/H";
-import { i } from "../../asl/I";
-import { j } from "../../asl/J";
-import { k } from "../../asl/K";
-import { l } from "../../asl/L";
-import { m } from "../../asl/M";
-import { n } from "../../asl/N";
-import { o } from "../../asl/O";
-import { p } from "../../asl/P";
-import { q } from "../../asl/Q";
-import { r } from "../../asl/R";
-import { s } from "../../asl/S";
-//T asl
-import { u } from "../../asl/U";
-import { v } from "../../asl/V";
-import { w } from "../../asl/W";
-import { x } from "../../asl/X";
-import { y } from "../../asl/Y";
-//z asl
+import { toast } from "react-toastify";
+import { rightSigns } from "../../util/rightASL/rightSigns";
+import { leftSigns } from "../../util/leftASL/leftSigns";
+import Countdown, { zeroPad } from "react-countdown";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, getGameWord } from "../../features/gameWord/gameWordSlice";
 
 const FingerSpell = () => {
-  // const baseURL = "";
-  const baseURL = "http://localhost:5000";
+  const dispatch = useDispatch();
+  const { data, isError, isSuccess, message } = useSelector(
+    (state) => state.gameWord
+  );
+  const gameType = "fingerspell";
 
-  const asl = [
-    a,
-    b,
-    c,
-    d,
-    e,
-    f,
-    g,
-    h,
-    i,
-    j,
-    k,
-    l,
-    m,
-    n,
-    o,
-    p,
-    q,
-    r,
-    s,
-    u,
-    v,
-    w,
-    x,
-    y,
-  ];
+  const { user, token } = useSelector((state) => state.auth);
 
   const cameraRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const [asl, setASL] = useState([]);
   const [handsign, setHandsign] = useState(null);
   const [gameStart, setGameStart] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
@@ -83,6 +40,30 @@ const FingerSpell = () => {
   const [currentWord, setCurrentWord] = useState(null);
   const [wordIndex, setWordIndex] = useState(0);
   const [letterIndex, setLetterIndex] = useState(0);
+
+  const currentDate = Date.now();
+  const [timer, setTimer] = useState(currentDate);
+
+  // Timer
+  const timerRef = useRef(null);
+  const renderer = ({ minutes, seconds, milliseconds }) => {
+    return (
+      <span>
+        {zeroPad(minutes)}:{zeroPad(seconds)}:
+        {zeroPad(String(milliseconds).slice(0, 2))}
+      </span>
+    );
+  };
+  // End Timer
+
+  // start timer if model is loaded and the game is started
+  useEffect(() => {
+    const gameTimer = timerRef.current;
+    if (gameStart && !loading && timer !== currentDate && !gameLoading) {
+      gameTimer.start();
+    }
+    // eslint-disable-next-line
+  }, [timer, loading, gameStart]);
 
   useEffect(() => {
     if (wordsArray.length !== 0 && currentWord && !gameEnded) {
@@ -114,7 +95,12 @@ const FingerSpell = () => {
     resetGame();
     setGameStart(true);
     setGameLoading(true);
-    fetchWords();
+
+    const params = {
+      token: token,
+      gameType: gameType,
+    };
+    dispatch(getGameWord(params));
   };
 
   const resetGame = () => {
@@ -124,6 +110,8 @@ const FingerSpell = () => {
     setWordIndex(0);
     setLetterIndex(0);
     setGameEnded(false);
+    timerRef.current.stop();
+    setTimer(currentDate);
   };
 
   function changeDifficulty(e) {
@@ -131,26 +119,30 @@ const FingerSpell = () => {
     resetGame();
   }
 
-  const fetchWords = async () => {
-    await axios
-      .get(baseURL + "/api/fingerspell/" + difficulty)
-      .then((result) => {
-        if (difficulty === "EASY") {
-          setWordsArray(getRandomItems(result.data, 5));
-          setGameLoading(false);
-        } else if (difficulty === "MEDIUM") {
-          setWordsArray(getRandomItems(result.data, 8));
-          setGameLoading(false);
-        } else {
-          setWordsArray(getRandomItems(result.data, 10));
-          setGameLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      setGameLoading(false);
+      if (difficulty === "EASY") {
+        setTimer(Date.now() + 90000);
+        setWordsArray(getRandomItems(data, 5));
         setGameLoading(false);
-      });
-  };
+      } else if (difficulty === "MEDIUM") {
+        setWordsArray(getRandomItems(data, 8));
+        setGameLoading(false);
+      } else {
+        setWordsArray(getRandomItems(data, 10));
+        setGameLoading(false);
+      }
+    }
+
+    if (isError) {
+      dispatch(reset());
+      setGameLoading(false);
+      toast.error(message);
+    }
+    // eslint-disable-next-line
+  }, [data, isError, isSuccess, message]);
 
   const renderLetters = () => {
     if (currentWord) {
@@ -189,12 +181,9 @@ const FingerSpell = () => {
     try {
       await navigator.mediaDevices.getUserMedia({ video: true });
       setCameraEnable(true);
-
-      //if video feed is available start hand detection
-      startDetection();
     } catch (error) {
       setCameraEnable(false);
-      alert("Cannot access camera!");
+      toast.error("Cannot Access Camera!");
     }
   };
 
@@ -239,6 +228,7 @@ const FingerSpell = () => {
           const max = Math.max(...arrConfidence);
 
           const highestConfidence = arrConfidence.indexOf(max);
+          // console.log(gesture.gestures[highestConfidence].name)
 
           setHandsign(gesture.gestures[highestConfidence].name);
         }
@@ -255,11 +245,23 @@ const FingerSpell = () => {
   }
 
   useEffect(() => {
-    return () => {
-      checkCamera();
-    };
+    if (cameraEnable) {
+      startDetection();
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [cameraEnable]);
+
+  useEffect(() => {
+    if (user.userSettings.hand) {
+      setASL(rightSigns);
+      // setHandImage(rightImages);
+    } else {
+      setASL(leftSigns);
+      // setHandImage(leftImages);
+    }
+    checkCamera();
+    // eslint-disable-next-line
+  }, [cameraEnable]);
 
   return (
     <div className="finger-spell">
@@ -278,7 +280,20 @@ const FingerSpell = () => {
             </span>
 
             <span>
-              Time: <span>1:30</span>
+              Time:{" "}
+              <span>
+                <Countdown
+                  ref={timerRef}
+                  date={timer}
+                  intervalDelay={0}
+                  precision={2}
+                  renderer={renderer}
+                  autoStart={false}
+                  onComplete={() => {
+                    setGameEnded(true);
+                  }}
+                />
+              </span>
             </span>
           </div>
 

@@ -44,9 +44,10 @@ const addAssignment = async (req, res) => {
       submissions: [],
     })
 
-    const assignment = await Assignment.find({ "classCode": auth.userInfo.classCode }).lean()
+    // const assignment = await Assignment.find({ "classCode": auth.userInfo.classCode }).lean()
+    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
 
-    return res.status(200).json({ assignment })
+    return res.status(200).json({ assignments })
     
   } catch (error) {
     console.log(error)

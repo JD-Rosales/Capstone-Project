@@ -29,6 +29,7 @@ import {
   getAssignments,
   reset,
 } from "../../../features/assignment/assignmentSlice";
+import SkeletonLoader from "./Loader/SkeletonLoader";
 
 const styles = {
   gridContainer: {
@@ -206,9 +207,8 @@ const Assignments = () => {
     const params = {
       token,
     };
-    return () => {
-      dispatch(getAssignments(params));
-    };
+    dispatch(getAssignments(params));
+
     // eslint-disable-next-line
   }, []);
 
@@ -247,12 +247,6 @@ const Assignments = () => {
       return time + " seconds";
     } else {
       return Math.floor(timer) + "min " + (time % 60) + "sec";
-      // return (
-      //   timer.toLocaleString(undefined, {
-      //     minimumFractionDigits: 2,
-      //     maximumFractionDigits: 2,
-      //   }) + " minutes"
-      // );
     }
   };
 
@@ -300,76 +294,64 @@ const Assignments = () => {
             mt: 2,
           }}
         >
-          {data
-            ? data.map((item) => {
-                return (
-                  <Paper
-                    elevation={2}
+          {isLoading ? (
+            <SkeletonLoader />
+          ) : data ? (
+            data.map((item) => {
+              return (
+                <Paper
+                  key={item._id}
+                  elevation={2}
+                  sx={{
+                    ...styles.paperStyle,
+                    cursor: "pointer",
+                  }}
+                >
+                  <GiNotebook
+                    style={{
+                      ...styles.iconStyle,
+                      color: "var(--aquaGreen)",
+                    }}
+                  />
+                  <Typography
                     sx={{
-                      ...styles.paperStyle,
-                      cursor: "pointer",
+                      mr: 2,
+                      fontSize: "1.2rem",
+                      color: "#fff",
                     }}
                   >
-                    <GiNotebook
-                      style={{
-                        ...styles.iconStyle,
-                        color: "var(--aquaGreen)",
-                      }}
-                    />
-                    <Typography
-                      sx={{
-                        mr: 2,
-                        fontSize: "1.5rem",
-                        color: "#fff",
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        ml: "auto",
-                        fontSize: ".9rem",
-                        color: "#fff",
-                      }}
-                    >
-                      {item.deadline}
-                    </Typography>
-                  </Paper>
-                );
-              })
-            : ""}
-          {/* <Paper
-            elevation={2}
-            sx={{
-              ...styles.paperStyle,
-              cursor: "pointer",
-            }}
-          >
-            <GiNotebook
-              style={{
-                ...styles.iconStyle,
-                color: "var(--aquaGreen)",
-              }}
-            />
-            <Typography
-              sx={{
-                mr: 2,
-                fontSize: "1.5rem",
-                color: "#fff",
-              }}
-            >
-              Test1
-            </Typography>
-            <Typography
-              sx={{
-                ml: "auto",
-                fontSize: ".9rem",
-                color: "#fff",
-              }}
-            >
-              Test2
-            </Typography>
-          </Paper> */}
+                    {item.title}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      mr: 2,
+                      fontSize: ".8rem",
+                      color: "#fff",
+                    }}
+                  >
+                    {item.submissions.length
+                      ? item.submissions.length + " submission/s"
+                      : ""}
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      ml: "auto",
+                      fontSize: ".9rem",
+                      color: "#fff",
+                    }}
+                  >
+                    {moment(item.deadline).format("LL")}{" "}
+                    {moment(item.deadline).format("h:mma")}
+                  </Typography>
+                </Paper>
+              );
+            })
+          ) : (
+            ""
+          )}
+          {}
         </Box>
       </main>
 

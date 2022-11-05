@@ -1,6 +1,6 @@
 import "./Classwork.css";
 import Sidebar from "../../../../components/Sidebar/Sidebar";
-import AssignmentCompete from "../../../../components/AssignmentComplete/AssignmentComplete";
+import AssignmentComplete from "../../../../components/AssignmentComplete/AssignmentComplete";
 import { useLocation } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import Camera from "react-webcam";
@@ -15,7 +15,11 @@ import { leftSigns } from "../../../../util/leftASL/leftSigns";
 import { toast } from "react-toastify";
 import Countdown, { zeroPad } from "react-countdown";
 import { useSelector, useDispatch } from "react-redux";
-import { addSubmission } from "../../../../features/submission/submissionSlice";
+import {
+  addSubmission,
+  checkSubmission,
+  reset,
+} from "../../../../features/submission/submissionSlice";
 
 const styles = {
   cameraContainer: {
@@ -54,6 +58,9 @@ const Classwork = () => {
   const canvasRef = useRef(null);
   const { state } = useLocation();
   const { user, token } = useSelector((state) => state.auth);
+  const { data, isSuccess, isError, message } = useSelector(
+    (state) => state.submission
+  );
   const [assigmentData] = useState(state);
 
   const [asl, setASL] = useState([]);
@@ -140,6 +147,20 @@ const Classwork = () => {
     }, 100);
   }
 
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      if (data.length) {
+        setEnded(true);
+      }
+    }
+
+    if (isError) {
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [data, isSuccess, isError, message]);
+
   // start hand dectection when camera is enabled and the game is started
   useEffect(() => {
     if (cameraEnable && started) {
@@ -157,19 +178,18 @@ const Classwork = () => {
     // eslint-disable-next-line
   }, [started, loading]);
 
-  // start timer if modal is loaded and the game is started
+  // start timer if model is loaded and the game is started
   useEffect(() => {
     const gameTimer = timerRef.current;
-    return () => {
-      if (started && !loading && timer !== currentDate) {
-        gameTimer.start();
-      }
-    };
+    if (started && !loading && timer !== currentDate) {
+      gameTimer.start();
+    }
     // eslint-disable-next-line
   }, [timer, loading, started]);
 
   useEffect(() => {
     if (ended) {
+      timerRef.current.pause();
       const timeLeft =
         timerRef.current.state.timeDelta.minutes +
         " minutes " +
@@ -182,15 +202,24 @@ const Classwork = () => {
         timeLeft: timeLeft,
         score: `${index}/${assigmentData.words.length}`,
         date: Date.now(),
+        deadline: assigmentData.deadline,
       };
 
-      console.log(params);
-      dispatch(addSubmission(params));
+      if (!data.length) {
+        dispatch(addSubmission(params));
+      }
     }
     // eslint-disable-next-line
   }, [ended]);
 
   useEffect(() => {
+    // check user submission on component load
+    const params = {
+      assignmentID: assigmentData._id,
+      token: token,
+    };
+    dispatch(checkSubmission(params));
+
     if (user.userSettings.hand) {
       setASL(rightSigns);
     } else {
@@ -216,8 +245,8 @@ const Classwork = () => {
   useEffect(() => {
     if (started && !ended) {
       if (index === assigmentData.words.length) {
-        setEnded(true);
         timerRef.current.pause();
+        setEnded(true);
       } else if (handsign === assigmentData.words[index]) {
         setHandsign(null);
         setIndex(index + 1);
@@ -284,6 +313,7 @@ const Classwork = () => {
 
           <span>
             <span
+              style={{ display: ended ? "none" : "" }}
               onClick={() => {
                 if (!ended) {
                   setStarted(true);
@@ -323,8 +353,30 @@ const Classwork = () => {
             ref={canvasRef}
             style={{ ...styles.canvas, display: ended ? "none" : "" }}
           />
-
-          {ended ? <AssignmentCompete /> : ""}
+          {ended && started ? (
+            <AssignmentComplete
+              data={{
+                timeLeft:
+                  timerRef.current.state.timeDelta.minutes +
+                  " minutes " +
+                  timerRef.current.state.timeDelta.seconds +
+                  " seconds",
+                score: `${index}/${assigmentData.words.length}`,
+                date: Date.now(),
+              }}
+            />
+          ) : ended && data.length ? (
+            <AssignmentComplete
+              data={{
+                timeLeft: data[0].timeLeft,
+                score: data[0].score,
+                date: data[0].date,
+                late: data[0].late,
+              }}
+            />
+          ) : (
+            ""
+          )}
 
           {loading ? <GameLoader /> : ""}
         </div>
