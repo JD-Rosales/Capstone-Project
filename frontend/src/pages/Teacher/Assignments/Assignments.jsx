@@ -30,6 +30,7 @@ import {
   reset,
 } from "../../../features/assignment/assignmentSlice";
 import SkeletonLoader from "./Loader/SkeletonLoader";
+import AssignmentModal from "./Modal/AssignmentModal";
 
 const styles = {
   gridContainer: {
@@ -108,11 +109,17 @@ const styles = {
 };
 
 const Assignments = () => {
+  const dispatch = useDispatch();
   const { data, isSuccess, isLoading, isError, message } = useSelector(
     (state) => state.assignment
   );
   const { token } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+
+  const [modalData, setModalData] = useState(null);
+
+  const handleModalData = (newValue) => {
+    setModalData(newValue);
+  };
 
   const currentDate = moment(new Date()).format();
   const [date, setDate] = useState(currentDate);
@@ -300,6 +307,9 @@ const Assignments = () => {
             data.map((item) => {
               return (
                 <Paper
+                  onClick={() => {
+                    setModalData(item);
+                  }}
                   key={item._id}
                   elevation={2}
                   sx={{
@@ -513,6 +523,13 @@ const Assignments = () => {
           </Box>
         </Fade>
       </Modal>
+
+      {modalData && (
+        <AssignmentModal
+          modalData={modalData}
+          handleModalData={handleModalData}
+        />
+      )}
     </div>
   );
 };

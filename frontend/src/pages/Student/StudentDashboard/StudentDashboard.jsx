@@ -77,9 +77,8 @@ const TeacherDashboard = () => {
             </h1>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Asperiores, dicta voluptatibus? Ipsam fugit maiores vero quaerat
-              numquam.
+              Ensure that you are engaged in your study. Keep track of your
+              improvement to maintain motivation.
             </p>
 
             <Button

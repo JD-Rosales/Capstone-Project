@@ -153,9 +153,9 @@ const StudentAssignments = () => {
             ASSIGN<span style={{ color: "var(--aquaGreen)" }}>MENT</span>
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sequi aut
-            reiciendis nostrum dolorum vel adipisci totam quas, quod quaerat
-            accusantium?
+            Assignments are the basis of the teacher if the learners gained
+            something today, so make sure to ace your assignments, and finish
+            them on time to ensure that you have understood the lesson.
           </p>
         </Grid>
 

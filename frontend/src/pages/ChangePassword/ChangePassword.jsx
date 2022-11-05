@@ -131,9 +131,9 @@ const ChangePassword = () => {
                 CHANGE <br /> <span>PASSWORD</span>
               </h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-                error excepturi, distinctio laborum explicabo suscipit, velit
-                veniam quia voluptatibus quas ipsa numquam dolore.
+                Be confident that your account is protected and secured, make
+                sure your password: • is longer than 8 characters <br />• is a
+                combination of numbers, letters, and special characters
               </p>
             </Grid2>
             <Grid2

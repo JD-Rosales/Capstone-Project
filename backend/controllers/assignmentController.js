@@ -102,7 +102,42 @@ const getAssignments = async (req, res) => {
   }
 }
 
+const updateAssignment = async(req, res) => {
+  try {
+
+    const {title, description} = req.body
+
+    if(!title, !description){
+      return res.status(400).json({message: "Please input all required fields"})
+    }
+
+    const auth = req.user
+
+    if(auth.role !== "teacher"){
+      return res.status(401).json({message: "Unauthorized!"})
+    }
+
+    await Assignment.findByIdAndUpdate(
+      req.params.id,
+      {
+        "title": title,
+        "description": description
+      },
+      {new: true}
+    )
+
+    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
+
+    return res.status(200).json({ assignments })
+
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
 module.exports = {
   addAssignment,
-  getAssignments
+  getAssignments,
+  updateAssignment
 }

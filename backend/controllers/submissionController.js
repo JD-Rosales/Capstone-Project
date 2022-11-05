@@ -60,7 +60,20 @@ const checkSubmission = async (req, res) => {
   }
 }
 
+const getSubmissions = async (req, res) => {
+  try {
+    const submission = await Submission.find({"assignment": req.params.id}).populate('user')
+
+    return res.status(200).json({submission})
+    
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
 module.exports = {
   addSubmission,
-  checkSubmission
+  checkSubmission,
+  getSubmissions
 }

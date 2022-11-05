@@ -64,9 +64,10 @@ const Learn = () => {
                 LEARN <br /> <span>ASL</span>
               </h1>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolor
-                nulla tempora tempore? Modi consectetur perspiciatis ipsum,
-                perferendis minima vitae aliquid!
+                Not sure on how or where to begin learning ASL? Do not sweat!
+                Use these lessons as a guide as you learn American Sign
+                Language, and with some practice, you'll be able to interact
+                with hearing-impaired people.
               </p>
             </Grid2>
             <Grid2
@@ -126,7 +127,7 @@ const Learn = () => {
                       lineHeight: "1rem",
                     }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    INTRODUCTION TO ASL
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -180,7 +181,7 @@ const Learn = () => {
                       lineHeight: "1rem",
                     }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    FACIAL EXPRESSION AND SENTENCE STRUCTURE
                   </Typography>
                 </CardContent>
                 <CardActions>

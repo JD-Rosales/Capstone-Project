@@ -382,7 +382,12 @@ const Practice = () => {
 
       <RightNav
         coloredText="PRACTICE"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
+        text="Practice signing the American Sign Language (ASL) alphabets.
+        
+        How to use:
+        Choose a character from the set of letters below; the ASL equivalent of this letter may be found in the right box labeled as ASL Character, and to see if you are signing correctly, turn on your camera and imitate the one in the photo. On the upper left corner, it will tell you if your camera is enabled and can detect your hand.
+
+        "
       />
     </div>
   );

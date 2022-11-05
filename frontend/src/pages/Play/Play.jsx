@@ -34,9 +34,8 @@ const Play = () => {
             </h1>
 
             <p style={{ marginTop: "10px" }}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore
-              voluptate maiores molestiae architecto magnam odio unde recusandae
-              vel ullam doloremque.
+              If you desire to test your ASL proficiency and take on challenges,
+              you can play a variety of games at your preferred level.
             </p>
           </Grid2>
 
@@ -97,10 +96,9 @@ const Play = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  Words will appear on the screen, and the learner will sign
+                  each letter in the word.
+                  <i> Note: The learner’s camera must be turned on.</i>
                 </p>
 
                 <Button
@@ -150,10 +148,9 @@ const Play = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  There are hand-signed words flashed in the screen. The
+                  learner’s goal is to deduce the word by typing in the box
+                  provided below.
                 </p>
 
                 <Button
@@ -203,10 +200,10 @@ const Play = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  This game shows various hand-signed images, with the learner
+                  guessing which letter/character they are. The learner’s goal
+                  is to guess what is in the image from a set of letters
+                  provided below the pictures.
                 </p>
 
                 <Button
@@ -253,10 +250,16 @@ const Play = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  This game displays four different images linked by a single
+                  word. The learner’s goal is to deduce the word from a set of
+                  letters provided below the pictures.
+                  <br />
+                  <br />
+                  <i>
+                    Twist: The set of letters that can be seen below the
+                    pictures are hand-signed alphabets using American Sign
+                    Language (ASL).
+                  </i>
                 </p>
 
                 <Button

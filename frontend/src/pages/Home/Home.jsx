@@ -175,7 +175,10 @@ const Home = () => {
       <RightNav
         header="SIGN LANUAGE"
         coloredText="TO TEXT TRANSLATOR"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
+        text="It is the same as the practice section, but here you don't have a reference on what letter/character to sign; you can sign any character you want as long as it is being recognized by the system or registered into the database.
+
+        The translation of what you are signing will be shown below.
+        "
       />
     </div>
   );

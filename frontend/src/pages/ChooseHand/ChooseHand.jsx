@@ -87,11 +87,8 @@ const ChooseHand = () => {
                 Choose <br /> <span>Hand</span>
               </h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptate nam, totam minus atque eaque quo iste fugit veritatis
-                impedit, repellat, nemo aperiam similique vel assumenda
-                perspiciatis omnis. Obcaecati nulla commodi dicta itaque laborum
-                consectetur?
+                Which hands are you consistently drawn to? Alter your hand
+                preference based on your dominant hand.
               </p>
             </Grid2>
             <Grid2

@@ -91,13 +91,13 @@ const TeacherDashboard = () => {
 
           <div className="manage-lesson">
             <h1>
-              MANAGE <span>LESSONS</span>
+              MANAGE <span>ASSIGNMENT</span>
             </h1>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Asperiores, dicta voluptatibus? Ipsam fugit maiores vero quaerat
-              numquam.
+              Ensure that the classes run efficiently and that the students are
+              engaged in their study. Keep track of learner involvement to
+              maintain motivation and develop classroom discipline.
             </p>
 
             <Button
