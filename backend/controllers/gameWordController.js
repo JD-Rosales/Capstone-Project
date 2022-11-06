@@ -34,13 +34,31 @@ const addGameWord = async (req, res) => {
 const getGameWord = async (req, res) => {
   try {
     const auth = req.user
-    // if(auth.role !== "admin"){
-    //   return res.status(401).json({message: "Unauthorized"})
-    // }
+    if(auth.role !== "admin"){
+      return res.status(401).json({message: "Unauthorized"})
+    }
 
     const gameWord = await GameWord.find({ "gameType": req.params.gameType })
 
     return res.status(200).json(gameWord)
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
+const getWords = async(req, res) => {
+  try {
+    const {gameType, difficulty} = req.body
+
+    if(!gameType || !difficulty){
+      return res.status(400).json({message: "An error has occured"})
+    }
+
+    const gameWord = await GameWord.find({"gameType": gameType, "difficulty": difficulty})
+
+    return res.status(200).json(gameWord)
+    
   } catch (error) {
     console.log(error)
     return res.status(400).json({message: "An error has occured"})
@@ -62,7 +80,7 @@ const deleteGameWord = async (req, res) => {
       res.status(404).json({ message: 'ID not found!'})
     }
 
-    await findGameWord.remove()
+    await findGameWord.deleteOne()
 
     const gameWord = await GameWord.find({ "gameType": findGameWord.gameType })
 
@@ -121,4 +139,5 @@ module.exports = {
   getGameWord,
   deleteGameWord,
   updateGameWord,
+  getWords
 }

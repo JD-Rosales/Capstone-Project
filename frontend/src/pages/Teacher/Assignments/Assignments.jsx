@@ -171,7 +171,7 @@ const Assignments = () => {
 
   const handleInputChange = (index, e) => {
     let newArray = [...inputFieldArray];
-    newArray[index] = { index: index, value: e.target.value };
+    newArray[index] = { index: index, value: e.target.value.toUpperCase() };
 
     setInputFieldArray(newArray);
   };

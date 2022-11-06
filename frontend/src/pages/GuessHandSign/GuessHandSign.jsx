@@ -1,66 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import RightNav from "../../components/RightNav/RightNav";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./GuessHandSign.css";
-import GameEnded from "../../components/GameEnded/GameEnded";
-
-import A from "../../assets/asl-img/A.png";
-import B from "../../assets/asl-img/B.png";
-import C from "../../assets/asl-img/C.png";
-import D from "../../assets/asl-img/D.png";
-import E from "../../assets/asl-img/E.png";
-import F from "../../assets/asl-img/F.png";
-import G from "../../assets/asl-img/G.png";
-import H from "../../assets/asl-img/H.png";
-import I from "../../assets/asl-img/I.png";
-import J from "../../assets/asl-img/J.png";
-import K from "../../assets/asl-img/K.png";
-import L from "../../assets/asl-img/L.png";
-import M from "../../assets/asl-img/M.png";
-import N from "../../assets/asl-img/N.png";
-import O from "../../assets/asl-img/O.png";
-import P from "../../assets/asl-img/P.png";
-import Q from "../../assets/asl-img/Q.png";
-import R from "../../assets/asl-img/R.png";
-import S from "../../assets/asl-img/S.png";
-import T from "../../assets/asl-img/T.png";
-import U from "../../assets/asl-img/U.png";
-import V from "../../assets/asl-img/V.png";
-import W from "../../assets/asl-img/W.png";
-import X from "../../assets/asl-img/X.png";
-import Y from "../../assets/asl-img/Y.png";
-import Z from "../../assets/asl-img/Z.png";
+import { images as rightImages } from "../../util/rightImages";
+import { images as leftImages } from "../../util/LeftImages";
+import Countdown, { zeroPad } from "react-countdown";
+import GuessHandSignStart from "../../components/Game/GuessHandSign/GuessHandSignStart";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  reset,
+  addLeaderboard,
+} from "../../features/leaderboard/leaderboardSlice";
 
 const GuessHandSign = () => {
-  const asl = [
-    { name: "A", image: A },
-    { name: "B", image: B },
-    { name: "C", image: C },
-    { name: "D", image: D },
-    { name: "E", image: E },
-    { name: "F", image: F },
-    { name: "G", image: G },
-    { name: "H", image: H },
-    { name: "I", image: I },
-    { name: "J", image: J },
-    { name: "K", image: K },
-    { name: "L", image: L },
-    { name: "M", image: M },
-    { name: "N", image: N },
-    { name: "O", image: O },
-    { name: "P", image: P },
-    { name: "Q", image: Q },
-    { name: "R", image: R },
-    { name: "S", image: S },
-    { name: "T", image: T },
-    { name: "U", image: U },
-    { name: "V", image: V },
-    { name: "W", image: W },
-    { name: "X", image: X },
-    { name: "Y", image: Y },
-    { name: "Z", image: Z },
-  ];
+  const dispatch = useDispatch();
+  const { user, token } = useSelector((state) => state.auth);
+  const { data, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.leaderboard
+  );
 
+  const currentDate = Date.now();
+  const [timer, setTimer] = useState(currentDate);
+
+  const [asl, setASL] = useState([]);
   const [letter, setLetter] = useState("");
   const [gameStart, setGameStart] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
@@ -69,8 +31,6 @@ const GuessHandSign = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [difficulty, setDifficulty] = useState("EASY");
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
 
   const renderAsl = () => {
     if (aslArray.length > 0) {
@@ -81,7 +41,7 @@ const GuessHandSign = () => {
   //Test
   useEffect(() => {
     if (aslArray.length > 0) {
-      console.log(aslArray);
+      // console.log(aslArray);
     }
   }, [aslArray]);
 
@@ -90,7 +50,6 @@ const GuessHandSign = () => {
       const sum = correct + wrong;
       if (sum === aslArray.length) {
         setGameEnded(true);
-        alert("Game Over!");
       }
     }
     // eslint-disable-next-line
@@ -104,32 +63,30 @@ const GuessHandSign = () => {
   }, [letter]);
 
   const startGame = () => {
-    resetGame();
-    setGameStart(true);
-    if (difficulty === "EASY") {
-      setMinutes(1);
-      setSeconds(0);
-      setAslArray(getRandomItems(asl, 5));
-    } else if (difficulty === "MEDIUM") {
-      setMinutes(1);
-      setSeconds(0);
-      setAslArray(getRandomItems(asl, 10));
-    } else {
-      setMinutes(0);
-      setSeconds(30);
-      setAslArray(getRandomItems(asl, 15));
+    if (!gameStart) {
+      resetGame();
+      setGameStart(true);
+      if (difficulty === "EASY") {
+        setTimer(Date.now() + 60000);
+        setAslArray(getRandomItems(asl, 5));
+      } else if (difficulty === "MEDIUM") {
+        setTimer(Date.now() + 60000);
+        setAslArray(getRandomItems(asl, 10));
+      } else {
+        setTimer(Date.now() + 30000);
+        setAslArray(getRandomItems(asl, 15));
+      }
     }
   };
 
   const resetGame = () => {
+    setTimer(currentDate);
     setGameStart(false);
     setLetter("");
     setAslArray([]);
     setImgIndex(0);
     setCorrect(0);
     setWrong(0);
-    setMinutes(0);
-    setSeconds(0);
     setGameEnded(false);
   };
 
@@ -174,39 +131,102 @@ const GuessHandSign = () => {
     }
   };
 
-  //Countdown Timer
+  // Timer
+  const timerRef = useRef(null);
+  const renderer = ({ minutes, seconds, milliseconds }) => {
+    return (
+      <span>
+        {zeroPad(minutes)}:{zeroPad(seconds)}:
+        {zeroPad(String(milliseconds).slice(0, 2))}
+      </span>
+    );
+  };
+  // End Timer
+
+  // pause timer if gameEnded
   useEffect(() => {
-    if (gameStart && !gameEnded) {
-      const intervalId = setInterval(() => {
-        if (seconds === 0) {
-          setSeconds(59);
-        }
-        setSeconds(seconds - 1);
-        if (seconds === 0) {
-          setSeconds(59);
-        }
+    if (gameEnded && gameStart) {
+      const endTimer = timerRef.current;
+      endTimer.pause();
 
-        //minutes
-        if (minutes !== 0 && seconds === 0) {
-          setMinutes(minutes - 1);
-        }
-
-        //stop the timer
-        if (minutes === 0 && seconds === 0) {
-          clearInterval(intervalId);
-          setMinutes(0);
-          setSeconds(0);
-          setGameEnded(true);
-          alert("Times Up!");
-        }
-      }, 1000);
-      return () => clearInterval(intervalId);
+      const params = {
+        token: token,
+        gameType: "guesshandsign",
+        difficulty: difficulty,
+        score: correct,
+        time: endTimer.state.timeDelta.total,
+      };
+      dispatch(addLeaderboard(params));
     }
-  });
+    // eslint-disable-next-line
+  }, [gameEnded]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+    }
+
+    if (isError) {
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [data, isSuccess, isError, isLoading, message]);
+
+  // start timer if model is loaded and the game is started
+  useEffect(() => {
+    const gameTimer = timerRef.current;
+    if (gameStart && timer !== currentDate) {
+      gameTimer.start();
+    }
+    // eslint-disable-next-line
+  }, [timer, gameStart]);
+
+  useEffect(() => {
+    const alphabets = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ];
+    if (user.userSettings.hand) {
+      const asl = alphabets.map((item, index) => {
+        return { name: item, image: Object.values(rightImages)[index] };
+      });
+      setASL(asl);
+    } else {
+      const asl = alphabets.map((item, index) => {
+        return { name: item, image: Object.values(leftImages)[index] };
+      });
+      setASL(asl);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="guess-hand-sign">
-      <Sidebar isAdmin="false" />
+      <Sidebar />
 
       <div className="main">
         <div className="top">
@@ -220,8 +240,8 @@ const GuessHandSign = () => {
           </div>
 
           <div className="btn-container">
-            <button onClick={startGame}>START</button>
-            <div className="divider"></div>
+            {/* <button onClick={startGame}>START</button>
+            <div className="divider"></div> */}
             <button onClick={resetGame}>RESET</button>
           </div>
 
@@ -229,23 +249,25 @@ const GuessHandSign = () => {
             <span>
               Time:{" "}
               <span>
-                {minutes}:{seconds}
+                <Countdown
+                  ref={timerRef}
+                  date={timer}
+                  intervalDelay={0}
+                  precision={1}
+                  renderer={renderer}
+                  autoStart={false}
+                  onComplete={() => {
+                    setGameEnded(true);
+                  }}
+                />
               </span>
             </span>
           </div>
         </div>
 
         <div className="asl-container">
-          {gameEnded ? (
-            <GameEnded
-              title="GAME OVER"
-              score={correct}
-              length={aslArray.length}
-              start={startGame}
-            />
-          ) : (
-            renderAsl()
-          )}
+          {renderAsl()}
+          {!gameStart && <GuessHandSignStart start={startGame} />}
         </div>
 
         <div className="bottom">

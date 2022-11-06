@@ -20,7 +20,7 @@ const TeacherDashboard = () => {
       classCode: user.userInfo.classCode,
       token: token,
     };
-    return () => dispatch(getEnrolledStudents(params));
+    dispatch(getEnrolledStudents(params));
     // eslint-disable-next-line
   }, []);
 

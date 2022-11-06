@@ -189,7 +189,8 @@ const Classwork = () => {
 
   useEffect(() => {
     if (ended) {
-      timerRef.current.pause();
+      const gameTimer = timerRef.current;
+      gameTimer.pause();
       const timeLeft =
         timerRef.current.state.timeDelta.minutes +
         " minutes " +

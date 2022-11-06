@@ -34,7 +34,7 @@ const AssignmentModal = ({ modalData, handleModalData }) => {
         aria-describedby="transition-modal-description"
         open={open}
         onClose={closeModal}
-        closeAfterTransition
+        closeAfterTransition={true}
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
@@ -62,6 +62,7 @@ const AssignmentModal = ({ modalData, handleModalData }) => {
               description={modalData.description}
               deadline={modalData.deadline}
               words={modalData.words}
+              closeModal={closeModal}
             />
           </Box>
         </Fade>

@@ -39,6 +39,36 @@ export const getAssignments = createAsyncThunk('assignment/getAssignment', async
   }
 })
 
+export const updateAssignment = createAsyncThunk('assignment/updateAssignment', async (params, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/assignments/update-assignment/' + params.id, params, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
+export const deleteAssignment = createAsyncThunk('assignment/deleteAssignment', async (params, thunkAPI) => {
+  try {
+    const response = await axios.delete('/api/assignments/' + params.id, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const assignmentSlice = createSlice({
   name: 'assignment',
   initialState,
@@ -76,6 +106,36 @@ export const assignmentSlice = createSlice({
         state.data = action.payload.assignments
       })
       .addCase(getAssignments.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(updateAssignment.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateAssignment.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload.assignments
+      })
+      .addCase(updateAssignment.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(deleteAssignment.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteAssignment.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload.assignments
+      })
+      .addCase(deleteAssignment.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

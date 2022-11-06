@@ -21,9 +21,6 @@ app.use(cors({
   credentials: true,
 }))
 
-app.use('/api/fingerspell', require('./routes/api/fingerspellRoutes'))
-app.use('/api/spell-hand-sign', require('./routes/api/spellHandSignRoutes'))
-
 app.use('/api/game-word', require('./routes/api/gameWordRoutes'))
 
 app.use('/api/users', require('./routes/api/userRoutes'))
@@ -35,6 +32,8 @@ app.use('/api/student', require('./routes/api/studentRoutes'))
 app.use('/api/assignments', require('./routes/api/assignmentRoutes'))
 
 app.use('/api/submission', require('./routes/api/submissionRoutes'))
+
+app.use('/api/leaderboard', require('./routes/api/leaderboardRoutes'))
 
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)

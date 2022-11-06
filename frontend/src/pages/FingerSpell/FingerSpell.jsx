@@ -13,7 +13,7 @@ import { rightSigns } from "../../util/rightASL/rightSigns";
 import { leftSigns } from "../../util/leftASL/leftSigns";
 import Countdown, { zeroPad } from "react-countdown";
 import { useSelector, useDispatch } from "react-redux";
-import { reset, getGameWord } from "../../features/gameWord/gameWordSlice";
+import { reset, getWords } from "../../features/gameWord/gameWordSlice";
 
 const FingerSpell = () => {
   const dispatch = useDispatch();
@@ -85,6 +85,7 @@ const FingerSpell = () => {
       else {
         setGameEnded(true);
         setLetterIndex(currentWord.length - 1);
+        timerRef.current.pause();
         alert("Game Ended!");
       }
     }
@@ -92,15 +93,18 @@ const FingerSpell = () => {
   }, [wordsArray, wordIndex]);
 
   const startGame = () => {
-    resetGame();
-    setGameStart(true);
-    setGameLoading(true);
+    if (!gameStart) {
+      resetGame();
+      setGameStart(true);
+      setGameLoading(true);
 
-    const params = {
-      token: token,
-      gameType: gameType,
-    };
-    dispatch(getGameWord(params));
+      const params = {
+        token: token,
+        gameType: gameType,
+        difficulty: difficulty,
+      };
+      dispatch(getWords(params));
+    }
   };
 
   const resetGame = () => {
@@ -116,7 +120,7 @@ const FingerSpell = () => {
 
   function changeDifficulty(e) {
     setDifficulty(e.target.value);
-    resetGame();
+    // resetGame();
   }
 
   useEffect(() => {
@@ -128,9 +132,11 @@ const FingerSpell = () => {
         setWordsArray(getRandomItems(data, 5));
         setGameLoading(false);
       } else if (difficulty === "MEDIUM") {
+        setTimer(Date.now() + 60000);
         setWordsArray(getRandomItems(data, 8));
         setGameLoading(false);
       } else {
+        setTimer(Date.now() + 30000);
         setWordsArray(getRandomItems(data, 10));
         setGameLoading(false);
       }
@@ -254,10 +260,8 @@ const FingerSpell = () => {
   useEffect(() => {
     if (user.userSettings.hand) {
       setASL(rightSigns);
-      // setHandImage(rightImages);
     } else {
       setASL(leftSigns);
-      // setHandImage(leftImages);
     }
     checkCamera();
     // eslint-disable-next-line
@@ -298,8 +302,16 @@ const FingerSpell = () => {
           </div>
 
           <div className="btn-container">
-            <button onClick={startGame}>START</button>
-            <div className="divider"></div>
+            <button
+              onClick={startGame}
+              style={{ display: gameStart ? "none" : "" }}
+            >
+              START
+            </button>
+            <div
+              className="divider"
+              style={{ display: gameStart ? "none" : "" }}
+            ></div>
             <button onClick={resetGame}>RESET</button>
           </div>
 
@@ -326,6 +338,7 @@ const FingerSpell = () => {
             style={{
               height: "100%",
               width: "100%",
+              display: gameEnded ? "none" : "",
             }}
           />
 
@@ -335,6 +348,7 @@ const FingerSpell = () => {
             style={{
               height: "100%",
               width: "100%",
+              display: gameEnded ? "none" : "",
             }}
           />
 
@@ -345,7 +359,7 @@ const FingerSpell = () => {
         <div className="bottom-indicator">
           <span></span>
 
-          <span>
+          <span style={{ visibility: !gameStart ? "hidden" : "" }}>
             {gameEnded ? wordIndex : gameStart ? wordIndex + 1 : 0}/
             {wordsArray.length}
           </span>

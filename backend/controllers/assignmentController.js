@@ -1,4 +1,5 @@
 const Assignment = require('../models/assignmentModel')
+const Submission = require('../models/submissionModel')
 const moment = require('moment');
 // const User = require('../models/userModel')
 
@@ -44,7 +45,6 @@ const addAssignment = async (req, res) => {
       submissions: [],
     })
 
-    // const assignment = await Assignment.find({ "classCode": auth.userInfo.classCode }).lean()
     const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
 
     return res.status(200).json({ assignments })
@@ -136,8 +136,38 @@ const updateAssignment = async(req, res) => {
   }
 }
 
+const deleteAssignment = async(req, res) => {
+  try {
+    const auth = req.user
+
+    if(auth.role !== "teacher"){
+      return res.status(401).json({message: "Unauthorized!"})
+    }
+
+    const assignment = Assignment.findById(req.params.id)
+    if(!assignment){
+      return res.status(404).json({message: 'ID not found'})
+    }
+
+    await assignment.deleteOne()
+
+    // delete all assignment submissions
+    const submission = Submission.find({"assignment": req.params.id})
+    await submission.deleteMany()
+
+    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
+
+    return res.status(200).json({ assignments })
+    
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
 module.exports = {
   addAssignment,
   getAssignments,
-  updateAssignment
+  updateAssignment,
+  deleteAssignment
 }

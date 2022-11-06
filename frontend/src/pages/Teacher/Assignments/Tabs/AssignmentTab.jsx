@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Tab,
@@ -13,15 +12,18 @@ import {
   Grid,
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  getSubmissions,
+  updateAssignment,
+  deleteAssignment,
   reset,
-} from "../../../../features/submission/submissionSlice";
+} from "../../../../features/assignment/assignmentSlice";
 import moment from "moment";
 import { CircularProgress } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import SubmissionTable from "./SubmissionTable";
+import { toast } from "react-toastify";
 
 const styles = {
   text: {
@@ -64,10 +66,11 @@ const AssignmentTab = ({
   description,
   deadline,
   words,
+  closeModal,
 }) => {
   const dispatch = useDispatch();
   const { data, isSuccess, isLoading, isError, message } = useSelector(
-    (state) => state.submission
+    (state) => state.assignment
   );
 
   const [assignmentData, setAssignmentData] = useState({
@@ -82,75 +85,58 @@ const AssignmentTab = ({
     setValue(newValue);
   };
 
+  const toastID = useRef(null);
+  const toastID2 = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Updating...", {
+      autoClose: 15000,
+      position: "top-right",
+    }));
+
+  const notify2 = () =>
+    (toastID2.current = toast.loading("Deleting...", {
+      autoClose: 15000,
+      position: "top-right",
+    }));
+
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
+      toast.update(toastID.current, {
+        render: "Success!",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      toast.update(toastID2.current, {
+        render: "Success!",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+      closeModal();
     }
 
     if (isError) {
       dispatch(reset());
-      alert(message);
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+
+      toast.update(toastID2.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
     // eslint-disable-next-line
   }, [data, isSuccess, isError, isLoading, message]);
-
-  useEffect(() => {
-    const params = {
-      assignmentID: assignmentID,
-      token: token,
-    };
-
-    dispatch(getSubmissions(params));
-    // eslint-disable-next-line
-  }, []);
-
-  const renderSubmission = (arr) => {
-    const submissions = arr.map((item, index) => {
-      return (
-        <TableRow key={item._id}>
-          <TableCell sx={{ color: "var(--aquaGreen)" }}>{index + 1}</TableCell>
-
-          <TableCell>
-            <Typography sx={styles.text}>
-              {item.user.userInfo.firstName + " "}
-              {item.user.userInfo.middleInitial
-                ? item.user.userInfo.middleInitial + "."
-                : ""}
-              {" " + item.user.userInfo.lastName}
-            </Typography>
-          </TableCell>
-
-          <TableCell>
-            <Typography sx={styles.text}>{item.score}</Typography>
-          </TableCell>
-
-          <TableCell>
-            <Typography sx={styles.text}>{item.timeLeft}</Typography>
-          </TableCell>
-
-          <TableCell>
-            <Typography sx={styles.text}>
-              {moment(item.date).format("LL")}{" "}
-              {moment(item.date).format("h:mma")}
-            </Typography>
-          </TableCell>
-
-          <TableCell>
-            <Typography
-              sx={{
-                ...styles.text,
-                color: item.late ? "red" : "var(--aquaGreen)",
-              }}
-            >
-              {item.late ? "LATE" : "ON TIME"}
-            </Typography>
-          </TableCell>
-        </TableRow>
-      );
-    });
-
-    return submissions;
-  };
 
   return (
     <>
@@ -176,7 +162,9 @@ const AssignmentTab = ({
                     <TableCell>Remarks</TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>{renderSubmission(data)}</TableBody>
+                <TableBody>
+                  <SubmissionTable assignmentID={assignmentID} />
+                </TableBody>
               </Table>
             </TableContainer>
             {/* End Table */}
@@ -231,16 +219,29 @@ const AssignmentTab = ({
               <Grid item={true} xs={5}>
                 <Typography sx={{ mt: 2 }}>Letter/Words to Perform:</Typography>
                 <Typography sx={{ fontSize: "1.5rem" }}>
-                  {words.map((word) => {
-                    return word + ", ";
+                  {words.map((word, index) => {
+                    if (index === words.length - 1) {
+                      return word;
+                    } else {
+                      return word + ", ";
+                    }
                   })}
                 </Typography>
               </Grid>
 
               <Grid item={true} xs={12}>
                 <LoadingButton
-                  // onClick={submitGameWord}
-                  // loading={isLoading}
+                  onClick={() => {
+                    const params = {
+                      id: assignmentID,
+                      title: assignmentData.title,
+                      description: assignmentData.description,
+                      token: token,
+                    };
+                    notify();
+                    dispatch(updateAssignment(params));
+                  }}
+                  loading={isLoading}
                   loadingIndicator={
                     <CircularProgress size="2em" sx={{ color: "#182240" }} />
                   }
@@ -252,8 +253,14 @@ const AssignmentTab = ({
                 </LoadingButton>
 
                 <LoadingButton
-                  // onClick={submitGameWord}
-                  // loading={isLoading}
+                  onClick={() => {
+                    const params = {
+                      id: assignmentID,
+                      token: token,
+                    };
+                    notify2();
+                    dispatch(deleteAssignment(params));
+                  }}
                   loadingIndicator={
                     <CircularProgress size="2em" sx={{ color: "#182240" }} />
                   }
@@ -268,39 +275,6 @@ const AssignmentTab = ({
                   DELETE
                 </LoadingButton>
               </Grid>
-
-              {/* <Grid item={true} xs={6}>
-                <LoadingButton
-                  // onClick={submitGameWord}
-                  // loading={isLoading}
-                  loadingIndicator={
-                    <CircularProgress size="2em" sx={{ color: "#182240" }} />
-                  }
-                  variant="contained"
-                  fullWidth
-                  sx={{
-                    ...styles.loadingButtonStyle,
-                    display: "block",
-                    ml: "auto",
-                  }}
-                >
-                  UPDATE
-                </LoadingButton>
-              </Grid>
-              <Grid item={true} xs={6}>
-                <LoadingButton
-                  // onClick={submitGameWord}
-                  // loading={isLoading}
-                  loadingIndicator={
-                    <CircularProgress size="2em" sx={{ color: "#182240" }} />
-                  }
-                  variant="contained"
-                  fullWidth
-                  sx={{ ...styles.loadingButtonStyle, background: "#df5c61" }}
-                >
-                  DELETE
-                </LoadingButton>
-              </Grid> */}
             </Grid>
           </TabPanel>
         </TabContext>

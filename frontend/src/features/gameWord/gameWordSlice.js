@@ -39,6 +39,21 @@ export const getGameWord = createAsyncThunk('gameWord/getGameWord', async (param
   }
 })
 
+export const getWords = createAsyncThunk('gameWord/getWords', async (params, thunkAPI) => {
+  try {
+    const response = await axios.post('/api/game-word/getWords', params, {
+      headers: { authorization: `Bearer ${params.token}` },
+    })
+
+    if (response.data) {
+      return response.data
+    }
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const deleteGameWord = createAsyncThunk('gameWord/deleteGameWord', async (params, thunkAPI) => {
   try {
     const response = await axios.delete('/api/game-word/' + params.id, {
@@ -136,6 +151,21 @@ export const gameWordSlice = createSlice({
         state.data = action.payload
       })
       .addCase(updateGameWord.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+        state.data = []
+      })
+
+      .addCase(getWords.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getWords.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.data = action.payload
+      })
+      .addCase(getWords.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
