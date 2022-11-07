@@ -8,11 +8,14 @@ import { reset, getWords } from "../../features/gameWord/gameWordSlice";
 import { images as rightImages } from "../../util/rightImages";
 import { images as leftImages } from "../../util/LeftImages";
 import SpellHandSignStart from "../../components/Game/SpellHandSign/SpellHandSignStart";
+import GameOver from "../../components/Game/GameOver/GameOver";
 import { useSelector, useDispatch } from "react-redux";
 import {
   reset as resetLeaderboard,
   addLeaderboard,
+  getLeaderboard,
 } from "../../features/leaderboard/leaderboardSlice";
+import Leaderboard from "../../components/Leaderboard/Leaderboard";
 
 const SpellHandSign = () => {
   const dispatch = useDispatch();
@@ -109,24 +112,21 @@ const SpellHandSign = () => {
   }
 
   const startGame = () => {
-    if (!gameStart) {
-      resetGame();
-      setGameStart(true);
-      setIsLoading(true);
-      const params = {
-        token: token,
-        gameType: gameType,
-        difficulty: difficulty,
-      };
-      dispatch(getWords(params));
-    }
+    resetGame();
+    setGameStart(true);
+    setIsLoading(true);
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+    dispatch(getWords(params));
   };
 
   const resetGame = () => {
-    timerRef.current.stop();
     setTimer(currentDate);
-    setGameStart(false);
     setGameEnded(false);
+    setGameStart(false);
     setInputWord("");
     setWordsArray([]);
     setCurrentWord(null);
@@ -167,7 +167,7 @@ const SpellHandSign = () => {
   // start timer if model is loaded and the game is started
   useEffect(() => {
     const gameTimer = timerRef.current;
-    if (gameStart && !isLoading && timer !== currentDate) {
+    if (gameStart && !isLoading && timer !== currentDate && !gameEnded) {
       gameTimer.start();
     }
     // eslint-disable-next-line
@@ -175,10 +175,8 @@ const SpellHandSign = () => {
 
   // pause timer if gameEnded
   useEffect(() => {
+    const endTimer = timerRef.current;
     if (gameEnded && gameStart) {
-      const endTimer = timerRef.current;
-      endTimer.pause();
-
       const params = {
         token: token,
         gameType: gameType,
@@ -187,9 +185,12 @@ const SpellHandSign = () => {
         time: endTimer.state.timeDelta.total,
       };
       dispatch(addLeaderboard(params));
+
+      endTimer.pause();
+      console.log("Save to Leaderboard");
     }
     // eslint-disable-next-line
-  }, [gameEnded]);
+  }, [gameEnded, timerRef]);
 
   useEffect(() => {
     if (isSuccessLeaderboard) {
@@ -211,6 +212,7 @@ const SpellHandSign = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
+      setGameEnded(false);
       setIsLoading(false);
       if (difficulty === "EASY") {
         setTimer(Date.now() + 90000);
@@ -231,6 +233,16 @@ const SpellHandSign = () => {
     }
     // eslint-disable-next-line
   }, [data, isSuccess, isError, message]);
+
+  useEffect(() => {
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+    dispatch(getLeaderboard(params));
+    // eslint-disable-next-line
+  }, [difficulty]);
 
   useEffect(() => {
     const alphabets = [
@@ -325,10 +337,34 @@ const SpellHandSign = () => {
         </div>
 
         <div className="asl-container">
-          {renderImages()}
-          {!gameStart && <SpellHandSignStart start={startGame} />}
+          {!gameEnded && renderImages()}
+          {!gameStart && !gameEnded ? (
+            <SpellHandSignStart start={startGame} />
+          ) : (
+            ""
+          )}
 
           {isLoading ? <GameLoader className="game-loader" /> : ""}
+
+          {gameEnded &&
+          (timerRef.current.state.status === "PAUSED" ||
+            timerRef.current.state.status === "COMPLETED") ? (
+            <GameOver
+              start={startGame}
+              difficulty={difficulty}
+              timeLeft={`${zeroPad(
+                timerRef.current.state.timeDelta.minutes
+              )}:${zeroPad(timerRef.current.state.timeDelta.seconds)}:${zeroPad(
+                String(timerRef.current.state.timeDelta.milliseconds).slice(
+                  0,
+                  2
+                )
+              )}`}
+              score={`${correct} / ${wordsArray.length}`}
+            />
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="bottom">
@@ -358,14 +394,15 @@ const SpellHandSign = () => {
           <button onClick={submitBtn}>SUBMIT</button>
         </div>
       </div>
+      <Leaderboard difficulty={difficulty} data={dataLeaderboard} />
 
-      <RightNav
+      {/* <RightNav
         header="SPELL THE"
         coloredText="THE SIGN"
         text="There are words flashed in the screen. The learner’s goal is to deduce the word from a set of letters provided below the words.
         Twist: The set of letters that can be seen below the pictures are hand-signed alphabets using American Sign Language (ASL).
         "
-      />
+      /> */}
     </div>
   );
 };

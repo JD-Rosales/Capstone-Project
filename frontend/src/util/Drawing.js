@@ -40,7 +40,7 @@ export const drawHand = (hand, canvas) => {
         canvas.beginPath();
         canvas.arc(x, y, 3, 0, 3 * Math.PI);
 
-        canvas.fillStyle = "blue";
+        canvas.fillStyle = "#42C9A3";
         canvas.fill();
       }
     });

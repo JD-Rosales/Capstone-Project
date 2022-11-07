@@ -1,14 +1,9 @@
 const User = require('../models/userModel')
 const Leaderboard = require('../models/leaderboardModel')
-const { find } = require('../models/userModel')
 
 const addLeaderboard = async (req, res) => {
   try {
     const {gameType, difficulty, score, time} = req.body
-
-    if(!gameType, !difficulty, !score, !time){
-      return res.status(400).json({message: "Missing required field"})
-    }
 
     const auth = req.user
 
@@ -24,9 +19,23 @@ const addLeaderboard = async (req, res) => {
       {new: true, upsert: true}
     )
 
-    const leaderboards = await Leaderboard.find()
+    const leaderboards = await Leaderboard.find({"gameType": gameType, "difficulty": difficulty}).populate('user').sort({score: -1, time: -1}).limit(10)
 
-    return res.status(200).json({ leaderboards })
+    return res.status(200).json({leaderboards})
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
+const getLeaderboard = async(req, res) => {
+  try {
+
+    const {gameType, difficulty} = req.body
+
+    const leaderboards = await Leaderboard.find({"gameType": gameType, "difficulty": difficulty}).populate('user').sort({score: -1, time: -1}).limit(10)
+
+    return res.status(200).json({leaderboards})
   } catch (error) {
     console.log(error)
     return res.status(400).json({message: "An error has occured"})
@@ -36,4 +45,5 @@ const addLeaderboard = async (req, res) => {
 
 module.exports = {
   addLeaderboard,
+  getLeaderboard
 }

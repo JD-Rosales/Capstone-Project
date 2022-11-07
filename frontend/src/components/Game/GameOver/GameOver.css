@@ -1,0 +1,15 @@
+.game-over {
+  height: 100%;
+  width: 100%;
+  background-color: var(--navyBlue);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.game-over span span {
+  color: var(--aquaGreen);
+}

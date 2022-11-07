@@ -6,18 +6,27 @@ import { images as rightImages } from "../../util/rightImages";
 import { images as leftImages } from "../../util/LeftImages";
 import Countdown, { zeroPad } from "react-countdown";
 import GuessHandSignStart from "../../components/Game/GuessHandSign/GuessHandSignStart";
+import GameOver from "../../components/Game/GameOver/GameOver";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  reset,
+  reset as resetLeaderboard,
   addLeaderboard,
+  getLeaderboard,
 } from "../../features/leaderboard/leaderboardSlice";
 
 const GuessHandSign = () => {
   const dispatch = useDispatch();
+
+  const gameType = "guesshandsign";
   const { user, token } = useSelector((state) => state.auth);
-  const { data, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.leaderboard
-  );
+
+  const {
+    data: dataLeaderboard,
+    isError: isErrorLeaderboard,
+    isSuccess: isSuccessLeaderboard,
+    isLoading: isLoadingLeaderboard,
+    message: messageLeaderboard,
+  } = useSelector((state) => state.leaderboard);
 
   const currentDate = Date.now();
   const [timer, setTimer] = useState(currentDate);
@@ -151,7 +160,7 @@ const GuessHandSign = () => {
 
       const params = {
         token: token,
-        gameType: "guesshandsign",
+        gameType: gameType,
         difficulty: difficulty,
         score: correct,
         time: endTimer.state.timeDelta.total,
@@ -162,15 +171,32 @@ const GuessHandSign = () => {
   }, [gameEnded]);
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(reset());
+    if (isSuccessLeaderboard) {
+      dispatch(resetLeaderboard());
     }
 
-    if (isError) {
-      dispatch(reset());
+    if (isErrorLeaderboard) {
+      dispatch(resetLeaderboard());
     }
     // eslint-disable-next-line
-  }, [data, isSuccess, isError, isLoading, message]);
+  }, [
+    dataLeaderboard,
+    isSuccessLeaderboard,
+    isErrorLeaderboard,
+    isLoadingLeaderboard,
+    messageLeaderboard,
+  ]);
+
+  // fetch leaderboard data onchange difficulty
+  useEffect(() => {
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+    dispatch(getLeaderboard(params));
+    // eslint-disable-next-line
+  }, [difficulty]);
 
   // start timer if model is loaded and the game is started
   useEffect(() => {
@@ -268,6 +294,22 @@ const GuessHandSign = () => {
         <div className="asl-container">
           {renderAsl()}
           {!gameStart && <GuessHandSignStart start={startGame} />}
+
+          {gameEnded && (
+            <GameOver
+              start={startGame}
+              difficulty={difficulty}
+              timeLeft={`${zeroPad(
+                timerRef.current.state.timeDelta.minutes
+              )}:${zeroPad(timerRef.current.state.timeDelta.seconds)}:${zeroPad(
+                String(timerRef.current.state.timeDelta.milliseconds).slice(
+                  0,
+                  2
+                )
+              )}`}
+              score={`${correct} / ${aslArray.length}`}
+            />
+          )}
         </div>
 
         <div className="bottom">
