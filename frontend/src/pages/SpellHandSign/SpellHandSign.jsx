@@ -190,7 +190,7 @@ const SpellHandSign = () => {
       console.log("Save to Leaderboard");
     }
     // eslint-disable-next-line
-  }, [gameEnded, timerRef]);
+  }, [gameEnded]);
 
   useEffect(() => {
     if (isSuccessLeaderboard) {
@@ -394,7 +394,11 @@ const SpellHandSign = () => {
           <button onClick={submitBtn}>SUBMIT</button>
         </div>
       </div>
-      <Leaderboard difficulty={difficulty} data={dataLeaderboard} />
+      <Leaderboard
+        difficulty={difficulty}
+        data={dataLeaderboard}
+        length={wordsArray.length}
+      />
 
       {/* <RightNav
         header="SPELL THE"
