@@ -187,6 +187,9 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    onClick={() => {
+                      navigate("/lesson-2")
+                    }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
@@ -232,12 +235,15 @@ const Learn = () => {
                       lineHeight: "1rem",
                     }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    GRAMMAR AND SYNTAX
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
                     variant="contained"
+                    onClick={() => {
+                      navigate("/lesson-3")
+                    }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
@@ -283,12 +289,15 @@ const Learn = () => {
                       lineHeight: "1rem",
                     }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    NON-MANUAL MARKERS (NMM).
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
                     variant="contained"
+                    onClick={() => {
+                      navigate("/lesson-4")
+                    }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
@@ -338,12 +347,15 @@ const Learn = () => {
                       lineHeight: "1rem",
                     }}
                   >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    EYE GAZE
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button
                     variant="contained"
+                    onClick={() => {
+                      navigate("/lesson-5")
+                    }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
@@ -356,366 +368,7 @@ const Learn = () => {
               </Card>
               {/* End Card */}
 
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      6
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      7
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      8
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-            </Box>
-            {/* Carousel Item 2 */}
-
-            {/* Carousel Item 3 */}
-
-            <Box sx={carouselStyle}>
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      9
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      10
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      11
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
-              {/* End Card */}
-
-              {/* Start Card */}
-              <Card sx={cardStyle}>
-                <CardContent sx={CardContentStyle}>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      color: "#fff",
-                    }}
-                  >
-                    LESSON
-                  </Typography>
-
-                  <Avatar
-                    sx={{
-                      bgcolor: "var(--aquaGreen)",
-                      width: 80,
-                      height: 80,
-                      margin: "10px 0",
-                    }}
-                  >
-                    <Typography variant="h3" sx={{ color: "#fff" }}>
-                      12
-                    </Typography>
-                  </Avatar>
-
-                  <Typography
-                    sx={{
-                      fontSize: ".9rem",
-                      textAlign: "center",
-                      color: "#fff",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      backgroundColor: "var(--aquaGreen)",
-                      marginBottom: "10px",
-                      width: 120,
-                    }}
-                  >
-                    Start
-                  </Button>
-                </CardActions>
-              </Card>
+            
               {/* End Card */}
             </Box>
             {/* Carousel Item 3 */}
