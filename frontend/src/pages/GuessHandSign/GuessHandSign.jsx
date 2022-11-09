@@ -4,6 +4,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import "./GuessHandSign.css";
 import { images as rightImages } from "../../util/rightImages";
 import { images as leftImages } from "../../util/LeftImages";
+import GameLoader from "../../components/GameLoader/GameLoader";
 import Countdown, { zeroPad } from "react-countdown";
 import GuessHandSignStart from "../../components/Game/GuessHandSign/GuessHandSignStart";
 import GameOver from "../../components/Game/GameOver/GameOver";
@@ -13,6 +14,7 @@ import {
   addLeaderboard,
   getLeaderboard,
 } from "../../features/leaderboard/leaderboardSlice";
+import Leaderboard from "../../components/Leaderboard/Leaderboard";
 
 const GuessHandSign = () => {
   const dispatch = useDispatch();
@@ -40,13 +42,13 @@ const GuessHandSign = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [difficulty, setDifficulty] = useState("EASY");
-
+  const [isLoading, setIsLoading] = useState(false);
   const renderAsl = () => {
     if (aslArray.length > 0) {
       return <img src={aslArray[imgIndex].image} alt="ASL" />;
     }
-  };
-
+  }; 
+  
   //Test
   useEffect(() => {
     if (aslArray.length > 0) {
@@ -75,6 +77,7 @@ const GuessHandSign = () => {
     if (!gameStart) {
       resetGame();
       setGameStart(true);
+      setIsLoading(true);
       if (difficulty === "EASY") {
         setTimer(Date.now() + 60000);
         setAslArray(getRandomItems(asl, 5));
@@ -293,9 +296,12 @@ const GuessHandSign = () => {
 
         <div className="asl-container">
           {renderAsl()}
-          {!gameStart && <GuessHandSignStart start={startGame} />}
-
-          {gameEnded && (
+          {!gameStart && <GuessHandSignStart start={startGame} />} 
+           
+         
+          {gameEnded &&
+            (timerRef.current.state.status === "PAUSED" ||
+            timerRef.current.state.status === "COMPLETED") ? (
             <GameOver
               start={startGame}
               difficulty={difficulty}
@@ -309,7 +315,9 @@ const GuessHandSign = () => {
               )}`}
               score={`${correct} / ${aslArray.length}`}
             />
-          )}
+          ) :  (
+            ""
+          ) }
         </div>
 
         <div className="bottom">
@@ -407,7 +415,11 @@ const GuessHandSign = () => {
           </button>
         </div>
       </div>
-
+      <Leaderboard
+        difficulty={difficulty}
+        data={dataLeaderboard}
+        length={setAslArray.length}
+      />         
       <RightNav
         header="GUESS THE"
         coloredText="HAND SIGN"
