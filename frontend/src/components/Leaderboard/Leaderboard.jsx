@@ -31,7 +31,7 @@ function convertRemainingTime(time) {
   );
 }
 
-const Leaderboard = ({ difficulty, gameType, data, length }) => {
+const Leaderboard = ({ difficulty, gameType, data }) => {
   const { user } = useSelector((state) => state.auth);
 
   return (
@@ -56,248 +56,8 @@ const Leaderboard = ({ difficulty, gameType, data, length }) => {
       </Grid>
 
       <div className="list-container">
-        {data.length &&
+        {data.length > 0 &&
           data.map((item, i) => {
-            if (i === 0) {
-              return (
-                <Grid
-                  container
-                  spacing={0}
-                  mt={1}
-                  key={item._id}
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: user._id === item?.user?._id ? "gray" : "",
-                  }}
-                >
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <img height={25} src={top1} alt="Top 1" />
-                  </Grid>
-
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={item.user.userInfo.image}
-                      sx={{ width: 45, height: 45 }}
-                    />
-                  </Grid>
-
-                  <Grid item={true} xs={6} sx={styles.gridStyle}>
-                    <Box
-                      width={130}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "15px",
-                        }}
-                      >
-                        {item.user.userInfo.firstName +
-                          " " +
-                          item.user.userInfo.lastName}
-                      </Typography>
-
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "13px",
-                          marginTop: "-7px",
-                          color: "#fff",
-                        }}
-                      >
-                        Time Left: {convertRemainingTime(item.time)}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Typography
-                      sx={{
-                        fontSize: "13px",
-                        marginTop: "-7px",
-                        backgroundColor: "var(--aquaGreen)",
-                        color: "#fff",
-                        borderRadius: "50%",
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.score}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              );
-            }
-
-            if (i === 1) {
-              return (
-                <Grid
-                  container
-                  spacing={0}
-                  mt={1}
-                  key={item._id}
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: user._id === item?.user?._id ? "gray" : "",
-                  }}
-                >
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <img height={25} src={top2} alt="Top 2" />
-                  </Grid>
-
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={item.user.userInfo.image}
-                      sx={{ width: 45, height: 45 }}
-                    />
-                  </Grid>
-
-                  <Grid item={true} xs={6} sx={styles.gridStyle}>
-                    <Box
-                      width={130}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "15px",
-                        }}
-                      >
-                        {item.user.userInfo.firstName +
-                          " " +
-                          item.user.userInfo.lastName}
-                      </Typography>
-
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "13px",
-                          marginTop: "-7px",
-                          color: "#fff",
-                        }}
-                      >
-                        Time Left: {convertRemainingTime(item.time)}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Typography
-                      sx={{
-                        fontSize: "13px",
-                        marginTop: "-7px",
-                        backgroundColor: "var(--aquaGreen)",
-                        color: "#fff",
-                        borderRadius: "50%",
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.score}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              );
-            }
-
-            if (i === 2) {
-              return (
-                <Grid
-                  container
-                  spacing={0}
-                  mt={1}
-                  key={item._id}
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: user._id === item?.user?._id ? "gray" : "",
-                  }}
-                >
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <img height={25} src={top3} alt="Top 3" />
-                  </Grid>
-
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={item.user.userInfo.image}
-                      sx={{ width: 45, height: 45 }}
-                    />
-                  </Grid>
-
-                  <Grid item={true} xs={6} sx={styles.gridStyle}>
-                    <Box
-                      width={130}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "15px",
-                        }}
-                      >
-                        {item.user.userInfo.firstName +
-                          " " +
-                          item.user.userInfo.lastName}
-                      </Typography>
-
-                      <Typography
-                        noWrap={true}
-                        sx={{
-                          display: "block",
-                          fontSize: "13px",
-                          marginTop: "-7px",
-                          color: "#fff",
-                        }}
-                      >
-                        Time Left: {convertRemainingTime(item.time)}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid item={true} xs={2} sx={styles.gridStyle}>
-                    <Typography
-                      sx={{
-                        fontSize: "13px",
-                        marginTop: "-7px",
-                        backgroundColor: "var(--aquaGreen)",
-                        color: "#fff",
-                        borderRadius: "50%",
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      {item.score}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              );
-            }
-
             return (
               <Grid
                 container
@@ -310,7 +70,15 @@ const Leaderboard = ({ difficulty, gameType, data, length }) => {
                 }}
               >
                 <Grid item={true} xs={2} sx={styles.gridStyle}>
-                  {i + 1}
+                  {i === 0 ? (
+                    <img height={25} src={top1} alt="Top 1" />
+                  ) : i === 1 ? (
+                    <img height={25} src={top2} alt="Top 2" />
+                  ) : i === 2 ? (
+                    <img height={25} src={top3} alt="Top 3" />
+                  ) : (
+                    i + 1
+                  )}
                 </Grid>
 
                 <Grid item={true} xs={2} sx={styles.gridStyle}>

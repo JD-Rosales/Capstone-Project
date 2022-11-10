@@ -179,7 +179,7 @@ const AssignmentTab = ({
                   fullWidth
                   sx={styles.textfieldStyle}
                   InputProps={{ sx: { height: 50 } }}
-                  value={assignmentData.title}
+                  value={assignmentData?.title}
                   onChange={(e) => {
                     setAssignmentData({
                       ...assignmentData,

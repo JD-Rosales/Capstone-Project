@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import RightNav from "../../components/RightNav/RightNav";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import "./GuessHandSign.css";
 import { images as rightImages } from "../../util/rightImages";
 import { images as leftImages } from "../../util/LeftImages";
-import GameLoader from "../../components/GameLoader/GameLoader";
 import Countdown, { zeroPad } from "react-countdown";
+import GameLoader from "../../components/GameLoader/GameLoader";
 import GuessHandSignStart from "../../components/Game/GuessHandSign/GuessHandSignStart";
 import GameOver from "../../components/Game/GameOver/GameOver";
 import { useSelector, useDispatch } from "react-redux";
@@ -42,13 +41,12 @@ const GuessHandSign = () => {
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
   const [difficulty, setDifficulty] = useState("EASY");
-  const [isLoading, setIsLoading] = useState(false);
   const renderAsl = () => {
     if (aslArray.length > 0) {
       return <img src={aslArray[imgIndex].image} alt="ASL" />;
     }
-  }; 
-  
+  };
+
   //Test
   useEffect(() => {
     if (aslArray.length > 0) {
@@ -74,20 +72,17 @@ const GuessHandSign = () => {
   }, [letter]);
 
   const startGame = () => {
-    if (!gameStart) {
-      resetGame();
-      setGameStart(true);
-      setIsLoading(true);
-      if (difficulty === "EASY") {
-        setTimer(Date.now() + 60000);
-        setAslArray(getRandomItems(asl, 5));
-      } else if (difficulty === "MEDIUM") {
-        setTimer(Date.now() + 60000);
-        setAslArray(getRandomItems(asl, 10));
-      } else {
-        setTimer(Date.now() + 30000);
-        setAslArray(getRandomItems(asl, 15));
-      }
+    resetGame();
+    setGameStart(true);
+    if (difficulty === "EASY") {
+      setTimer(Date.now() + 60000);
+      setAslArray(getRandomItems(asl, 5));
+    } else if (difficulty === "MEDIUM") {
+      setTimer(Date.now() + 60000);
+      setAslArray(getRandomItems(asl, 10));
+    } else {
+      setTimer(Date.now() + 30000);
+      setAslArray(getRandomItems(asl, 15));
     }
   };
 
@@ -169,6 +164,7 @@ const GuessHandSign = () => {
         time: endTimer.state.timeDelta.total,
       };
       dispatch(addLeaderboard(params));
+      console.log("Save to Leaderboard");
     }
     // eslint-disable-next-line
   }, [gameEnded]);
@@ -295,12 +291,15 @@ const GuessHandSign = () => {
         </div>
 
         <div className="asl-container">
-          {renderAsl()}
-          {!gameStart && <GuessHandSignStart start={startGame} />} 
-           
-         
+          {!gameEnded && !isLoadingLeaderboard && renderAsl()}
+
+          {!gameStart && !isLoadingLeaderboard && (
+            <GuessHandSignStart start={startGame} />
+          )}
+
           {gameEnded &&
-            (timerRef.current.state.status === "PAUSED" ||
+          !isLoadingLeaderboard &&
+          (timerRef.current.state.status === "PAUSED" ||
             timerRef.current.state.status === "COMPLETED") ? (
             <GameOver
               start={startGame}
@@ -315,9 +314,11 @@ const GuessHandSign = () => {
               )}`}
               score={`${correct} / ${aslArray.length}`}
             />
-          ) :  (
+          ) : (
             ""
-          ) }
+          )}
+
+          {isLoadingLeaderboard ? <GameLoader className="game-loader" /> : ""}
         </div>
 
         <div className="bottom">
@@ -415,16 +416,7 @@ const GuessHandSign = () => {
           </button>
         </div>
       </div>
-      <Leaderboard
-        difficulty={difficulty}
-        data={dataLeaderboard}
-        length={setAslArray.length}
-      />         
-      <RightNav
-        header="GUESS THE"
-        coloredText="HAND SIGN"
-        text="This game shows various hand-signed images, with the learner guessing which letter/character they are. The learner’s goal is to guess what is in the image from a set of letters provided below the pictures."
-      />
+      <Leaderboard difficulty={difficulty} data={dataLeaderboard} />
     </div>
   );
 };

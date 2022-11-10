@@ -1,6 +1,5 @@
 import "./FingerSpell.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import RightNav from "../../components/RightNav/RightNav";
 import Camera from "react-webcam";
 import { useRef, useState, useEffect } from "react";
 import * as handPose from "@tensorflow-models/handpose";
@@ -14,6 +13,13 @@ import { leftSigns } from "../../util/leftASL/leftSigns";
 import Countdown, { zeroPad } from "react-countdown";
 import { useSelector, useDispatch } from "react-redux";
 import { reset, getWords } from "../../features/gameWord/gameWordSlice";
+import GameOver from "../../components/Game/GameOver/GameOver";
+import Leaderboard from "../../components/Leaderboard/Leaderboard";
+import {
+  reset as resetLeaderboard,
+  addLeaderboard,
+  getLeaderboard,
+} from "../../features/leaderboard/leaderboardSlice";
 
 const FingerSpell = () => {
   const dispatch = useDispatch();
@@ -21,6 +27,14 @@ const FingerSpell = () => {
     (state) => state.gameWord
   );
   const gameType = "fingerspell";
+
+  const {
+    data: dataLeaderboard,
+    isError: isErrorLeaderboard,
+    isSuccess: isSuccessLeaderboard,
+    isLoading: isLoadingLeaderboard,
+    message: messageLeaderboard,
+  } = useSelector((state) => state.leaderboard);
 
   const { user, token } = useSelector((state) => state.auth);
 
@@ -86,14 +100,13 @@ const FingerSpell = () => {
         setGameEnded(true);
         setLetterIndex(currentWord.length - 1);
         timerRef.current.pause();
-        alert("Game Ended!");
       }
     }
     // eslint-disable-next-line
   }, [wordsArray, wordIndex]);
 
   const startGame = () => {
-    if (!gameStart) {
+    if (timerRef.current.state.status !== "STARTED") {
       resetGame();
       setGameStart(true);
       setGameLoading(true);
@@ -114,13 +127,13 @@ const FingerSpell = () => {
     setWordIndex(0);
     setLetterIndex(0);
     setGameEnded(false);
-    timerRef.current.stop();
+    // timerRef.current.stop();
     setTimer(currentDate);
   };
 
   function changeDifficulty(e) {
     setDifficulty(e.target.value);
-    // resetGame();
+    resetGame();
   }
 
   useEffect(() => {
@@ -128,15 +141,15 @@ const FingerSpell = () => {
       dispatch(reset());
       setGameLoading(false);
       if (difficulty === "EASY") {
-        setTimer(Date.now() + 90000);
+        setTimer(Date.now() + 120000);
         setWordsArray(getRandomItems(data, 5));
         setGameLoading(false);
       } else if (difficulty === "MEDIUM") {
-        setTimer(Date.now() + 60000);
+        setTimer(Date.now() + 90000);
         setWordsArray(getRandomItems(data, 8));
         setGameLoading(false);
       } else {
-        setTimer(Date.now() + 30000);
+        setTimer(Date.now() + 60000);
         setWordsArray(getRandomItems(data, 10));
         setGameLoading(false);
       }
@@ -234,7 +247,6 @@ const FingerSpell = () => {
           const max = Math.max(...arrConfidence);
 
           const highestConfidence = arrConfidence.indexOf(max);
-          // console.log(gesture.gestures[highestConfidence].name)
 
           setHandsign(gesture.gestures[highestConfidence].name);
         }
@@ -266,6 +278,50 @@ const FingerSpell = () => {
     checkCamera();
     // eslint-disable-next-line
   }, [cameraEnable]);
+
+  useEffect(() => {
+    if (isSuccessLeaderboard) {
+      dispatch(resetLeaderboard());
+    }
+
+    if (isErrorLeaderboard) {
+      dispatch(resetLeaderboard());
+    }
+    // eslint-disable-next-line
+  }, [
+    dataLeaderboard,
+    isErrorLeaderboard,
+    isSuccessLeaderboard,
+    isLoadingLeaderboard,
+    messageLeaderboard,
+  ]);
+
+  useEffect(() => {
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+    dispatch(getLeaderboard(params));
+    // eslint-disable-next-line
+  }, [difficulty]);
+
+  useEffect(() => {
+    if (gameEnded && gameStart) {
+      const endTimer = timerRef.current;
+      endTimer.pause();
+      const params = {
+        token: token,
+        gameType: gameType,
+        difficulty: difficulty,
+        score: wordIndex,
+        time: endTimer.state.timeDelta.total,
+      };
+      dispatch(addLeaderboard(params));
+      console.log("Save to Leaderboard");
+    }
+    // eslint-disable-next-line
+  }, [gameEnded]);
 
   return (
     <div className="finger-spell">
@@ -302,16 +358,8 @@ const FingerSpell = () => {
           </div>
 
           <div className="btn-container">
-            <button
-              onClick={startGame}
-              style={{ display: gameStart ? "none" : "" }}
-            >
-              START
-            </button>
-            <div
-              className="divider"
-              style={{ display: gameStart ? "none" : "" }}
-            ></div>
+            <button onClick={startGame}>START</button>
+            <div className="divider"></div>
             <button onClick={resetGame}>RESET</button>
           </div>
 
@@ -338,7 +386,6 @@ const FingerSpell = () => {
             style={{
               height: "100%",
               width: "100%",
-              display: gameEnded ? "none" : "",
             }}
           />
 
@@ -348,9 +395,29 @@ const FingerSpell = () => {
             style={{
               height: "100%",
               width: "100%",
-              display: gameEnded ? "none" : "",
             }}
           />
+
+          {gameEnded &&
+          !isLoadingLeaderboard &&
+          (timerRef.current.state.status === "PAUSED" ||
+            timerRef.current.state.status === "COMPLETED") ? (
+            <GameOver
+              start={startGame}
+              difficulty={difficulty}
+              timeLeft={`${zeroPad(
+                timerRef.current.state.timeDelta.minutes
+              )}:${zeroPad(timerRef.current.state.timeDelta.seconds)}:${zeroPad(
+                String(timerRef.current.state.timeDelta.milliseconds).slice(
+                  0,
+                  2
+                )
+              )}`}
+              score={`${wordIndex} / ${wordsArray.length}`}
+            />
+          ) : (
+            ""
+          )}
 
           {loading ? <GameLoader /> : ""}
           {gameLoading ? <GameLoader className="game-loader" /> : ""}
@@ -374,12 +441,7 @@ const FingerSpell = () => {
         </div>
       </div>
 
-      <RightNav
-        header="FINGER SPELL"
-        coloredText="THE WORD"
-        text="Words will appear on the screen, and the learner will sign each letter in the word.
-        Note: The learner’s camera must be turned on."
-      />
+      <Leaderboard difficulty={difficulty} data={dataLeaderboard} />
     </div>
   );
 };

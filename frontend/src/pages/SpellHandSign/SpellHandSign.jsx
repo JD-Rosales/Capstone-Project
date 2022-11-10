@@ -1,6 +1,5 @@
 import "./SpellHandSign.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import RightNav from "../../components/RightNav/RightNav";
 import { useState, useEffect, useRef } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import GameLoader from "../../components/GameLoader/GameLoader";
@@ -120,6 +119,7 @@ const SpellHandSign = () => {
       gameType: gameType,
       difficulty: difficulty,
     };
+
     dispatch(getWords(params));
   };
 
@@ -177,6 +177,7 @@ const SpellHandSign = () => {
   useEffect(() => {
     const endTimer = timerRef.current;
     if (gameEnded && gameStart) {
+      endTimer.pause();
       const params = {
         token: token,
         gameType: gameType,
@@ -185,9 +186,8 @@ const SpellHandSign = () => {
         time: endTimer.state.timeDelta.total,
       };
       dispatch(addLeaderboard(params));
-
-      endTimer.pause();
       console.log("Save to Leaderboard");
+      // setTimer(currentDate);
     }
     // eslint-disable-next-line
   }, [gameEnded]);
@@ -394,19 +394,7 @@ const SpellHandSign = () => {
           <button onClick={submitBtn}>SUBMIT</button>
         </div>
       </div>
-      <Leaderboard
-        difficulty={difficulty}
-        data={dataLeaderboard}
-        length={wordsArray.length}
-      />
-
-      {/* <RightNav
-        header="SPELL THE"
-        coloredText="THE SIGN"
-        text="There are words flashed in the screen. The learner’s goal is to deduce the word from a set of letters provided below the words.
-        Twist: The set of letters that can be seen below the pictures are hand-signed alphabets using American Sign Language (ASL).
-        "
-      /> */}
+      <Leaderboard difficulty={difficulty} data={dataLeaderboard} />
     </div>
   );
 };

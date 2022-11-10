@@ -50,7 +50,7 @@ const Play = () => {
           autoPlay={true}
           interval={4000}
           stopAutoPlayOnHover={true}
-          navButtonsAlwaysVisible={false}
+          navButtonsAlwaysVisible={true}
           fullHeightHover={true}
           animation="slide"
           height={380}

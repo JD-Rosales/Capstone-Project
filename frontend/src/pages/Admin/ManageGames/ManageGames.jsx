@@ -50,7 +50,7 @@ const ManageGames = () => {
           autoPlay={true}
           interval={3000}
           stopAutoPlayOnHover={true}
-          navButtonsAlwaysVisible={false}
+          navButtonsAlwaysVisible={true}
           fullHeightHover={true}
           animation="slide"
           height={380}

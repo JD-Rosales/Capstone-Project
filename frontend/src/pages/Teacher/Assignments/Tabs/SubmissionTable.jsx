@@ -51,26 +51,26 @@ const SubmissionTable = ({ assignmentID }) => {
 
           <TableCell>
             <Typography sx={styles.text}>
-              {item.user.userInfo.firstName + " "}
-              {item.user.userInfo.middleInitial
-                ? item.user.userInfo.middleInitial + "."
+              {item?.user?.userInfo?.firstName + " "}
+              {item?.user?.userInfo?.middleInitial
+                ? item?.user?.userInfo?.middleInitial + "."
                 : ""}
-              {" " + item.user.userInfo.lastName}
+              {" " + item?.user?.userInfo?.lastName}
             </Typography>
           </TableCell>
 
           <TableCell>
-            <Typography sx={styles.text}>{item.score}</Typography>
+            <Typography sx={styles.text}>{item?.score}</Typography>
           </TableCell>
 
           <TableCell>
-            <Typography sx={styles.text}>{item.timeLeft}</Typography>
+            <Typography sx={styles.text}>{item?.timeLeft}</Typography>
           </TableCell>
 
           <TableCell>
             <Typography sx={styles.text}>
-              {moment(item.date).format("LL")}{" "}
-              {moment(item.date).format("h:mma")}
+              {moment(item?.date).format("LL")}{" "}
+              {moment(item?.date).format("h:mma")}
             </Typography>
           </TableCell>
 
@@ -90,7 +90,7 @@ const SubmissionTable = ({ assignmentID }) => {
 
     return submissions;
   };
-  return <>{data && renderSubmission(data)}</>;
+  return <>{data && data.length > 0 && renderSubmission(data)}</>;
 };
 
 export default SubmissionTable;
