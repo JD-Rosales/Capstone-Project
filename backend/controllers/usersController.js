@@ -460,5 +460,6 @@ module.exports = {
   updateProfile,
   updateUserSettings,
   changePassword,
-  deleteAccount
+  deleteAccount,
+  // test
 }

@@ -7,6 +7,7 @@ import assignmentReducer from "../features/assignment/assignmentSlice"
 import gameWordReducer from "../features/gameWord/gameWordSlice"
 import submissionReducer from "../features/submission/submissionSlice"
 import leaderboardReducer from "../features/leaderboard/leaderboardSlice"
+import gameLogsReducer from "../features/gameLogs/gameLogsSlice"
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     assignment: assignmentReducer,
     gameWord: gameWordReducer,
     submission: submissionReducer,
-    leaderboard:leaderboardReducer
+    leaderboard:leaderboardReducer,
+    gameLogs: gameLogsReducer
   }
 })

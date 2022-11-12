@@ -8,7 +8,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .student-dashboard main .header-container {
@@ -43,111 +43,12 @@
 }
 
 .student-dashboard main .header-container .img-container img {
-  height: 180px;
+  height: 160px;
 }
 
-.student-dashboard main .body-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-}
-
-.student-dashboard main .body-container .enrolled-student-container {
-  background-color: #182240;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 250px;
-  border-radius: 15px;
-  padding: 40px 0;
-}
-
-.student-dashboard main .body-container .enrolled-student-container h1 {
-  max-width: 180px;
-  line-height: 1.8rem;
-  font-size: 1.8rem;
-  text-align: center;
-}
-
-.student-dashboard main .body-container .enrolled-student-container .total-student {
-  border: 5px solid #42C9A3;
-  border-radius: 50%;
-  padding: 30px;
-  margin: 20px 0;
-  height: 100px;
-  font-size: 2rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-}
-
-.student-dashboard main .body-container .enrolled-student-container > span {
-  font-size: .8rem;
-}
-
-.student-dashboard main .body-container .code-lesson {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 250px;
-  border-radius: 15px;
-}
-
-.student-dashboard main .body-container .code-lesson .code-container {
-  background-color: #182240;
+.student-dashboard main .game-logs-container {
   width: 100%;
-  height: 135px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-}
-
-.student-dashboard main .body-container .code-lesson h1 {
-  font-size: 1.8rem;
-}
-
-.student-dashboard main .body-container .code-lesson .total-lessons {
+  padding: 0 150px;
   background-color: #182240;
-  width: 100%;
-  height: 135px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 15px;
-}
-
-.student-dashboard main .body-container .code-lesson .total-lessons h1 {
-  max-width: 150px;
-  line-height: 1.8rem;
-}
-
-.student-dashboard main .body-container .code-lesson .total-lessons > span {
-  font-size: 1.8rem;
-  font-weight: 500;
-}
-
-.student-dashboard main .body-container .manage-lesson {
-  background-color: #182240;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 250px;
-  border-radius: 15px;
-  padding: 20px 30px;
-}
-
-.student-dashboard main .body-container .manage-lesson h1 {
-  font-size: 1.8rem;
-  line-height: 1.8rem;
-  text-align: center;
-}
-
-.student-dashboard main .body-container .manage-lesson p {
-  font-size: .9rem;
 }

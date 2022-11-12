@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { useSelector } from "react-redux";
 import Carousel from "react-material-ui-carousel";
 import { facts } from "../../../util/ASLFacts";
+import GameLogs from "../../../components/GameLogs/GameLogs";
 
 const TeacherDashboard = () => {
   const { user } = useSelector((state) => state.auth);
@@ -40,8 +41,9 @@ const TeacherDashboard = () => {
           </div>
         </div>
 
-        <div className="body-container">
-          <div className="enrolled-student-container">
+        <div className="game-logs-container">
+          <GameLogs />
+          {/* <div className="enrolled-student-container">
             <h1>
               CURRENT <span>PROGRESS</span>
             </h1>
@@ -88,7 +90,7 @@ const TeacherDashboard = () => {
             >
               LEARN
             </Button>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>

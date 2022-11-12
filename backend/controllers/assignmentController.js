@@ -92,7 +92,13 @@ const getAssignments = async (req, res) => {
       }
     )
 
-    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).select('-password').lean()
+    const assignments = await Assignment.find({ "classCode": auth.userInfo.classCode }).populate({ 
+      path: 'submissions',
+      populate: {
+        path: 'submission',
+        model: 'Submission'
+      } 
+   }).select('-password').lean()
 
     return res.status(200).json({ assignments })
     

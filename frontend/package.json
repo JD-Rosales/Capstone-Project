@@ -22,6 +22,7 @@
     "axios": "^0.27.2",
     "chart.js": "^3.9.1",
     "fingerpose": "^0.1.0",
+    "faker": "5.5.3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",

@@ -99,7 +99,6 @@ const StudentAssignments = () => {
           >
             {item.title}
           </Typography>
-
           <Typography
             sx={{
               mr: 2,
@@ -119,7 +118,6 @@ const StudentAssignments = () => {
               }
             })}
           </Typography>
-
           <Typography
             sx={{
               ml: "auto",
@@ -127,8 +125,17 @@ const StudentAssignments = () => {
               color: item.isClose ? "#df5c61" : "#fff",
             }}
           >
-            {moment(item.deadline).format("LL")}{" "}
-            {moment(item.deadline).format("h:mma")}
+            {/* Test submission populate */}
+            Due: {moment(item.deadline).format("LL")}{" "}
+            {moment(item.deadline).format("h:mma")}{" "}
+            {item.submissions.map((data) => {
+              if (data.student === user._id) {
+                console.log(data.submission.score);
+                return data.submission.score;
+              } else {
+                return null;
+              }
+            })}
           </Typography>
         </Paper>
       );

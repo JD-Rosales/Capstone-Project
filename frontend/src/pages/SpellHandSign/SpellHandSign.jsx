@@ -214,6 +214,7 @@ const SpellHandSign = () => {
       dispatch(reset());
       setGameEnded(false);
       setIsLoading(false);
+
       if (difficulty === "EASY") {
         setTimer(Date.now() + 90000);
         setWordsArray(getRandomItems(data, 5));

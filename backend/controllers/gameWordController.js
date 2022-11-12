@@ -130,6 +130,7 @@ const updateGameWord = async (req, res) => {
     return res.status(200).json(gameWord)
   } catch (error){
     console.log(error)
+    console.log(error);
     return res.status(400).jason({message: "An error has occured"})
   }
 } 

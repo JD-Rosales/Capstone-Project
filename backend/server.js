@@ -35,6 +35,10 @@ app.use('/api/submission', require('./routes/api/submissionRoutes'))
 
 app.use('/api/leaderboard', require('./routes/api/leaderboardRoutes'))
 
+app.use('/api/game-logs', require('./routes/api/gameLogRoutes'))
+
+app.use('/api/otp', require('./routes/api/otpRoutes'))
+
 //frontend protected routes
 app.use('/verifyJWT', verifyJWT)
 

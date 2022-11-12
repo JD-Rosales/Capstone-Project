@@ -14,6 +14,7 @@ import {
   getLeaderboard,
 } from "../../features/leaderboard/leaderboardSlice";
 import Leaderboard from "../../components/Leaderboard/Leaderboard";
+import axios from "axios";
 
 const GuessHandSign = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,20 @@ const GuessHandSign = () => {
     }
   }, [aslArray]);
 
+  const addGuesshandsignLog = async () => {
+    const params = {
+      gameType: gameType,
+      token: token,
+    };
+    try {
+      await axios.post("/api/game-logs", params, {
+        headers: { authorization: `Bearer ${params.token}` },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (gameStart) {
       const sum = correct + wrong;
@@ -74,6 +89,7 @@ const GuessHandSign = () => {
   const startGame = () => {
     resetGame();
     setGameStart(true);
+    addGuesshandsignLog();
     if (difficulty === "EASY") {
       setTimer(Date.now() + 60000);
       setAslArray(getRandomItems(asl, 5));

@@ -6,26 +6,8 @@ const gameLogSchema = mongoose.Schema({
     required: true,
     ref: 'User',
   },
-  data: [{
-    fingerspell: {
-      type: Number,
-      default: 0
-    },
-    spellhandsign: {
-      type: Number,
-      default: 0
-    },
-    guesshandsign: {
-      type: Number,
-      default: 0
-    },
-    fourpic: {
-      type: Number,
-      default: 0
-    },
-  }],
-  date: {
-    type: Date,
+  gameType: {
+    type: String,
     required: true,
   },
 }, {
