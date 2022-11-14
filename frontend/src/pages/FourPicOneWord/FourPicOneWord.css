@@ -154,7 +154,7 @@
 .four-pic > .main > .bottom-controls > .answer-container > button {
   width: 45px;
   height: 45px;
-  background-color: RGB(10, 10, 10);
+  background-color: var(--navyBlue);
   border: none;
   outline: none;
   border-radius: 10px;
@@ -169,7 +169,7 @@
 .four-pic > .main > .bottom-controls > .answer-container > .blank-answer {
   width: 45px;
   height: 45px;
-  background-color: RGB(10, 10, 10);
+  background-color: var(--navyBlue);
   border: none;
   outline: none;
   border-radius: 10px;
@@ -193,7 +193,7 @@
 .four-pic > .main > .asl-button-container > button {
   width: 50px;
   height: 50px;
-  background-color: rgb(55, 24, 22);
+  background-color: #101931;
   border: none;
   outline: none;
   border-radius: 10px;

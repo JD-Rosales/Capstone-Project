@@ -136,7 +136,7 @@ const StudentModal = ({ studentData, handleStudentData }) => {
             <Grid container spacing={2}>
               <Grid item={true} xs={6}>
                 <Avatar
-                  alt="Remy Sharp"
+                  alt="Student Profile"
                   src={studentData.userInfo.image}
                   sx={{ marginX: "auto", width: 100, height: 100 }}
                 />

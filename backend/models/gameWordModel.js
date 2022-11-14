@@ -9,6 +9,10 @@ const gameWordSchema = mongoose.Schema({
     type: String,
     required: [true, 'Please add a text value']
   },
+  image: {
+    type: String,
+    required: [true, 'Please add a image']
+  },
   difficulty: {
     type: String,
     required: [true, 'Please add a text value']

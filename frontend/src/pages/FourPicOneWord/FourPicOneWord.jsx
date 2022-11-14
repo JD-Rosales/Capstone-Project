@@ -1,201 +1,143 @@
 import "./FourPicOneWord.css";
 import { useState, useEffect } from "react";
-import RightNav from "../../components/RightNav/RightNav";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { IoMdSend, IoMdBackspace } from "react-icons/io";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-
-import BLUE from "../../assets/word-images/easy/BLUE.png";
-import CALL from "../../assets/word-images/easy/CALL.png";
-import CODE from "../../assets/word-images/easy/CODE.png";
-import DATA from "../../assets/word-images/easy/DATA.png";
-import HERO from "../../assets/word-images/easy/HERO.png";
-import LOOP from "../../assets/word-images/easy/LOOP.png";
-import PULL from "../../assets/word-images/easy/PULL.png";
-import RING from "../../assets/word-images/easy/RING.png";
-import SIGN from "../../assets/word-images/easy/SIGN.png";
-import STAR from "../../assets/word-images/easy/STAR.png";
-import BOARD from "../../assets/word-images/medium/BOARD.png";
-import ERROR from "../../assets/word-images/medium/ERROR.png";
-import FLOAT from "../../assets/word-images/medium/FLOAT.png";
-import LETTER from "../../assets/word-images/medium/LETTER.png";
-import MONEY from "../../assets/word-images/medium/MONEY.png";
-import MOUSE from "../../assets/word-images/medium/MOUSE.png";
-import ORANGE from "../../assets/word-images/medium/ORANGE.png";
-import PARTY from "../../assets/word-images/medium/PARTY.png";
-import PHONE from "../../assets/word-images/medium/PHONE.png";
-import POWER from "../../assets/word-images/medium/POWER.png";
-import SHORT from "../../assets/word-images/medium/SHORT.png";
-import STAND from "../../assets/word-images/medium/STAND.png";
-import STATUE from "../../assets/word-images/medium/STATUE.png";
-import STORE from "../../assets/word-images/medium/STORE.png";
-import VIRUS from "../../assets/word-images/medium/VIRUS.png";
-import ACTRESS from "../../assets/word-images/hard/ACTRESS.png";
-import BALANCE from "../../assets/word-images/hard/BALANCE.png";
-import COMPILE from "../../assets/word-images/hard/COMPILE.png";
-import CONCERT from "../../assets/word-images/hard/CONCERT.png";
-import CONTROL from "../../assets/word-images/hard/CONTROL.png";
-import FORTUNE from "../../assets/word-images/hard/FORTUNE.png";
-import HOLIDAY from "../../assets/word-images/hard/HOLIDAY.png";
-import MONITOR from "../../assets/word-images/hard/MONITOR.png";
-import PACKAGE from "../../assets/word-images/hard/PACKAGE.png";
-import PAINTER from "../../assets/word-images/hard/PAINTER.png";
-import PERFECT from "../../assets/word-images/hard/PERFECT.png";
-import PICTURE from "../../assets/word-images/hard/PICTURE.png";
-import PROGRAM from "../../assets/word-images/hard/PROGRAM.png";
-import RECEIVE from "../../assets/word-images/hard/RECEIVE.png";
-import SOCIETY from "../../assets/word-images/hard/SOCIETY.png";
-import THOUGHT from "../../assets/word-images/hard/THOUGHT.png";
-import VEHICLE from "../../assets/word-images/hard/VEHICLE.png";
-import WEBPAGE from "../../assets/word-images/hard/WEBPAGE.png";
-
-import A from "../../assets/asl-img/A.png";
-import B from "../../assets/asl-img/B.png";
-import C from "../../assets/asl-img/C.png";
-import D from "../../assets/asl-img/D.png";
-import E from "../../assets/asl-img/E.png";
-import F from "../../assets/asl-img/F.png";
-import G from "../../assets/asl-img/G.png";
-import H from "../../assets/asl-img/H.png";
-import I from "../../assets/asl-img/I.png";
-import J from "../../assets/asl-img/J.png";
-import K from "../../assets/asl-img/K.png";
-import L from "../../assets/asl-img/L.png";
-import M from "../../assets/asl-img/M.png";
-import N from "../../assets/asl-img/N.png";
-import O from "../../assets/asl-img/O.png";
-import P from "../../assets/asl-img/P.png";
-import Q from "../../assets/asl-img/Q.png";
-import R from "../../assets/asl-img/R.png";
-import S from "../../assets/asl-img/S.png";
-import T from "../../assets/asl-img/T.png";
-import U from "../../assets/asl-img/U.png";
-import V from "../../assets/asl-img/V.png";
-import W from "../../assets/asl-img/W.png";
-import X from "../../assets/asl-img/X.png";
-import Y from "../../assets/asl-img/Y.png";
-import Z from "../../assets/asl-img/Z.png";
+import { images as rightImages } from "../../util/rightImages";
+import { images as leftImages } from "../../util/LeftImages";
+import { useSelector, useDispatch } from "react-redux";
+import { reset, getWords } from "../../features/gameWord/gameWordSlice";
+import FourPicStart from "../../components/Game/FourPic/FourPicStart";
+import {
+  reset as resetLeaderboard,
+  addLeaderboard,
+  getLeaderboard,
+} from "../../features/leaderboard/leaderboardSlice";
+import Leaderboard from "../../components/Leaderboard/Leaderboard";
+import FourPicGameOver from "../../components/Game/FourPic/FourPicGameOver";
+import GameLoader from "../../components/GameLoader/GameLoader";
 
 const FourPicOneWord = () => {
-  const aslImages = [
-    { value: "A", image: A },
-    { value: "B", image: B },
-    { value: "C", image: C },
-    { value: "D", image: D },
-    { value: "E", image: E },
-    { value: "F", image: F },
-    { value: "G", image: G },
-    { value: "H", image: H },
-    { value: "I", image: I },
-    { value: "J", image: J },
-    { value: "K", image: K },
-    { value: "L", image: L },
-    { value: "M", image: M },
-    { value: "N", image: N },
-    { value: "O", image: O },
-    { value: "P", image: P },
-    { value: "Q", image: Q },
-    { value: "R", image: R },
-    { value: "S", image: S },
-    { value: "T", image: T },
-    { value: "U", image: U },
-    { value: "V", image: V },
-    { value: "W", image: W },
-    { value: "X", image: X },
-    { value: "Y", image: Y },
-    { value: "Z", image: Z },
-  ];
+  const dispatch = useDispatch();
 
-  const easyWords = [
-    { value: ["B", "L", "U", "E"], image: BLUE },
-    { value: ["C", "A", "L", "L"], image: CALL },
-    { value: ["C", "O", "D", "E"], image: CODE },
-    { value: ["D", "A", "T", "A"], image: DATA },
-    { value: ["H", "E", "R", "O"], image: HERO },
-    { value: ["L", "O", "O", "P"], image: LOOP },
-    { value: ["P", "U", "L", "L"], image: PULL },
-    { value: ["R", "I", "N", "G"], image: RING },
-    { value: ["S", "I", "G", "N"], image: SIGN },
-    { value: ["S", "T", "A", "R"], image: STAR },
-  ];
+  const { data, isError, isSuccess, message } = useSelector(
+    (state) => state.gameWord
+  );
 
-  const mediumWords = [
-    { value: ["B", "O", "A", "R", "D"], image: BOARD },
-    { value: ["E", "R", "R", "O", "R"], image: ERROR },
-    { value: ["F", "L", "O", "A", "T"], image: FLOAT },
-    { value: ["L", "E", "T", "T", "E", "R"], image: LETTER },
-    { value: ["M", "O", "N", "E", "Y"], image: MONEY },
-    { value: ["M", "O", "U", "S", "E"], image: MOUSE },
-    { value: ["O", "R", "A", "N", "G", "E"], image: ORANGE },
-    { value: ["P", "A", "R", "T", "Y"], image: PARTY },
-    { value: ["P", "H", "O", "N", "E"], image: PHONE },
-    { value: ["P", "O", "W", "E", "R"], image: POWER },
-    { value: ["S", "H", "O", "R", "T"], image: SHORT },
-    { value: ["S", "T", "A", "N", "D"], image: STAND },
-    { value: ["S", "T", "A", "T", "U", "E"], image: STATUE },
-    { value: ["S", "T", "O", "R", "E"], image: STORE },
-    { value: ["V", "I", "R", "U", "S"], image: VIRUS },
-  ];
+  const {
+    data: dataLeaderboard,
+    isError: isErrorLeaderboard,
+    isSuccess: isSuccessLeaderboard,
+    isLoading: isLoadingLeaderboard,
+    message: messageLeaderboard,
+  } = useSelector((state) => state.leaderboard);
 
-  const hardWords = [
-    { value: ["A", "C", "T", "R", "E", "S", "S"], image: ACTRESS },
-    { value: ["B", "A", "L", "A", "N", "C", "E"], image: BALANCE },
-    { value: ["C", "O", "M", "P", "I", "L", "E"], image: COMPILE },
-    { value: ["C", "O", "N", "C", "E", "R", "T"], image: CONCERT },
-    { value: ["C", "O", "N", "T", "R", "O", "L"], image: CONTROL },
-    { value: ["F", "O", "R", "T", "U", "N", "E"], image: FORTUNE },
-    { value: ["H", "O", "L", "I", "D", "A", "Y"], image: HOLIDAY },
-    { value: ["M", "O", "N", "I", "T", "O", "R"], image: MONITOR },
-    { value: ["P", "A", "C", "K", "A", "G", "E"], image: PACKAGE },
-    { value: ["P", "A", "I", "N", "T", "E", "R"], image: PAINTER },
-    { value: ["P", "E", "R", "F", "E", "C", "T"], image: PERFECT },
-    { value: ["P", "I", "C", "T", "U", "R", "E"], image: PICTURE },
-    { value: ["P", "R", "O", "G", "R", "A", "M"], image: PROGRAM },
-    { value: ["R", "E", "C", "E", "I", "V", "E"], image: RECEIVE },
-    { value: ["S", "O", "C", "I", "E", "T", "Y"], image: SOCIETY },
-    { value: ["T", "H", "O", "U", "G", "H", "T"], image: THOUGHT },
-    { value: ["V", "E", "H", "I", "C", "L", "E"], image: VEHICLE },
-    { value: ["W", "E", "B", "P", "A", "G", "E"], image: WEBPAGE },
-  ];
+  const { user, token } = useSelector((state) => state.auth);
 
+  const gameType = "fourpiconeword";
+  const [aslImages, setAslImages] = useState([]);
   const [gameStart, setGameStart] = useState(false);
-
   const [gameEnded, setGameEnded] = useState(false);
-
   const [imagesArr, setImagesArr] = useState([]);
-
   const [arrIndex, setArrIndex] = useState(0);
-
   const [choicesArr, setChoicesArr] = useState([]);
-
   const [answerArr, setAnswerArr] = useState([]);
   const [answerIndexArr, setAnswerIndexArr] = useState([]);
-
   const [blankAnswerArr, setBlankAnswerArr] = useState([]);
-
   const [answerImageArr, setAnswerImageArr] = useState([]);
-
   const [difficulty, setDifficulty] = useState("EASY");
-
   const [correct, setCorrect] = useState(0);
   const [wrong, setWrong] = useState(0);
-
   const [remainingLives, setRemainingLives] = useState([]);
   const [lostLives, setLostLives] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      setGameEnded(false);
+      setIsLoading(false);
+
+      setGameStart(true);
+
+      const words = data.map((item) => {
+        return { value: item.word.split(""), image: item.image };
+      });
+
+      if (difficulty === "EASY") {
+        setImagesArr(getRandomItems(words, 5));
+      }
+      if (difficulty === "MEDIUM") {
+        setImagesArr(getRandomItems(words, 10));
+      }
+      if (difficulty === "HARD") {
+        setImagesArr(getRandomItems(words, 15));
+      }
+      getRemainingLives();
+    }
+
+    if (isError) {
+      dispatch(reset());
+      setIsLoading(false);
+      alert(message);
+    }
+    // eslint-disable-next-line
+  }, [data, isSuccess, isError, message]);
+
+  useEffect(() => {
+    if (gameEnded) {
+      const params = {
+        token: token,
+        gameType: gameType,
+        difficulty: difficulty,
+        score: correct,
+        time: 0,
+      };
+      dispatch(addLeaderboard(params));
+      console.log("Save to Leaderboard");
+    }
+    // eslint-disable-next-line
+  }, [gameEnded]);
+
+  useEffect(() => {
+    if (isSuccessLeaderboard) {
+      dispatch(resetLeaderboard());
+    }
+
+    if (isErrorLeaderboard) {
+      dispatch(resetLeaderboard());
+    }
+    // eslint-disable-next-line
+  }, [
+    dataLeaderboard,
+    isErrorLeaderboard,
+    isSuccessLeaderboard,
+    isLoadingLeaderboard,
+    messageLeaderboard,
+  ]);
+
+  useEffect(() => {
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+    dispatch(getLeaderboard(params));
+    // eslint-disable-next-line
+  }, [difficulty]);
 
   function startGame() {
     resetGame();
-    setGameStart(true);
-    if (difficulty === "EASY") {
-      setImagesArr(getRandomItems(easyWords, 5));
-    }
-    if (difficulty === "MEDIUM") {
-      setImagesArr(getRandomItems(mediumWords, 10));
-    }
-    if (difficulty === "HARD") {
-      setImagesArr(getRandomItems(hardWords, 15));
-    }
-    getRemainingLives();
+    setIsLoading(true);
+    const params = {
+      token: token,
+      gameType: gameType,
+      difficulty: difficulty,
+    };
+
+    setTimeout(() => {
+      dispatch(getWords(params));
+    }, 500);
   }
 
   function resetGame() {
@@ -529,11 +471,54 @@ const FourPicOneWord = () => {
     }
   }, [answerImageArr]);
 
+  // useEffect(() => {
+  //   if (gameEnded) {
+  //     alert("Game Ended!");
+  //   }
+  // }, [gameEnded]);
+
   useEffect(() => {
-    if (gameEnded) {
-      alert("Game Ended!");
+    const alphabets = [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ];
+    if (user.userSettings.hand) {
+      const asl = alphabets.map((item, index) => {
+        return { value: item, image: Object.values(rightImages)[index] };
+      });
+      setAslImages(asl);
+    } else {
+      const asl = alphabets.map((item, index) => {
+        return { value: item, image: Object.values(leftImages)[index] };
+      });
+      setAslImages(asl);
     }
-  }, [gameEnded]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="four-pic">
@@ -551,8 +536,8 @@ const FourPicOneWord = () => {
           </div>
 
           <div className="btn-container">
-            <button onClick={startGame}>START</button>
-            <div className="divider"></div>
+            {/* <button onClick={startGame}>START</button>
+            <div className="divider"></div> */}
             <button onClick={resetGame}>RESET</button>
           </div>
 
@@ -563,7 +548,22 @@ const FourPicOneWord = () => {
         </div>
 
         <div className="picture-container">
-          {gameStart ? renderImage() : ""}
+          {!gameEnded && !isLoading ? renderImage() : ""}
+          {!gameStart && !gameEnded && !isLoading ? (
+            <FourPicStart start={startGame} />
+          ) : (
+            ""
+          )}
+
+          {gameEnded && !isLoading && (
+            <FourPicGameOver
+              start={startGame}
+              difficulty={difficulty}
+              score={`${correct} / ${imagesArr.length}`}
+            />
+          )}
+
+          {isLoading ? <GameLoader className="game-loader" /> : ""}
         </div>
 
         <div className="bottom-indicator">
@@ -600,12 +600,10 @@ const FourPicOneWord = () => {
         </div>
       </div>
 
-      <RightNav
-        header="4 PICS"
-        coloredText="1 WORD"
-        text="This game has varying levels of difficulty and displays four different images linked by a single word. The learner’s goal is to deduce the word from a set of letters provided below the pictures.
-        Twist: The set of letters that can be seen below the pictures are hand-signed alphabets using American Sign Language (ASL).
-        "
+      <Leaderboard
+        difficulty={difficulty}
+        data={dataLeaderboard}
+        gameType={gameType}
       />
     </div>
   );

@@ -4,7 +4,7 @@ const getGameLogs = async (req, res) => {
   try {
 
     const previousDay = new Date();
-    previousDay.setDate(previousDay.getDate() - 1);
+    previousDay.setDate(previousDay.getDate() - 7);
 
     const fingerspell = await GameLog.find({ "gameType": "fingerspell", createdAt: {$gte: previousDay}}).lean().exec()
     const spellhandsign = await GameLog.find({ "gameType": "spellhandsign", createdAt: {$gte: previousDay}}).lean().exec()

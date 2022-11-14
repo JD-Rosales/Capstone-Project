@@ -7,7 +7,7 @@ let otpSchema = mongoose.Schema({
   },
   otpType: {
     type: String,
-    default: "Signup"
+    default: "signup"
   },
   otp:{
     type: Number,
@@ -17,6 +17,6 @@ let otpSchema = mongoose.Schema({
   timestamps: true
 })
 
-otpSchema.index({createdAt: 1},{expireAfterSeconds: 450});
+otpSchema.index({updatedAt: 1},{expireAfterSeconds: 450});
 
 module.exports = mongoose.model('Otp', otpSchema)

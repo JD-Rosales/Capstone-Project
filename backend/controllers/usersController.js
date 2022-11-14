@@ -10,6 +10,13 @@ const signUp = async (req, res) => {
     const { email , password, userInfo} = req.body
     const role = req.body.role
 
+    const regex = /^[A-Za-z]\w{7,16}$/
+    const validatePass = password.match((regex))
+
+    if(!validatePass){
+      return res.status(400).json({ message: 'Password must contain letters and numbers'})
+    }
+
     //check if all required fields are present
     if (!email){
       res.status(400).json({ message: 'Email is required'})

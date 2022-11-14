@@ -98,7 +98,12 @@ const Play = () => {
                 <p>
                   Words will appear on the screen, and the learner will sign
                   each letter in the word.
-                  <i> Note: The learner’s camera must be turned on.</i>
+                  <br />
+                  <br />
+                  <i>
+                    <span style={{ color: "var(--aquaGreen)" }}>Note:</span> The
+                    learner’s camera must be turned on.
+                  </i>
                 </p>
 
                 <Button
@@ -256,9 +261,9 @@ const Play = () => {
                   <br />
                   <br />
                   <i>
-                    Twist: The set of letters that can be seen below the
-                    pictures are hand-signed alphabets using American Sign
-                    Language (ASL).
+                    <span style={{ color: "var(--aquaGreen)" }}>Twist:</span>{" "}
+                    The set of letters that can be seen below the pictures are
+                    hand-signed alphabets using American Sign Language (ASL).
                   </i>
                 </p>
 

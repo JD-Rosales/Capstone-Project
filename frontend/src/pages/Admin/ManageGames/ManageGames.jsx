@@ -215,7 +215,7 @@ const ManageGames = () => {
                 </p>
 
                 <Button
-                  onClick={() => navigate("/test")}
+                  onClick={() => navigate("/manage-4-pic-1-word")}
                   variant="contained"
                   size="large"
                   sx={btnStyle}

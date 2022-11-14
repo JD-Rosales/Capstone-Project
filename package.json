@@ -20,8 +20,7 @@
     "moment": "^2.29.4",
     "mongoose": "^6.4.4",
     "nodemailer": "^6.8.0",
-    "randomstring": "^1.2.2",
-    "speakeasy": "^2.0.0"
+    "randomstring": "^1.2.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

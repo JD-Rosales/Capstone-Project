@@ -2,7 +2,6 @@ const User = require('../models/userModel')
 const Otp = require('../models/otpModel')
 const nodemailer = require('nodemailer');
 const randomString = require('randomstring')
-const speakeasy = require('speakeasy')
 
 const sendOTP = async (req, res, next) => {
   try {
@@ -61,7 +60,7 @@ const sendMail = async (otp) => {
 
   const mailOptions = {
     from: 'process.env.EMAIL',
-    to: '1901554@lnu.edu.ph',
+    to: 'retulladwight2017@gmail.com',
     subject: 'Test Email',
     text : otp
   };
@@ -71,6 +70,7 @@ const sendMail = async (otp) => {
    console.log(error);
     } else {
       // console.log('Email sent: ' + info.response);
+      console.log("Mail Sent!")
       return info
       // do something useful
     }

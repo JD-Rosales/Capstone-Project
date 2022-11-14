@@ -62,12 +62,17 @@ body {
   background-color: var(--aquaGreen);
   border-radius: 15px;
   font-size: 1rem;
-  color: var(--navyBlue)
+  color: var(--navyBlue);
+  overflow-wrap: anywhere;
 }
 
 .Toastify__toast-body {
   margin: auto;
   flex: none;
+  height: 100%;
+  width: 100%;
+  font-family: 'Poppins', 'sans-serif';
+  line-height: 1rem;
 }
 
 .Toastify__toast--error {

@@ -9,7 +9,7 @@ import { Button } from "@mui/material";
 const buttonStyle = {
   width: 140,
   height: 50,
-  boxShadow: 20,
+  boxShadow: 3,
   mt: 4,
   borderRadius: "10px",
   backgroundColor: "#42C9A3",
@@ -46,6 +46,7 @@ const ChooseRole = (props) => {
           <Button
             value="generaluser"
             variant="contained"
+            disableElevation="true"
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);

@@ -40,7 +40,7 @@ const GameLogs = () => {
       },
       title: {
         display: true,
-        text: "Today's Game Trend",
+        text: "Weekly Game Trend",
         color: "#fff",
       },
     },
@@ -58,10 +58,9 @@ const GameLogs = () => {
     labels,
     datasets: [
       {
-        label: "Access Count",
+        label: "Play Count",
         data: data,
-        backgroundColor: ["red", "blue", "green", "yellow"],
-        // backgroundColor: "#42C9A3",
+        backgroundColor: ["#4F6D7A", "#474974", "#A69CAC", "#F1DCA4"],
       },
     ],
   };

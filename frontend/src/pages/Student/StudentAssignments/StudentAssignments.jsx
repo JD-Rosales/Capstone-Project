@@ -19,6 +19,7 @@ const styles = {
     borderRadius: "15px",
     paddingX: 5,
     paddingY: 2,
+    mt: 4,
   },
   gridImage: {
     height: "200px",
@@ -28,13 +29,13 @@ const styles = {
     display: "flex",
     alignItems: "center",
     color: "#fff",
-    py: 1,
+    py: 2,
     px: 3,
     borderRadius: "15px",
-    mb: 2,
+    mb: 1,
   },
   iconStyle: {
-    fontSize: "40px",
+    fontSize: "30px",
     color: "var(--aquaGreen)",
     marginRight: "15px",
   },
@@ -75,7 +76,7 @@ const StudentAssignments = () => {
           onClick={() => {
             navigate("/student-classwork", { state: item });
           }}
-          elevation={2}
+          elevation={0}
           sx={{
             ...styles.paperStyle,
             cursor: "pointer",
@@ -93,7 +94,7 @@ const StudentAssignments = () => {
           <Typography
             sx={{
               mr: 2,
-              fontSize: "1.5rem",
+              fontSize: "1.1rem",
               color: "#fff",
             }}
           >
@@ -102,7 +103,7 @@ const StudentAssignments = () => {
           <Typography
             sx={{
               mr: 2,
-              fontSize: "1rem",
+              fontSize: ".9rem",
               color: item.isClose ? "#df5c61" : "#fff",
             }}
           >
@@ -121,7 +122,7 @@ const StudentAssignments = () => {
           <Typography
             sx={{
               ml: "auto",
-              fontSize: ".9rem",
+              fontSize: ".8rem",
               color: item.isClose ? "#df5c61" : "#fff",
             }}
           >

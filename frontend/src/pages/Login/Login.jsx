@@ -195,7 +195,7 @@ const Login = () => {
               InputProps={{ sx: { height: 50 } }}
               value={email}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setEmail(e.target.value.trim());
               }}
             />
 

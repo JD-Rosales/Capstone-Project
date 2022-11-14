@@ -113,10 +113,10 @@ const Leaderboard = ({ difficulty, gameType, data }) => {
                     <Typography
                       noWrap={true}
                       sx={{
-                        display: "block",
                         fontSize: "13px",
                         marginTop: "-7px",
                         color: "#fff",
+                        display: gameType === "fourpiconeword" ? "none" : "",
                       }}
                     >
                       Time Left: {convertRemainingTime(item.time)}

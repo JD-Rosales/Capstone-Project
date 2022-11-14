@@ -1,8 +1,9 @@
 const GameWord = require('../models/gameWordModel')
+const { cloudinary } = require('../config/cloudinary')
 
 const addGameWord = async (req, res) => {
   try {
-    let {gameType, word, difficulty} = req.body
+    let {gameType, word, difficulty, image} = req.body
 
     word = word.toUpperCase()
     difficulty = difficulty.toUpperCase()
@@ -16,15 +17,44 @@ const addGameWord = async (req, res) => {
       return res.status(400).json({message: "Please input all required fields"})
     }
 
-    await GameWord.create({
-      gameType,
-      word,
-      difficulty
-    })
+    if(gameType === "fourpiconeword"){
+      // function here
+      if(!image || image === ""){
+        return res.status(400).json({message: "Please select an image"})
+      }
 
-    const gameWord = await GameWord.find({ "gameType": gameType })
+      const uploadResponse = await cloudinary.uploader.upload(image, {
+        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET
+      })
 
-    return res.status(200).json(gameWord)
+      if (uploadResponse.url) { //check if image upload return an image url
+        await GameWord.create({
+          gameType,
+          word,
+          image: uploadResponse.url,
+          difficulty
+        })
+
+        const gameWord = await GameWord.find({ "gameType": gameType })
+        return res.status(200).json(gameWord)
+
+      } else {
+        return res.status(400).json({ message: "An error has occured!" })
+      }
+
+
+    } else {
+      await GameWord.create({
+        gameType,
+        word,
+        difficulty
+      })
+  
+      const gameWord = await GameWord.find({ "gameType": gameType })
+  
+      return res.status(200).json(gameWord)
+    }
+
   } catch (error) {
     console.log(error)
     return res.status(400).json({message: "An error has occured"})

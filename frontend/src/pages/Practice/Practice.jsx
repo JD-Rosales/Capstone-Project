@@ -24,7 +24,7 @@ const Practice = () => {
   const [handImage, setHandImage] = useState();
   const [asl, setASL] = useState([]);
   const [handsign, setHandsign] = useState("");
-  const [handView, setHandView] = useState("False");
+  const [handView, setHandView] = useState(false);
   const [cameraEnable, setCameraEnable] = useState(false);
   const [letter, setLetter] = useState(null);
   const [aslImg, setAslImg] = useState(null);
@@ -59,9 +59,9 @@ const Practice = () => {
       if (loading) setloading(false);
 
       if (hand.length > 0) {
-        setHandView("True");
+        setHandView(true);
       } else {
-        setHandView("False");
+        setHandView(false);
       }
 
       if (hand.length > 0) {
@@ -148,7 +148,7 @@ const Practice = () => {
 
           <br />
           <span>
-            Hand Detected: <span>{handView}</span>
+            Hand Detected: <span>{handView ? "True" : "False"}</span>
           </span>
 
           <span>
@@ -180,7 +180,10 @@ const Practice = () => {
         </div>
 
         {letter ? (
-          <div className="status-container">
+          <div
+            className="status-container"
+            style={{ display: handView ? "flex" : "none" }}
+          >
             <span>Gesture Match!</span>
             {gestureMatch ? (
               <img src={correct} alt="correct!"></img>
