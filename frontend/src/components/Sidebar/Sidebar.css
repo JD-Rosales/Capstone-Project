@@ -1,11 +1,10 @@
 .sidebar {
   height: 100vh;
   width: 300px;
-  background-color: #182142;
+  background-color: var(--navyBlue);
   color: #fff;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
-  /* float: left; */
   position: fixed;
   top: 0;
   left: 0;
@@ -96,12 +95,17 @@
   flex-direction: row;
   align-items: center;
   transition: .1s ease-in-out;
+  margin-bottom: 2px;
 }
 
 .sidebar > .list-container > ul > li > a:hover{
   background-color: #f0f0f0;
-  color: var(--aquaGreen);
-  font-weight: bold;
+  color: var(--navyBlue);
+}
+
+.sidebar > .list-container > ul > li > a.active {
+  background-color: #f0f0f0;
+  color: var(--navyBlue);
 }
 
 /*  */
@@ -179,6 +183,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: var(--navyBlue);
 }
 
 .sidebar .bottom-list > ul{
@@ -229,6 +234,11 @@
 .sidebar a.active-menu {
   background-color: #fff !important;
   color: #000 !important;
+}
+
+.sidebar > .bottom-list > ul > li > a.active {
+  background-color: #f0f0f0;
+  color: var(--navyBlue);
 }
 
 .modal-container {

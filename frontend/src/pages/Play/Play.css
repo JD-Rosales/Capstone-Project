@@ -8,6 +8,11 @@
   padding: 0 30px;
 }
 
+.play header {
+  width: 100%;
+  max-width: 1000px;
+}
+
 .play header h1 span{
   color: var(--aquaGreen);
 }
@@ -18,6 +23,7 @@
 
 .play main {
   width: 100%;
+  max-width: 1000px;
 }
 
 .play main img {

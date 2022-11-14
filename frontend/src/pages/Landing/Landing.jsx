@@ -2,14 +2,9 @@ import "./Landing.css";
 import illustration1 from "../../assets/illustration1.png";
 import logo2 from "../../assets/logo2.png";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const Landing = () => {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
 
   return (
     <div className="landing">
@@ -29,8 +24,8 @@ const Landing = () => {
           </h1>
 
           <span className="subtitle">
-            Get a better understanding of the sign lanuage that is most <br />
-            widely used around the world.
+            Get a better understanding of the sign lanuage that is most widely
+            used around the world.
           </span>
 
           <button
@@ -42,7 +37,7 @@ const Landing = () => {
             Get Started
           </button>
 
-          <span>
+          <span id="signUp">
             Don't have an account?
             <span
               className="signUp"

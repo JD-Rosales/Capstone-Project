@@ -63,6 +63,7 @@ body {
   border-radius: 15px;
   font-size: 1rem;
   color: var(--navyBlue);
+  text-align: center;
   overflow-wrap: anywhere;
 }
 

@@ -52,3 +52,10 @@
 .signup > .container .invisible_margin {
   margin-bottom: 10px;
 }
+
+@media (min-width:320px ) and (max-width:600px) {
+  .signup {
+    background-image: none;
+    background-color: #fff;
+  }
+}

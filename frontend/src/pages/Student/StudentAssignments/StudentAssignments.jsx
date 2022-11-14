@@ -131,7 +131,6 @@ const StudentAssignments = () => {
             {moment(item.deadline).format("h:mma")}{" "}
             {item.submissions.map((data) => {
               if (data.student === user._id) {
-                console.log(data.submission.score);
                 return data.submission.score;
               } else {
                 return null;
@@ -149,50 +148,52 @@ const StudentAssignments = () => {
     <div className="student-assignments">
       <Sidebar />
 
-      <Grid container spacing={0} sx={styles.gridContainer}>
-        <Grid
-          item={true}
-          xs={6}
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-        >
-          <h1>
-            ASSIGN<span style={{ color: "var(--aquaGreen)" }}>MENT</span>
-          </h1>
-          <p>
-            Assignments are the basis of the teacher if the learners gained
-            something today, so make sure to ace your assignments, and finish
-            them on time to ensure that you have understood the lesson.
-          </p>
+      <main>
+        <Grid container spacing={0} sx={styles.gridContainer}>
+          <Grid
+            item={true}
+            xs={6}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <h1>
+              ASSIGN<span style={{ color: "var(--aquaGreen)" }}>MENT</span>
+            </h1>
+            <p>
+              Assignments are the basis of the teacher if the learners gained
+              something today, so make sure to ace your assignments, and finish
+              them on time to ensure that you have understood the lesson.
+            </p>
+          </Grid>
+
+          <Grid
+            item={true}
+            xs={6}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <img
+              style={styles.gridImage}
+              src={assignment_illustration}
+              alt="assignment Illustration"
+            />
+          </Grid>
         </Grid>
 
-        <Grid
-          item={true}
-          xs={6}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
+        <Box
+          sx={{
+            height: "300px",
+            width: "100%",
+            maxHeight: "300px",
+            overflow: "auto",
+            mt: 4,
+          }}
         >
-          <img
-            style={styles.gridImage}
-            src={assignment_illustration}
-            alt="assignment Illustration"
-          />
-        </Grid>
-      </Grid>
-
-      <Box
-        sx={{
-          height: "300px",
-          width: "100%",
-          maxHeight: "300px",
-          overflow: "auto",
-          mt: 4,
-        }}
-      >
-        {isLoading ? <SkeletonLoader /> : data ? renderAssignments(data) : ""}
-      </Box>
+          {isLoading ? <SkeletonLoader /> : data ? renderAssignments(data) : ""}
+        </Box>
+      </main>
     </div>
   );
 };

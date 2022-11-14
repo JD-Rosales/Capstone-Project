@@ -10,6 +10,7 @@ import SignUp from "./pages/SignUp/SignUp";
 
 // Authenticated Pages
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import Dashboard from "./pages/Dashboard/Dashboard"
 import ASLTranslator from './pages/ASLTranslator/ASLTranslator';
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
@@ -22,19 +23,12 @@ import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChooseHand from "./pages/ChooseHand/ChooseHand";
 import Lesson1 from "./pages/Lessons/Lesson1/Lesson1";
-
-//Teacher Pages 
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
 import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
 import WaitingApproval from "./pages/WaitingApproval/WaitingApproval";
 import Assignments from "./pages/Teacher/Assignments/Assignments";
-
-//Student Pages
-import StudentDashboard from "./pages/Student/StudentDashboard/StudentDashboard"
 import StudentAssignments from "./pages/Student/StudentAssignments/StudentAssignments";
 import Classwork from "./pages/Student/StudentAssignments/Classwork/Classwork";
-
-//Admin Pages
 import AdminSignUp from "./pages/Admin/SignUp/SignUp"
 import AdminLogin from "./pages/Admin/Login/Login"
 import AccountActivation from "./pages/Admin/AccountActivation/AccountActivation";
@@ -58,6 +52,7 @@ function App() {
 
           {/* Student and General User Routes */}
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="asl-translator" element={<ASLTranslator />} />
             <Route path="play-game" element={<Play />} />
             <Route path="practice" element={<Practice />} />
@@ -88,7 +83,6 @@ function App() {
 
           {/* Student Routes */}
           <Route element={<RequireAuth allowedRoles={["student"]} />}>
-            <Route path="student-dashboard" element={<StudentDashboard />} />
             <Route path="student-assignments" element={<StudentAssignments />} />
             <Route path="student-classwork" element={<Classwork />} />
           </Route>

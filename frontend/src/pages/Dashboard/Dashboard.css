@@ -1,17 +1,21 @@
-.student-dashboard {
+.dashboard {
   margin-left: 300px;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.student-dashboard main {
+.dashboard main {
   padding: 0 40px;
   height: 100%;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+  width: 100%;
+  max-width: 1100px;
 }
 
-.student-dashboard main .header-container {
+.dashboard main .header-container {
   margin-top: 20px;
   padding: 20px 0;
   background-color: #182240;
@@ -22,12 +26,12 @@
   margin-bottom: 25px;
 }
 
-.student-dashboard main .header-container .text-container {
+.dashboard main .header-container .text-container {
   max-width: 500px;
   padding-left: 60px;
 }
 
-.student-dashboard main .header-container .img-container {
+.dashboard main .header-container .img-container {
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -35,19 +39,19 @@
   width: 100%;
 }
 
-.student-dashboard main h1 span {
+.dashboard main h1 span {
   color: #42C9A3;
 }
 
-.student-dashboard main .header-container .text-container h1 {
+.dashboard main .header-container .text-container h1 {
   margin-bottom: 10px;
 }
 
-.student-dashboard main .header-container .img-container img {
+.dashboard main .header-container .img-container img {
   height: 160px;
 }
 
-.student-dashboard main .game-logs-container {
+.dashboard main .game-logs-container {
   width: 100%;
   padding: 0 150px;
   background-color: #182240;

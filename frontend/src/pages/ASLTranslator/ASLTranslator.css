@@ -3,6 +3,9 @@
   margin-left: 300px;
   margin-right: 300px;
   width: calc(100vw - 600px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .asl-translator > .main {
@@ -11,6 +14,8 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+  max-width: 1000px;
 }
 
 .asl-translator > .main > .top {

@@ -21,20 +21,9 @@ import { reset, register } from "../../features/auth/authSlice";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CircularProgress } from "@mui/material";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  background: "#fff",
-  borderRadius: "15px",
-  boxShadow: 20,
-  outline: "none",
-  p: 4,
-  pb: 6,
-};
+import Otp from "../../components/Otp/Otp";
+import { useTheme } from "@mui/material/styles";
+import axios from "axios";
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -70,11 +59,69 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 }));
 
 const SignUp = () => {
+  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
   );
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    background: "#182240",
+    borderRadius: "15px",
+    boxShadow: 20,
+    outline: "none",
+    p: 4,
+    pb: 6,
+    [theme.breakpoints.down("md")]: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 500,
+
+      borderRadius: "15px",
+      boxShadow: 20,
+      outline: "none",
+      p: 4,
+      pb: 6,
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 320,
+      borderRadius: "15px",
+      boxShadow: 20,
+      outline: "none",
+      p: 3,
+      pb: 6,
+    },
+  };
+
+  const replyiconStyle = {
+    fontSize: "70px",
+    color: "#fff",
+    "&:hover": {
+      color: "#182240",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "50px",
+      color: "#43c9a3",
+      "&:hover": {
+        color: "#182240",
+      },
+    },
+  };
+
+  const [sentOTP, setSentOTP] = useState(false);
 
   const [role, setRole] = useState("generaluser");
   const [email, setEmail] = useState("");
@@ -88,10 +135,65 @@ const SignUp = () => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [formHeight, setFormHeight] = useState("470px");
 
+  const sendOTP = async () => {
+    if (password !== password2) {
+      toast.warning("Password do not match", {
+        autoClose: 2000,
+        position: "top-right",
+      });
+    } else {
+      notify2();
+      const userData = {
+        email,
+        password,
+        role,
+        userInfo: {
+          firstName: firstName,
+          lastName: lastName,
+          middleInitial: middleInitial,
+          school: school,
+          classCode: classCode,
+        },
+      };
+      await axios
+        .post("/api/otp/send-otp", userData)
+        .then((response) => {
+          setSentOTP(true);
+          toast.update(toastID2.current, {
+            render: "Email sent!",
+            type: "success",
+            isLoading: false,
+            autoClose: 2000,
+          });
+          console.log(response?.data?.message);
+        })
+        .catch((error) => {
+          toast.update(toastID2.current, {
+            render:
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString(),
+            type: "error",
+            isLoading: false,
+            autoClose: 2000,
+          });
+        });
+    }
+  };
+
   const toastID = useRef(null);
+  const toastID2 = useRef(null);
 
   const notify = () =>
-    (toastID.current = toast.loading("Creating your account....", {
+    (toastID.current = toast.loading("Creating your account...", {
+      autoClose: 10000,
+      position: "top-right",
+    }));
+
+  const notify2 = () =>
+    (toastID2.current = toast.loading("Verifying data...", {
       autoClose: 10000,
       position: "top-right",
     }));
@@ -107,7 +209,7 @@ const SignUp = () => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const userData = {
       email,
       password,
@@ -180,18 +282,11 @@ const SignUp = () => {
           navigate("/");
         }}
       >
-        <ReplyAllIcon
-          sx={{
-            fontSize: "50px",
-            "&:hover": {
-              color: "#182142",
-            },
-          }}
-        />
+        <ReplyAllIcon sx={replyiconStyle} />
       </div>
 
       <div className="container" style={{ height: formHeight }}>
-        <h1>
+        <h1 style={{ display: sentOTP ? "none" : "" }}>
           S<span>i</span>gn up
           <img
             src={back}
@@ -201,9 +296,11 @@ const SignUp = () => {
             }}
           />
         </h1>
-        <span>As a {role}, it's quick and easy</span>
+        <span style={{ display: sentOTP ? "none" : "" }}>
+          As a {role}, it's quick and easy
+        </span>
 
-        <form>
+        <form style={{ display: sentOTP ? "none" : "" }}>
           <FormControl fullWidth={true}>
             {role !== "generaluser" ? (
               <Grid2 container spacing={1}>
@@ -370,7 +467,8 @@ const SignUp = () => {
             />
 
             <LoadingButton
-              onClick={submit}
+              // onClick={submit}
+              onClick={sendOTP}
               loading={isLoading}
               loadingIndicator={
                 <CircularProgress size="2em" sx={{ color: "#182240" }} />
@@ -393,6 +491,8 @@ const SignUp = () => {
             </LoadingButton>
           </FormControl>
         </form>
+
+        {sentOTP && <Otp submit={submit} email={email} sendOTP={sendOTP} />}
       </div>
 
       <Modal

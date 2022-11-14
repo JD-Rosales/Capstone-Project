@@ -56,3 +56,9 @@
   margin-top: 20px;
   cursor: pointer;
 }
+@media (min-width:320px ) and (max-width:600px) {
+  .user-login {
+    background-image: none;
+    background-color: #fff;
+  }
+}

@@ -20,20 +20,7 @@ import { CircularProgress } from "@mui/material";
 import ChooseRole from "../../components/ChooseRole/ChooseRole";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  background: "#fff",
-  borderRadius: "15px",
-  boxShadow: 20,
-  outline: "none",
-  p: 4,
-  pb: 6,
-};
+import { useTheme } from "@mui/material/styles";
 
 const Android12Switch = styled(Switch)(({ theme }) => ({
   padding: 8,
@@ -69,7 +56,65 @@ const Android12Switch = styled(Switch)(({ theme }) => ({
 }));
 
 const Login = () => {
+  const theme = useTheme();
   const [open, setOpen] = useState(true);
+
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    background: "#182240",
+    borderRadius: "15px",
+    boxShadow: 20,
+    outline: "none",
+    p: 4,
+    pb: 6,
+
+    [theme.breakpoints.down("md")]: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 500,
+      background: "#182240",
+      borderRadius: "15px",
+      boxShadow: 20,
+      outline: "none",
+      p: 4,
+      pb: 6,
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: 320,
+      background: "#182240",
+      borderRadius: "15px",
+      boxShadow: 20,
+      outline: "none",
+      pr: 2,
+      pb: 6,
+    },
+  };
+  const replyiconStyle = {
+    fontSize: "70px",
+    color: "#fff",
+    "&:hover": {
+      color: "#182240",
+    },
+
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "50px",
+      color: "#43c9a3",
+      "&:hover": {
+        color: "#182240",
+      },
+    },
+  };
 
   const handleModal = () => {
     if (!isLoading) {
@@ -119,10 +164,8 @@ const Login = () => {
 
       if (user.role === "teacher") {
         navigate("/teacher-dashboard");
-      } else if (user.role === "student") {
-        navigate("/student-dashboard");
       } else {
-        navigate("/asl-translator");
+        navigate("/dashboard");
       }
     }
 
@@ -161,14 +204,7 @@ const Login = () => {
           navigate("/");
         }}
       >
-        <ReplyAllIcon
-          sx={{
-            fontSize: "50px",
-            "&:hover": {
-              color: "#182142",
-            },
-          }}
-        />
+        <ReplyAllIcon sx={replyiconStyle} />
       </div>
       <div className="container">
         <h1>

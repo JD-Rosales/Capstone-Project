@@ -218,7 +218,7 @@ const UpdateProfile = () => {
               </Grid2>
               <Grid2 xs={9}>
                 <Grid2 xs={12}>
-                  {user.role !== "admin" ? (
+                  {user.role === "teacher" || user.role === "student" ? (
                     <TextField
                       label="School/University"
                       type="text"
@@ -304,10 +304,60 @@ const UpdateProfile = () => {
                       }}
                     />
                   </Grid2>
+
+                  <Grid2
+                    xs={12}
+                    sx={{
+                      display: "flex",
+                      // display: user.role === "student"
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button
+                      // onClick={}
+                      variant="contained"
+                      sx={{
+                        background: "var(--backgroundColor)",
+                        boxShadow: "none",
+                        color: "#F0F0F0",
+                        height: 40,
+                        mt: 2,
+                        mr: 1,
+                        width: "150px",
+                        borderRadius: "20px",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Cancel
+                    </Button>
+
+                    <LoadingButton
+                      onClick={submit}
+                      loading={isLoading}
+                      variant="contained"
+                      loadingIndicator={
+                        <CircularProgress
+                          size="1.5em"
+                          sx={{ color: "#182240" }}
+                        />
+                      }
+                      sx={{
+                        background: "#42C9A3",
+                        color: "#F0F0F0",
+                        height: 40,
+                        mt: 2,
+                        width: "150px",
+                        borderRadius: "20px",
+                        fontSize: "14px",
+                      }}
+                    >
+                      Update
+                    </LoadingButton>
+                  </Grid2>
                 </Grid2>
               </Grid2>
             </Grid2>
-            <hr />
+            {/* <hr />
 
             <Grid2
               xs={12}
@@ -353,7 +403,7 @@ const UpdateProfile = () => {
               >
                 Update
               </LoadingButton>
-            </Grid2>
+            </Grid2> */}
           </FormControl>
         </form>
       </main>

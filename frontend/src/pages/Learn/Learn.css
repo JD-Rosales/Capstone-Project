@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: 100vh;
 }
 
-.learn main {
+.learn main {margin-top: 20px;
   width: 100%;
+  max-width: 1100px;
   padding: 0 30px;
 }
 

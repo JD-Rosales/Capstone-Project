@@ -47,14 +47,14 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleModal = () => {
     setModalOpen(!modalOpen);
   };
-
-  const { user } = useSelector((state) => state.auth);
 
   const logout = () => {
     localStorage.clear();
@@ -78,7 +78,15 @@ const Sidebar = () => {
               {user?.userInfo.firstName + " " + user?.userInfo.lastName}{" "}
             </span>
             <span>
-              ({user?.role.charAt(0).toUpperCase() + user?.role.slice(1)})
+              (
+              {user?.role === "generaluser"
+                ? "Public User"
+                : user?.role === "student"
+                ? "Student"
+                : user?.role === "teacher"
+                ? "Teacher"
+                : "Admin"}
+              )
             </span>
           </div>
         </div>
@@ -94,94 +102,100 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <Link to="/enrolled-students">
+              <NavLink to="/enrolled-students">
                 <MdPeopleAlt className="icon" /> <span>Enrolled Students</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/teacher/assignments">
+              <NavLink to="/teacher/assignments">
                 <MdAssignment className="icon" /> <span>Assignments</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         ) : user?.role === "student" ? (
           <ul>
             <li>
-              <Link to="/student-dashboard">
+              <NavLink to="/dashboard">
                 <RiDashboardFill className="icon" /> <span>Dashboard</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/asl-translator">
+              <NavLink to="/asl-translator">
                 <IoMdHand className="icon" /> <span>ASL Translator</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/student-assignments">
+              <NavLink to="/student-assignments">
                 <MdAssignment className="icon" /> <span>Assignments</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/play-game">
+              <NavLink to="/play-game">
                 <FaGamepad className="icon" /> <span>Play a Game</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/practice">
+              <NavLink to="/practice">
                 <BiDumbbell className="icon" /> <span>Practice</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/learn">
+              <NavLink to="/learn">
                 <RiLightbulbFill className="icon" /> <span>Learn ASL</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         ) : user?.role === "admin" ? (
           <ul>
             <li>
-              <Link to="/manage-games">
+              <NavLink to="/manage-games">
                 <AiFillControl className="icon" /> <span>Manage Games</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/account-activation">
+              <NavLink to="/account-activation">
                 <MdManageAccounts className="icon" />{" "}
                 <span>Account Activation</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         ) : (
           <ul>
             <li>
-              <Link to="/asl-translator">
+              <NavLink to="/dashboard">
+                <RiDashboardFill className="icon" /> <span>Dashboard</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/asl-translator">
                 <IoMdHand className="icon" /> <span>ASL Translator</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/play-game">
+              <NavLink to="/play-game">
                 <FaGamepad className="icon" /> <span>Play a Game!</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/practice">
+              <NavLink to="/practice">
                 <BiDumbbell className="icon" /> <span>Practice</span>
-              </Link>
+              </NavLink>
             </li>
 
             <li>
-              <Link to="/learn">
+              <NavLink to="/learn">
                 <RiLightbulbFill className="icon" /> <span>Learn ASL</span>
-              </Link>
+              </NavLink>
             </li>
           </ul>
         )}
@@ -204,22 +218,22 @@ const Sidebar = () => {
             <div className="menu-container">
               <ul>
                 <li>
-                  <Link to="/update-profile">
+                  <NavLink to="/update-profile">
                     <span>Edit Profile</span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 <li>
-                  <Link to="/change-password">
+                  <NavLink to="/change-password">
                     <span>Change password</span>
-                  </Link>
+                  </NavLink>
                 </li>
 
                 {user.role !== "admin" ? ( //removes choose hand in settings menu if role is admin
                   <li>
-                    <Link to="/choose-hand">
+                    <NavLink to="/choose-hand">
                       <span>Choose hand</span>
-                    </Link>
+                    </NavLink>
                   </li>
                 ) : (
                   ""
@@ -238,6 +252,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
