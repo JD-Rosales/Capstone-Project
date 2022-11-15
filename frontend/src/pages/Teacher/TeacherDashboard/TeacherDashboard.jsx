@@ -1,19 +1,31 @@
 import "./TeacherDashboard.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import teacher2 from "../../../assets/Teacher2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
-import Button from "@mui/material/Button";
+import { Grid } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { getEnrolledStudents } from "../../../features/student/studentSlice";
+import {
+  reset,
+  getEnrolledStudents,
+} from "../../../features/student/studentSlice";
+import { getAssignments } from "../../../features/assignment/assignmentSlice";
 import { toast } from "react-toastify";
+import GameLogs from "../../../components/GameLogs/GameLogs";
+import { useNavigate } from "react-router-dom";
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 
 const TeacherDashboard = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const classCodeRef = useRef(null);
 
   const { user, token } = useSelector((state) => state.auth);
   const { data, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.student
   );
+
+  const { data: allAssignment } = useSelector((state) => state.assignment);
 
   useEffect(() => {
     const params = {
@@ -21,18 +33,20 @@ const TeacherDashboard = () => {
       token: token,
     };
     dispatch(getEnrolledStudents(params));
+    dispatch(getAssignments(params));
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (isSuccess) {
-      // console.log(data);
-      // setStudentList(data.students);
+      dispatch(reset());
     }
 
     if (isError) {
+      dispatch(reset());
       toast.error(message);
     }
+    // eslint-disable-next-line
   }, [data, isLoading, isError, isSuccess, message]);
 
   return (
@@ -40,75 +54,122 @@ const TeacherDashboard = () => {
       <Sidebar />
 
       <main>
-        <div className="header-container">
-          <div className="text-container">
+        <Grid
+          container
+          sx={{
+            marginTop: "20px",
+            p: 2,
+            backgroundColor: "var(--navyBlue)",
+            borderRadius: "20px",
+            maxWidth: "1200px",
+          }}
+        >
+          <Grid
+            item={true}
+            xs={6}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
             <h1>
-              Welcome Back, <span>{user.userInfo.firstName + "!"}</span>
+              Hi, Teacher{" "}
+              <span style={{ color: "var(--aquaGreen)" }}>
+                {user.userInfo.firstName + "!"}
+              </span>
             </h1>
 
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab rerum
-              eum voluptate dicta, assumenda recusandae tempora quia porro
-              exercitationem.
+              It's great to have you here. Ensure that the learners are actively
+              engaged with their coursework.
             </p>
-          </div>
+          </Grid>
+          <Grid item={true} xs={6} align="center">
+            <img height={180} src={teacher2} alt="Teacher Illustration" />
+          </Grid>
+        </Grid>
 
-          <div className="img-container">
-            <img src={teacher2} alt="Teacher Logo" />
-          </div>
-        </div>
+        <Grid container spacing={2} sx={{ mt: "20px", maxWidth: "1200px" }}>
+          <Grid item={true} xs={8}>
+            <GameLogs />
+          </Grid>
+          <Grid
+            item={true}
+            xs={4}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              justifyContent: "space-around",
+            }}
+          >
+            <div className="container1">
+              <span
+                style={{
+                  display: "block",
+                  width: "60%",
+                  wordWrap: "break-word",
+                }}
+              >
+                CLASS CODE{" "}
+                <h2 ref={classCodeRef} value={user.userInfo.classCode}>
+                  {user.userInfo.classCode}
+                </h2>
+              </span>
 
-        <div className="body-container">
-          <div className="enrolled-student-container">
-            <h1>
-              ENROLLED <span>STUDENTS</span>
-            </h1>
-
-            <div className="total-student">
-              <span>{data?.students?.length}</span>
+              <ContentCopyRoundedIcon
+                className="copyClipboard"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    classCodeRef.current.attributes.value.nodeValue
+                  );
+                  toast("Copied to Clipboard", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    progress: undefined,
+                    theme: "light",
+                  });
+                }}
+              />
             </div>
-
-            <span>Tap to view</span>
-          </div>
-
-          <div className="code-lesson">
-            <div className="code-container">
-              <h1>
-                CLASS <span>CODE</span>
-              </h1>
-
-              <span>{user.userInfo.classCode}</span>
-            </div>
-
-            <div className="total-lessons">
-              <h1>
-                TOTAL <span>LESSONS</span>
-              </h1>
-
-              <span>6</span>
-            </div>
-          </div>
-
-          <div className="manage-lesson">
-            <h1>
-              MANAGE <span>ASSIGNMENT</span>
-            </h1>
-
-            <p>
-              Ensure that the classes run efficiently and that the students are
-              engaged in their study. Keep track of learner involvement to
-              maintain motivation and develop classroom discipline.
-            </p>
-
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ backgroundColor: "#42C9A3" }}
+            <div
+              className="container2"
+              onClick={() => navigate("/enrolled-students")}
             >
-              MANAGE
-            </Button>
-          </div>
-        </div>
+              <span
+                style={{
+                  display: "block",
+                  width: "60%",
+                  wordWrap: "break-word",
+                }}
+              >
+                ENROLLED STUDENTS
+              </span>
+
+              <h2>{data?.students?.length}</h2>
+            </div>
+            <div
+              className="container3"
+              onClick={() => navigate("/teacher/assignments")}
+            >
+              <span
+                style={{
+                  display: "block",
+                  width: "60%",
+                  wordWrap: "break-word",
+                }}
+              >
+                ASSIGNED WORK
+              </span>
+
+              <h2>{allAssignment?.length}</h2>
+            </div>
+          </Grid>
+        </Grid>
       </main>
     </div>
   );

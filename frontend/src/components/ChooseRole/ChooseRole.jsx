@@ -5,58 +5,31 @@ import teacher from "../../assets/Teacher.png";
 import publicUser from "../../assets/PublicUser.png";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { Button } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+
+const buttonStyle = {
+  width: 170,
+  height: 50,
+  mb: 2,
+  fontFamily: "Poppins",
+  fontWeight: 600,
+  borderRadius: "10px",
+  backgroundColor: "#fff",
+  color: "#000",
+  "&:hover": {
+    backgroundColor: "#42C9A3",
+    color: "#fff",
+  },
+};
 
 const ChooseRole = (props) => {
-  const theme = useTheme();
-
   const handleParenChange = (e) => {
     props.onChange(e.target.value);
-  };
-
-  const buttonStyle = {
-    width: 140,
-    height: 50,
-    boxShadow: 3,
-    mt: 4,
-    borderRadius: "10px",
-    backgroundColor: "#fff",
-    color: "#182240",
-    "&:hover": {
-      backgroundColor: "#42c9a3",
-      color: "#fff",
-    },
-
-    [theme.breakpoints.down("md")]: {
-      height: 37,
-      width: 130,
-      boxShadow: 3,
-      mt: 3,
-    },
-
-    [theme.breakpoints.down("sm")]: {
-      height: 34,
-      boxShadow: 3,
-      mt: 0,
-    },
-  };
-
-  const GridStyle = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
   };
 
   return (
     <div className="chooseRole">
       <div className="header-container">
-        <img
-          src={backlogo}
-          className="prev-icon"
-          alt="logo"
-          onClick={handleParenChange}
-        ></img>
+        <img src={backlogo} alt="logo" onClick={handleParenChange}></img>
 
         <h1>SELECT YOUR ROLE</h1>
         <p>
@@ -66,34 +39,49 @@ const ChooseRole = (props) => {
       <Grid2
         container
         spacing={2}
-        sx={{
-          [theme.breakpoints.down("sm")]: {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          },
+        flexDirection={{
+          xs: "column",
+          sm: "column",
+          md: "column",
+          lg: "row",
+          xl: "row",
         }}
+        alignItems="center"
       >
-        <Grid2 sx={GridStyle} xs={4}>
-          <img src={publicUser} className="role" alt="General User" />
+        <Grid2
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          xs={4}
+        >
+          <img className="userRoleImg" src={publicUser} alt="General User" />
           <Button
+            className="userRoleBtn"
             value="generaluser"
             variant="contained"
-            disableElevation={true}
-            className="button"
+            disableElevation="true"
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);
             }}
           >
-            Public User
+            General User
           </Button>
         </Grid2>
-        <Grid2 sx={GridStyle} xs={4}>
-          <img src={student} className="role-one" alt="Student" />
+        <Grid2
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          xs={4}
+        >
+          <img className="studentRoleImg" src={student} alt="Student" />
           <Button
+            className="studentRoleBtn"
             value="student"
             variant="contained"
+            disableElevation="true"
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);
@@ -102,11 +90,19 @@ const ChooseRole = (props) => {
             Student
           </Button>
         </Grid2>
-        <Grid2 sx={GridStyle} xs={4}>
-          <img src={teacher} className="role" alt="Teacher" />
+        <Grid2
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          xs={4}
+        >
+          <img className="teacherRoleImg" src={teacher} alt="Teacher" />
           <Button
+            className="teacherRoleBtn"
             value="teacher"
             variant="contained"
+            disableElevation="true"
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);

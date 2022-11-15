@@ -1,6 +1,7 @@
 import "./Login.css";
 import back from "../../assets/back.png";
-import ReplyAllIcon from "@mui/icons-material/ReplyAll";
+import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
+// import ReplyAllIcon from "@mui/icons-material/ReplyAll";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -64,41 +65,15 @@ const Login = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 800,
-    background: "#182240",
+    width: { xs: 250, sm: 455, md: 700, lg: 1000, xl: 1200 },
+    height: { xs: 400, sm: 660, md: 525, lg: 610, xl: 680 },
+    background: "#fff",
     borderRadius: "15px",
     boxShadow: 20,
     outline: "none",
-    p: 4,
-    pb: 6,
-
-    [theme.breakpoints.down("md")]: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 500,
-      background: "#182240",
-      borderRadius: "15px",
-      boxShadow: 20,
-      outline: "none",
-      p: 4,
-      pb: 6,
-    },
-
-    [theme.breakpoints.down("sm")]: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 320,
-      background: "#182240",
-      borderRadius: "15px",
-      boxShadow: 20,
-      outline: "none",
-      pr: 2,
-      pb: 6,
-    },
+    p: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4 },
+    pb: { xs: 0, sm: 0, md: 6, lg: 6, xl: 6 },
+    backgroundColor: "#182142",
   };
   const replyiconStyle = {
     fontSize: "70px",
@@ -204,7 +179,7 @@ const Login = () => {
           navigate("/");
         }}
       >
-        <ReplyAllIcon sx={replyiconStyle} />
+        <ChevronLeftRoundedIcon sx={replyiconStyle} />
       </div>
       <div className="container">
         <h1>
@@ -283,7 +258,7 @@ const Login = () => {
             </LoadingButton>
           </FormControl>
         </form>
-        <span className="forgetPassword">Forgot password?</span>
+        {/* <span className="forgetPassword">Forgot password?</span> */}
       </div>
 
       <Modal
@@ -296,6 +271,7 @@ const Login = () => {
         BackdropProps={{
           timeout: 500,
         }}
+        style={{ backdropFilter: "blur(5px)" }}
       >
         <Fade in={open}>
           <Box sx={modalStyle}>

@@ -4,88 +4,229 @@
 }
 
 .chooseRole > .header-container {
-  margin: 20px;
+  margin: 50px;
 }
 
 .chooseRole h1 {
   font-size: 2.5rem;
   color: #fff;
   text-align: center;
-
 }
 
 .chooseRole p {
   color: #fff;
   text-align: center;
   margin-left: 50px;
-  line-height: 0px;
 }
 
 .chooseRole p > span {
   color: #42C9A3;
 }
 
-.chooseRole > .header-container  > img {
+.chooseRole > .header-container > img {
   float: left;
   width: 45px;
   height: 45px;
   cursor: pointer;
-  
 }
 
+.userRoleImg {
+  width: 240px;
+}
 
+.studentRoleImg {
+ width: 310px;
+}
 
-@media (max-width:600px ) {
-  .chooseRole .header-container h1 {
-    line-height: 25px;
-    font-size: 30px;
+.teacherRoleImg {
+  width: 230px;
+ }
+
+.userRoleBtn {
+  margin-top: 80px !important;
+}
+
+.studentRoleBtn {
+  margin-top: 70px !important;
+}
+
+.teacherRoleBtn {
+  margin-top: 80px !important;
+}
+
+@media (min-width: 0px) and (max-width: 320px) {
+  .userRoleImg {
+    display: none;
   }
-  .chooseRole .header-container p {
-    line-height: 12px;
-    font-size: 10px;  
-    margin-left: 15px
+  
+  .studentRoleImg {
+    display: none;
+  }
+  
+  .teacherRoleImg {
+    display: none;
+   }
+
+  .userRoleBtn, .studentRoleBtn, .teacherRoleBtn {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+    width: 150px !important;
+    height: 30px !important;
+    font-size: .6rem !important;
   }
 
-  .chooseRole .header-container .prev-icon{
-    float: left;
-    width: 25px;
-    height: 25px;
+  .chooseRole h1 {
+    font-size: 1.3rem;
+    color: #fff;
+    text-align: center;
+    line-height: 19px;
+    margin-bottom: 15px;
+  }
+
+  .chooseRole p {
+    color: #fff;
+    text-align: center;
+    margin-left: 0;
+    font-size: .6rem;
+    margin-bottom: -30px;
+  }
+
+  .chooseRole > .header-container > img {
+    float: none;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
-    
-  }
-  .chooseRole .role{
-    width: 0px;
-    height: 0px;
-  }
-  .chooseRole .role-one{
-    width: 0px;
-    height: 0px;
+    margin-bottom: 20px;
+    margin-left: 60px;
   }
 }
 
-@media ((min-width: 601px) and (max-width:899px) ) {
-  .chooseRole .header-container h1 {
-    line-height: 32px;
-    font-size: 36px;
-   
+@media (min-width: 321px) and (max-width: 599px) {
+  .userRoleImg {
+    display: none;
   }
-  .chooseRole .header-container p {
-    line-height: 10px;
-    font-size: 12px;
   
+  .studentRoleImg {
+    display: none;
   }
-  .chooseRole .header-container .prev-icon{
-    float: left;
-    width: 36px;
-    height: 36px;
+  
+  .teacherRoleImg {
+    display: none;
+   }
+
+  .userRoleBtn, .studentRoleBtn, .teacherRoleBtn {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+    width: 150px !important;
+    height: 30px !important;
+    font-size: .6rem !important;
+  }
+
+  .chooseRole h1 {
+    font-size: 1.3rem;
+    color: #fff;
+    text-align: center;
+    line-height: 19px;
+    margin-bottom: 15px;
+  }
+
+  .chooseRole p {
+    color: #fff;
+    text-align: center;
+    margin-left: 0;
+    font-size: .6rem;
+    margin-bottom: -30px;
+  }
+
+  .chooseRole > .header-container > img {
+    float: none;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
+    margin-bottom: 20px;
+    margin-left: 60px;
   }
-  .chooseRole .role{
-    width: 8rem;
-    height: 8rem;
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .userRoleImg {
+    display: none;
   }
-  .chooseRole .role-one{
-    width: 9rem;
-    height: 8rem;
+  
+  .studentRoleImg {
+    display: none;
   }
+  
+  .teacherRoleImg {
+    display: none;
+   }
+
+  .userRoleBtn, .studentRoleBtn, .teacherRoleBtn {
+    margin-top: 5px !important;
+    width: 200px !important;
+  }
+
+  .chooseRole h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    text-align: center;
+    line-height: 40px;
+    margin-bottom: 15px;
+  }
+
+  .chooseRole p {
+    color: #fff;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .chooseRole > .header-container > img {
+    float: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    margin-bottom: 26px;
+    margin-left: 160px;
+  }
+
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .userRoleImg {
+    display: none;
+  }
+  
+  .studentRoleImg {
+    display: none;
+  }
+  
+  .teacherRoleImg {
+    display: none;
+   }
+
+   .userRoleBtn, .studentRoleBtn, .teacherRoleBtn {
+    margin-top: 5px !important;
+    width: 300px !important;
+  }
+
+  .chooseRole > .header-container > img {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    margin-top: 9px;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1535px) {
+  .userRoleImg {
+    width: 190px;
+  }
+  
+  .studentRoleImg {
+   width: 230px;
+  }
+  
+  .teacherRoleImg {
+    width: 175px;
+   }
 }

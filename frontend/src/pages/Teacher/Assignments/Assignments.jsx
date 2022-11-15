@@ -267,8 +267,8 @@ const Assignments = () => {
             CLASS <span>WORK</span>
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla optio
-            vitae ab numquam consequuntur itaque unde libero, sit et in?
+            "Give your learners an assignment to ensure that they have
+            understood the lesson."
           </p>
         </Grid>
         <Grid item={true} xs={6} display="flex" justifyContent="center">

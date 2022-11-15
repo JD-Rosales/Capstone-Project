@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import Layout from './components/Layout';
 import RequireAuth from "./components/RequireAuth"
+import "react-toastify/dist/ReactToastify.css";
 
 // Public Pages
 import Landing from './pages/Landing/Landing';
@@ -54,14 +54,8 @@ function App() {
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="asl-translator" element={<ASLTranslator />} />
-            <Route path="play-game" element={<Play />} />
             <Route path="practice" element={<Practice />} />
-            <Route path="guess-hand-sign" element={<GuessHandSign />} />
-            <Route path="finger-spell" element={<FingerSpell />} />
-            <Route path="spell-hand-sign" element={<SpellHandSign />} />
-            <Route path="4-pics-1-word" element={<FourPicOneWord />} />
             <Route path="learn" element={<Learn />} />
-
             <Route path="/lesson-1" element={<Lesson1 />} />
           </Route>
 
@@ -71,6 +65,11 @@ function App() {
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="choose-hand" element={<ChooseHand />} />
             <Route path="unauthorized" element={<Unauthorized />} />
+            <Route path="play-game" element={<Play />} />
+            <Route path="guess-hand-sign" element={<GuessHandSign />} />
+            <Route path="finger-spell" element={<FingerSpell />} />
+            <Route path="spell-hand-sign" element={<SpellHandSign />} />
+            <Route path="4-pics-1-word" element={<FourPicOneWord />} />
           </Route>
     
           {/* Teacher Routes */}

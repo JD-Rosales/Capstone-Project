@@ -112,6 +112,12 @@ const Sidebar = () => {
                 <MdAssignment className="icon" /> <span>Assignments</span>
               </NavLink>
             </li>
+
+            <li>
+              <NavLink to="/play-game">
+                <FaGamepad className="icon" /> <span>Play a Game</span>
+              </NavLink>
+            </li>
           </ul>
         ) : user?.role === "student" ? (
           <ul>
