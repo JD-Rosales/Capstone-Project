@@ -453,11 +453,12 @@ const Assignments = () => {
                     return (
                       <TextField
                         key={item.index}
-                        label="Letter/Word"
+                        label="Character"
                         type="text"
                         name="letter"
                         fullWidth
                         sx={styles.textfieldStyle}
+                        inputProps={{ maxLength: 1 }} //Set the input max length to 1
                         InputProps={{ sx: { height: 50 } }}
                         value={inputFieldArray[item.index].value}
                         onChange={(e) => handleInputChange(item.index, e)}

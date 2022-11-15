@@ -23,23 +23,17 @@ const sendOTP = async (req, res) => {
     }
 
     const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    const passLengthRegex = /^([\w\-]{7,16})$/
-    const passRegex = /^[A-Za-z]\w{7,16}$/
+    const passRegex = /^([\w\-]{8,16})$/
 
     const validateEmail =  email.match((emailRegex))
-    const validatePassLength =  password.match((passLengthRegex))
     const validatePass =  password.match((passRegex))
 
     if(!validateEmail){
       return res.status(400).json({ message: 'Please provide a valid email address'})
     }
 
-    if(!validatePassLength){
-      return res.status(400).json({ message: 'Password must be atleast 8 to 16 characters'})
-    }
-
     if(!validatePass){
-      return res.status(400).json({ message: 'Password must contain letters and numbers'})
+      return res.status(400).json({ message: 'Password must be atleast 8 to 16 characters'})
     }
 
     //check if email is already registered

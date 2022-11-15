@@ -217,7 +217,7 @@ const AssignmentTab = ({
               </Grid>
 
               <Grid item={true} xs={5}>
-                <Typography sx={{ mt: 2 }}>Letter/Words to Perform:</Typography>
+                <Typography sx={{ mt: 2 }}>Characters to Perform:</Typography>
                 <Typography sx={{ fontSize: "1.5rem" }}>
                   {words.map((word, index) => {
                     if (index === words.length - 1) {

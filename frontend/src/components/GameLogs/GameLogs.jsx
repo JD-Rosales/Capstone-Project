@@ -1,5 +1,5 @@
 import "./GameLogs.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +9,10 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, getElementAtEvent } from "react-chartjs-2";
 import { useSelector, useDispatch } from "react-redux";
 import { getGameLogs } from "../../features/gameLogs/gameLogsSlice";
+import { useNavigate } from "react-router-dom";
 
 ChartJS.register(
   CategoryScale,
@@ -23,12 +24,24 @@ ChartJS.register(
 );
 
 const GameLogs = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { data } = useSelector((state) => state.gameLogs);
 
-  const handleClick = () => {
-    console.log("test");
+  const chartRef = useRef();
+
+  const handleClick = (event) => {
+    const gameIndex = getElementAtEvent(chartRef.current, event)[0].index;
+    if (gameIndex === 0) {
+      navigate("/finger-spell");
+    } else if (gameIndex === 1) {
+      navigate("/spell-hand-sign");
+    } else if (gameIndex === 2) {
+      navigate("/guess-hand-sign");
+    } else if (gameIndex === 3) {
+      navigate("/4-pics-1-word");
+    }
   };
 
   const options = {
@@ -44,7 +57,6 @@ const GameLogs = () => {
         color: "#fff",
       },
     },
-    onClick: handleClick,
   };
 
   const labels = [
@@ -75,7 +87,12 @@ const GameLogs = () => {
 
   return (
     <div className="game-logs">
-      <Bar options={options} data={gameLogsData} />
+      <Bar
+        ref={chartRef}
+        onClick={handleClick}
+        options={options}
+        data={gameLogsData}
+      />
     </div>
   );
 };

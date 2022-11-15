@@ -7,7 +7,7 @@ const { generateToken } = require('../utils/generateToken');
 //api/users
 const signUp = async (req, res) => {
   try {
-    const { email , password, userInfo} = req.body
+    let { email , password, userInfo} = req.body
     const role = req.body.role
 
     //check if all required fields are present
@@ -25,25 +25,8 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: 'M.I is required'})
     } else {
 
-      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      const passLengthRegex = /^([\w\-]{7,16})$/
-      const passRegex = /^[A-Za-z]\w{7,16}$/
-
-      const validateEmail =  email.match((emailRegex))
-      const validatePassLength =  password.match((passLengthRegex))
-      const validatePass =  password.match((passRegex))
-
-      if(!validateEmail){
-        return res.status(400).json({ message: 'Please provide a valid email address'})
-      }
-
-      if(!validatePassLength){
-        return res.status(400).json({ message: 'Password must be atleast 8 to 16 characters'})
-      }
-
-      if(!validatePass){
-        return res.status(400).json({ message: 'Password must contain letters and numbers'})
-      }
+      password.trim()
+      email.trim()
 
       //hash the password
       const salt = await bcrypt.genSalt(10)
@@ -207,6 +190,9 @@ const login = async (req, res) => {
     } else if (role !== "admin" && role !== "teacher" && role !== "student" && role !== "generaluser") {
       res.status(400).json({ message: 'Invalid user role'})
     } else {
+
+      password.trim()
+      email.trim()
 
       if(role === "teacher"){
         const user = await User.findOne({ "role": "teacher", email }).lean().exec()

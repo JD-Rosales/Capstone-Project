@@ -103,7 +103,7 @@ const Sidebar = () => {
 
             <li>
               <NavLink to="/enrolled-students">
-                <MdPeopleAlt className="icon" /> <span>Enrolled Students</span>
+                <MdPeopleAlt className="icon" /> <span>My Students</span>
               </NavLink>
             </li>
 

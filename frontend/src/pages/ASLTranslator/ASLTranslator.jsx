@@ -140,6 +140,7 @@ const ASLTranslator = () => {
           </span>
         </div>
 
+        {/* <div className="container2"> */}
         <div className="camera-container">
           <Camera
             className="camera"
@@ -162,6 +163,7 @@ const ASLTranslator = () => {
 
           {loading ? <GameLoader /> : ""}
         </div>
+        {/* </div> */}
 
         <div className="bottom">
           <span>Translation:</span>
@@ -173,7 +175,7 @@ const ASLTranslator = () => {
       </div>
 
       <RightNav
-        header="SIGN LANUAGE"
+        header="SIGN LANGUAGE"
         coloredText="TO TEXT TRANSLATOR"
         text="It is the same as the practice section, but here you don't have a reference on what letter/character to sign; you can sign any character you want as long as it is being recognized by the system or registered into the database.
 

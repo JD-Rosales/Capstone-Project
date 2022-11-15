@@ -14,12 +14,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 1000px;
+  padding: 0 30px;
 }
 
 .asl-translator > .main > .top {
-  width: 100%;
+  width: 530px;
 }
 
 .asl-translator > .main > .top > span {
@@ -34,22 +36,22 @@
   color: #42C9A3;
 }
 
-.asl-translator > .main > .camera-container {
-  width: 100%;
+.asl-translator > .main  .camera-container {
+  width: 530px;
   height: 400px;
   background-color: #182142;
   position: relative;
   border-radius: 20px;
 }
 
-.asl-translator > .main > .camera-container > .camera {
+.asl-translator > .main  .camera-container > .camera {
   position: absolute;
   top: 0;
   left: 0;
   border-radius: inherit;
 }
 
-.asl-translator > .main > .camera-container > .canvas {
+.asl-translator > .main  .camera-container > .canvas {
   position: absolute;
   top: 0;
   left: 0;
@@ -58,6 +60,7 @@
 }
 
 .asl-translator > .main > .bottom {
+  width: 530px;
   display: flex;
   flex-direction: column;
   margin-top: 20px;

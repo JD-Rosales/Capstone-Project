@@ -121,6 +121,13 @@ const SignUp = () => {
     },
   };
 
+  const textFieldStyle = {
+    mt: 2,
+    [theme.breakpoints.down("sm")]: {
+      mt: 1,
+    },
+  };
+
   const [sentOTP, setSentOTP] = useState(false);
 
   const [role, setRole] = useState("generaluser");
@@ -303,8 +310,8 @@ const SignUp = () => {
         <form style={{ display: sentOTP ? "none" : "" }}>
           <FormControl fullWidth={true}>
             {role !== "generaluser" ? (
-              <Grid2 container spacing={1}>
-                <Grid2 xs>
+              <Grid2 container spacing={{ sm: 0, md: 1 }}>
+                <Grid2 xs={12} md={role === "teacher" ? 12 : 6}>
                   <TextField
                     label={
                       role === "teacher"
@@ -315,8 +322,15 @@ const SignUp = () => {
                     name="school"
                     autoComplete="school"
                     fullWidth
-                    sx={{ mt: 2 }}
-                    InputProps={{ sx: { height: 50 } }}
+                    sx={textFieldStyle}
+                    InputProps={{
+                      sx: {
+                        height: 50,
+                        [theme.breakpoints.down("sm")]: {
+                          height: 45,
+                        },
+                      },
+                    }}
                     value={school}
                     onChange={(e) => {
                       setSchool(e.target.value);
@@ -325,16 +339,22 @@ const SignUp = () => {
                 </Grid2>
 
                 {role !== "teacher" ? (
-                  <Grid2 xs="auto">
+                  <Grid2 xs={12} md={6}>
                     <TextField
                       label="Class code"
                       type="text"
                       name="classCode"
                       autoComplete="classCode"
                       fullWidth
-                      sx={{ mt: 2 }}
+                      sx={textFieldStyle}
                       InputProps={{
-                        sx: { height: 50, backgroundColor: "#b1e2d5" },
+                        sx: {
+                          height: 50,
+                          backgroundColor: "#b1e2d5",
+                          [theme.breakpoints.down("sm")]: {
+                            height: 45,
+                          },
+                        },
                       }}
                       value={classCode}
                       onChange={(e) => {
@@ -350,16 +370,23 @@ const SignUp = () => {
               ""
             )}
 
-            <Grid2 container spacing={1}>
-              <Grid2 xs={5}>
+            <Grid2 container spacing={{ sm: 0, md: 1 }}>
+              <Grid2 xs={12} sm={5}>
                 <TextField
                   label="Last name"
                   type="text"
-                  name="firstName"
-                  autoComplete="firstName"
+                  name="lastName"
+                  autoComplete="lastName"
                   fullWidth
-                  sx={{ mt: 2 }}
-                  InputProps={{ sx: { height: 50 } }}
+                  sx={textFieldStyle}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={lastName}
                   onChange={(e) => {
                     setLastName(e.target.value);
@@ -367,15 +394,22 @@ const SignUp = () => {
                 />
               </Grid2>
 
-              <Grid2 xs={5}>
+              <Grid2 xs={12} sm={5}>
                 <TextField
                   label="First name"
                   type="text"
                   name="firstName"
                   autoComplete="firstName"
                   fullWidth
-                  sx={{ mt: 2 }}
-                  InputProps={{ sx: { height: 50 } }}
+                  sx={textFieldStyle}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={firstName}
                   onChange={(e) => {
                     setFirstName(e.target.value);
@@ -383,16 +417,23 @@ const SignUp = () => {
                 />
               </Grid2>
 
-              <Grid2 xs={2}>
+              <Grid2 xs={12} sm={2}>
                 <TextField
                   label="M.I"
                   type="text"
                   name="middleInitial"
                   autoComplete="middleInitial"
                   fullWidth
-                  sx={{ mt: 2 }}
+                  sx={textFieldStyle}
                   inputProps={{ maxLength: 1 }} //Set the input max length to 1
-                  InputProps={{ sx: { height: 50 } }}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={middleInitial}
                   onChange={(e) => {
                     setMiddleInitial(e.target.value.toUpperCase());
@@ -409,8 +450,15 @@ const SignUp = () => {
                   name="email"
                   autoComplete="email"
                   fullWidth
-                  sx={{ mt: 2 }}
-                  InputProps={{ sx: { height: 50 } }}
+                  sx={textFieldStyle}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -420,30 +468,45 @@ const SignUp = () => {
             </Grid2>
 
             <Grid2 container spacing={1}>
-              <Grid2 xs={6}>
+              <Grid2 xs={12} sm={6}>
                 <TextField
                   label="Password"
                   type={passwordShown ? "text" : "password"}
                   name="password"
                   autoComplete="password"
                   fullWidth
-                  sx={{ mt: 2 }}
-                  InputProps={{ sx: { height: 50 } }}
+                  sx={textFieldStyle}
+                  md={textFieldStyle}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
                 />
               </Grid2>
-              <Grid2 xs={6}>
+              <Grid2 xs={12} sm={6}>
                 <TextField
                   label="Confirm Password"
                   type={passwordShown ? "text" : "password"}
                   name="password2"
                   autoComplete="password2"
                   fullWidth
-                  sx={{ mt: 2 }}
-                  InputProps={{ sx: { height: 50 } }}
+                  sx={textFieldStyle}
+                  InputProps={{
+                    sx: {
+                      height: 50,
+                      [theme.breakpoints.down("sm")]: {
+                        height: 45,
+                      },
+                    },
+                  }}
                   value={password2}
                   onChange={(e) => {
                     setPassword2(e.target.value);

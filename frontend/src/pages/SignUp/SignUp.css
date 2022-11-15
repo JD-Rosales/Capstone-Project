@@ -53,9 +53,32 @@
   margin-bottom: 10px;
 }
 
-@media (min-width:320px ) and (max-width:600px) {
+@media (min-width:320px ) and (max-width:650px) {
+  /* html {
+    background-color: #fff;
+  } */
   .signup {
     background-image: none;
     background-color: #fff;
+    overflow-y: auto;
+    height: 100vh;
+  }
+  .signup .container {
+    height: 612px;
+    font-size: 13px;
+  }
+  .signup .back_home {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 10px;
   }
 }

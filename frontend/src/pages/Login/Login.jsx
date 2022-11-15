@@ -211,6 +211,7 @@ const Login = () => {
           Log<span>i</span>n
           <img
             src={back}
+            className="back_modal"
             alt="Back"
             onClick={() => {
               handleModal();
