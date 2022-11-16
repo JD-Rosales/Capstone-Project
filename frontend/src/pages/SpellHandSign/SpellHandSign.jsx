@@ -186,7 +186,6 @@ const SpellHandSign = () => {
         time: endTimer.state.timeDelta.total,
       };
       dispatch(addLeaderboard(params));
-      console.log("Save to Leaderboard");
       // setTimer(currentDate);
     }
     // eslint-disable-next-line

@@ -13,6 +13,7 @@ import {
   CardActions,
   Avatar,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const carouselStyle = {
   height: "100%",
@@ -25,6 +26,7 @@ const carouselStyle = {
 
 const cardStyle = {
   width: 220,
+  height: 270,
   borderRadius: 5,
   backgroundColor: "var(--navyBlue)",
   display: "flex",
@@ -32,6 +34,10 @@ const cardStyle = {
   justifyContent: "center",
   alignItems: "center",
   padding: "10px 0",
+  "&:hover": {
+    transform: "scale(1.1)",
+    transition: "all 0.3s",
+  },
 };
 
 const CardContentStyle = {
@@ -44,6 +50,7 @@ const CardContentStyle = {
 
 const Learn = () => {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
   return (
     <div className="learn">
       <Sidebar />
@@ -187,13 +194,18 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    disabled={user?.lesson?.progress < 1 ? true : false}
                     onClick={() => {
-                      navigate("/lesson-2")
+                      navigate("/lesson-2");
                     }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
                       width: 120,
+                      "&.Mui-disabled": {
+                        backgroundColor: "var(--aquaGreen)",
+                        opacity: 0.7,
+                      },
                     }}
                   >
                     Start
@@ -241,13 +253,18 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    disabled={user?.lesson?.progress < 2 ? true : false}
                     onClick={() => {
-                      navigate("/lesson-3")
+                      navigate("/lesson-3");
                     }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
                       width: 120,
+                      "&.Mui-disabled": {
+                        backgroundColor: "var(--aquaGreen)",
+                        opacity: 0.7,
+                      },
                     }}
                   >
                     Start
@@ -255,7 +272,11 @@ const Learn = () => {
                 </CardActions>
               </Card>
               {/* End Card */}
+            </Box>
+            {/* End Carousel Item 1 */}
 
+            {/* Carousel Item 2 */}
+            <Box sx={carouselStyle}>
               {/* Start Card */}
               <Card sx={cardStyle}>
                 <CardContent sx={CardContentStyle}>
@@ -295,13 +316,18 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    disabled={user?.lesson?.progress < 3 ? true : false}
                     onClick={() => {
-                      navigate("/lesson-4")
+                      navigate("/lesson-4");
                     }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
                       width: 120,
+                      "&.Mui-disabled": {
+                        backgroundColor: "var(--aquaGreen)",
+                        opacity: 0.7,
+                      },
                     }}
                   >
                     Start
@@ -309,11 +335,7 @@ const Learn = () => {
                 </CardActions>
               </Card>
               {/* End Card */}
-            </Box>
-            {/* End Carousel Item 1 */}
 
-            {/* Carousel Item 2 */}
-            <Box sx={carouselStyle}>
               {/* Start Card */}
               <Card sx={cardStyle}>
                 <CardContent sx={CardContentStyle}>
@@ -353,13 +375,18 @@ const Learn = () => {
                 <CardActions>
                   <Button
                     variant="contained"
+                    disabled={user?.lesson?.progress < 4 ? true : false}
                     onClick={() => {
-                      navigate("/lesson-5")
+                      navigate("/lesson-5");
                     }}
                     sx={{
                       backgroundColor: "var(--aquaGreen)",
                       marginBottom: "10px",
                       width: 120,
+                      "&.Mui-disabled": {
+                        backgroundColor: "var(--aquaGreen)",
+                        opacity: 0.7,
+                      },
                     }}
                   >
                     Start
@@ -368,7 +395,6 @@ const Learn = () => {
               </Card>
               {/* End Card */}
 
-            
               {/* End Card */}
             </Box>
             {/* Carousel Item 3 */}

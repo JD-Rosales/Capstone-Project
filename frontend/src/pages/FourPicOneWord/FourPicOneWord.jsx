@@ -94,7 +94,6 @@ const FourPicOneWord = () => {
         time: 0,
       };
       dispatch(addLeaderboard(params));
-      console.log("Save to Leaderboard");
     }
     // eslint-disable-next-line
   }, [gameEnded]);
@@ -455,7 +454,7 @@ const FourPicOneWord = () => {
   //when the arrIndex change state shuffle the correct answer with other random items then render the button choices
   useEffect(() => {
     if (gameStart) {
-      console.log(imagesArr[arrIndex].value);
+      // console.log(imagesArr[arrIndex].value);
       setChoicesArr(getChoices);
 
       //getter and renderer for the blank answer
@@ -467,7 +466,7 @@ const FourPicOneWord = () => {
   //scratch useEffect to check the correct answer on console
   useEffect(() => {
     if (answerImageArr.length !== 0) {
-      console.log(answerImageArr);
+      // console.log(answerImageArr);
     }
   }, [answerImageArr]);
 

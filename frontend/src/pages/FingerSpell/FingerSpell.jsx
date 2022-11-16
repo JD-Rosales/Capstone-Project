@@ -318,7 +318,6 @@ const FingerSpell = () => {
         time: endTimer.state.timeDelta.total,
       };
       dispatch(addLeaderboard(params));
-      console.log("Save to Leaderboard");
     }
     // eslint-disable-next-line
   }, [gameEnded]);

@@ -462,6 +462,39 @@ const deleteAccount = async (req, res) => {
   
 }
 
+const updateProgress = async (req, res) => {
+  try {
+    //check if user exist in the database
+    const user = await User.findById(req.params.id).lean().exec()
+    if(!user){
+      return res.status(404).json({ message: 'User not found!'})
+    }
+
+    const auth = req.user
+
+    // check if user from request header match the user that is currently logged
+    if(!auth._id.equals(user._id)){
+      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    }
+
+    const { lesson } = req.body
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        "lesson.progress": lesson
+      },
+      {new: true}
+    )
+
+    delete updatedUser.password  //remove the password key
+    return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
+
+  } catch (error) {
+    return res.status(400).json({message: "An error has occured"})
+  }
+}
+
 module.exports = {
   signUp,
   login,
@@ -469,5 +502,5 @@ module.exports = {
   updateUserSettings,
   changePassword,
   deleteAccount,
-  // test
+  updateProgress
 }

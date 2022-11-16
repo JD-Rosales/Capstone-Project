@@ -121,6 +121,25 @@ export const deleteAccount = createAsyncThunk('auth/deleteAccount', async (id, t
   }
 })
 
+//Update user  lesson progress
+export const updateProgress = createAsyncThunk('auth/updateProgress', async (params, thunkAPI) => {
+  try {
+    const response = await axios.patch('/api/users/update-progress/' + params.id, params, {
+      headers: { Authorization: `Bearer ${params.token}` },
+    })
+    
+    if(response.data) {
+      localStorage.setItem('user', JSON.stringify(response.data))
+      return response.data
+    }
+    
+  } catch (error) {
+    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+
+    return thunkAPI.rejectWithValue(message)
+  }
+})
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -234,6 +253,22 @@ export const authSlice = createSlice({
         state.message = action.payload.message
       })
       .addCase(deleteAccount.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      .addCase(updateProgress.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateProgress.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload
+        state.user = action.payload.user
+        state.token = action.payload.token
+      })
+      .addCase(updateProgress.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload

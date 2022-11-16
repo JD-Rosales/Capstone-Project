@@ -3,6 +3,9 @@
   margin-left: 300px;
   margin-right: 300px;
   width: calc(100vw - 600px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .finger-spell > .main {
@@ -12,13 +15,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 530px;
+  /* background-color: #42C9A3; */
 }
 
 .finger-spell > .main > .top {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  width: 600px;
+  width: 530px;
   font-size: .9rem;
 }
 
@@ -76,7 +81,7 @@
 }
 
 .finger-spell > .main > .camera-container {
-  width: 600px;
+  width: 530px;
   height: 400px;
   background-color: #182142;
   position: relative;
@@ -112,7 +117,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: center;
-  width: 600px;
+  width: 530px;
   font-size: .9rem;
 }
 
@@ -131,8 +136,8 @@
 .finger-spell > .main > .bottom {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  width: 600px;
+  /* margin-top: 20px; */
+  width: 530px;
 }
 
 .finger-spell > .main > .bottom > div {

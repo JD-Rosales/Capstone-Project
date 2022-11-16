@@ -1,6 +1,10 @@
 import "./Forbidden.css";
+import { useEffect } from "react";
 
 const Forbidden = () => {
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
   return (
     <div className="forbidden">
       <meta charSet="UTF-8" />

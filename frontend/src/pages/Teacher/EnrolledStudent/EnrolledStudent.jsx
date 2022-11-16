@@ -88,9 +88,8 @@ const EnrolledStudent = () => {
                 <span style={{ color: "var(--aquaGreen)" }}>STUDENTS</span>
               </h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Excepturi dolorum sint molestias cupiditate numquam ut
-                distinctio officia amet quod debitis.
+                All your learners are listed below. Make sure to monitor them to
+                keep your class list organized and in tact.
               </p>
             </Box>
           </Grid>

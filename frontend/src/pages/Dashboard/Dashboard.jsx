@@ -5,12 +5,20 @@ import Carousel from "react-material-ui-carousel";
 import { facts } from "../../util/ASLFacts";
 import GameLogs from "../../components/GameLogs/GameLogs";
 import Chart from "react-apexcharts";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const Dashboard = () => {
-  // const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress((user.lesson.progress / 5) * 100);
+    // eslint-disable-next-line
+  }, []);
 
   const chartOptions = {
-    series: [45],
+    series: [progress],
     options: {
       // chart: {
       //   height: 100,

@@ -24,6 +24,7 @@ root.render(
           hideProgressBar={false}
           newestOnTop={true}
           closeOnClick
+          closeButton={false}
           rtl={false}
           draggable
           pauseOnHover

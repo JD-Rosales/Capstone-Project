@@ -6,17 +6,12 @@ const getGameLogs = async (req, res) => {
     const previousDay = new Date();
     previousDay.setDate(previousDay.getDate() - 7);
 
-    const fingerspell = await GameLog.find({ "gameType": "fingerspell", createdAt: {$gte: previousDay}}).lean().exec()
-    const spellhandsign = await GameLog.find({ "gameType": "spellhandsign", createdAt: {$gte: previousDay}}).lean().exec()
-    const guesshandsign = await GameLog.find({ "gameType": "guesshandsign", createdAt: {$gte: previousDay}}).lean().exec()
-    const fourpiconeword = await GameLog.find({ "gameType": "fourpiconeword", createdAt: {$gte: previousDay}}).lean().exec()
+    const fingerspell = await GameLog.find({ "gameType": "fingerspell", createdAt: {$gte: previousDay}}).count().lean().exec()
+    const spellhandsign = await GameLog.find({ "gameType": "spellhandsign", createdAt: {$gte: previousDay}}).count().lean().exec()
+    const guesshandsign = await GameLog.find({ "gameType": "guesshandsign", createdAt: {$gte: previousDay}}).count().lean().exec()
+    const fourpiconeword = await GameLog.find({ "gameType": "fourpiconeword", createdAt: {$gte: previousDay}}).count().lean().exec()
 
-    fingerspellLength = fingerspell.length
-    spellhandsignLength = spellhandsign.length
-    guesshandsignLength = guesshandsign.length
-    fourpiconewordLength = fourpiconeword.length
-
-    const gameLogs = [fingerspellLength, spellhandsignLength, guesshandsignLength, fourpiconewordLength]
+    const gameLogs = [fingerspell, spellhandsign, guesshandsign, fourpiconeword]
     return res.status(200).json({ gameLogs })
   } catch (error) {
     console.log(error)

@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Landing from './pages/Landing/Landing';
 import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
+import Forbidden from "./pages/Forbidden/Forbidden"
 
 // Authenticated Pages
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
@@ -23,6 +24,10 @@ import UpdateProfile from "./pages/UpdateProfile/UpdateProfile"
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import ChooseHand from "./pages/ChooseHand/ChooseHand";
 import Lesson1 from "./pages/Lessons/Lesson1/Lesson1";
+import Lesson2 from "./pages/Lessons/Lesson2/Lesson2";
+import Lesson3 from "./pages/Lessons/Lesson3/Lesson3";
+import Lesson4 from "./pages/Lessons/Lesson4/Lesson4";
+import Lesson5 from "./pages/Lessons/Lesson5/Lesson5";
 import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
 import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
 import WaitingApproval from "./pages/WaitingApproval/WaitingApproval";
@@ -49,6 +54,7 @@ function App() {
           <Route path="admin/signup" element={<AdminSignUp />} />
           <Route path="admin/login" element={<AdminLogin />} />
           <Route path="waiting-approval" element={<WaitingApproval />} />
+          <Route path="unsupported-device" element={<Forbidden />} />
 
           {/* Student and General User Routes */}
           <Route element={<RequireAuth allowedRoles={["student", "generaluser"]}/>}>
@@ -56,7 +62,11 @@ function App() {
             <Route path="asl-translator" element={<ASLTranslator />} />
             <Route path="practice" element={<Practice />} />
             <Route path="learn" element={<Learn />} />
-            <Route path="/lesson-1" element={<Lesson1 />} />
+            <Route path="lesson-1" element={<Lesson1 />} />
+            <Route path="lesson-2" element={<Lesson2 />} />
+            <Route path="lesson-3" element={<Lesson3 />} />
+            <Route path="lesson-4" element={<Lesson4 />} />
+            <Route path="lesson-5" element={<Lesson5 />} />
           </Route>
 
           {/* Authenticated Routes */}

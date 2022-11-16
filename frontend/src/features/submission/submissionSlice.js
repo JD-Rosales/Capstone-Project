@@ -11,7 +11,7 @@ const initialState = {
 
 export const addSubmission = createAsyncThunk('submission/addSubmission', async (params, thunkAPI) => {
   try {
-    console.log(params);
+
     const response = await axios.post('/api/submission', params, {
       headers: { authorization: `Bearer ${params.token}` },
     })
