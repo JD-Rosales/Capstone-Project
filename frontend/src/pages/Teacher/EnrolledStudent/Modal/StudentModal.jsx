@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Fade,
   Modal,
@@ -30,6 +30,12 @@ const styles = {
 
 const StudentModal = ({ studentData, handleStudentData }) => {
   const [open, setOpen] = useState(true);
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    setProgress((studentData?.lesson?.progress / 5) * 100);
+    // eslint-disable-next-line
+  }, []);
 
   const closeModal = () => {
     setOpen(false);
@@ -37,7 +43,7 @@ const StudentModal = ({ studentData, handleStudentData }) => {
   };
 
   const chartOptions = {
-    series: [45],
+    series: [progress],
     options: {
       // chart: {
       //   height: 100,

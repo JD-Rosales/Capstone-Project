@@ -25,8 +25,8 @@ const signUp = async (req, res) => {
       return res.status(400).json({ message: 'M.I is required'})
     } else {
 
-      password.trim()
-      email.trim()
+      password = password.trim()
+      email = email.trim()
 
       //hash the password
       const salt = await bcrypt.genSalt(10)
@@ -396,11 +396,15 @@ const updateUserSettings = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-    const { currentPassword, newPassword , newPassword2} = req.body
+    let { currentPassword, newPassword , newPassword2} = req.body
 
     if (!currentPassword || !newPassword || !newPassword2) {
-      res.status(400).json({ message: 'Input all required fields'})
+      return res.status(400).json({ message: 'Input all required fields'})
     }
+
+    currentPassword = currentPassword.trim()
+    newPassword = newPassword.trim()
+    newPassword2 = newPassword2.trim()
 
     const user = await User.findById(req.params.id).lean().exec()
 
@@ -413,6 +417,32 @@ const changePassword = async (req, res) => {
     // check if user from request header match the user that is currently logged
     if(!auth._id.equals(user._id)){
       return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    }
+
+    // prevent changing password on special account
+    const accounts = [
+      "studentacc_1@gmail.com",
+      "studentacc_2@gmail.com",
+      "studentacc_3@gmail.com",
+      "studentacc_4@gmail.com",
+      "studentacc_5@gmail.com",
+      "studentacc_6@gmail.com",
+      "studentacc_7@gmail.com",
+      "studentacc_8@gmail.com",
+      "studentacc_9@gmail.com",
+      "studentacc_10@gmail.com",
+    ]
+
+    let isDevelopersAccount
+
+    accounts.map((email) => {
+      if(email === auth.email){
+        return isDevelopersAccount = true
+      }
+    })
+
+    if(isDevelopersAccount){
+      return res.status(401).json({ message: "Unable to update password. This account does not meet update password privilege."})
     }
 
     // Check if input password match the old password
@@ -433,13 +463,13 @@ const changePassword = async (req, res) => {
       },
       {new: true}
     )
-
+   
     delete user.password  //removes the password field
-    res.status(200).json({ message: "Password Updated Successfully" })
+    return res.status(200).json({ message: "Password Updated Successfully" })
     
   } catch (error) {
     console.log(error)
-    return res.status(400).json({message: "An error has occured"})
+    res.status(400).json({message: "An error has occured"})
   }
 }
 

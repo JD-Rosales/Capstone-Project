@@ -66,7 +66,7 @@ const ChangePassword = () => {
       newPassword2: newPassword2,
     };
 
-    if (newPassword !== newPassword2) {
+    if (newPassword.trim() !== newPassword2.trim()) {
       toast.warning("Password do not match!", {
         autoClose: 2000,
         position: "top-right",

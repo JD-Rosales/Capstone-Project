@@ -26,7 +26,7 @@ const RequireAuth = ({ allowedRoles }) => {
   }
 
   return (
-    // windowSize.innerWidth < 1100 ? <Navigate to="/unsupported-device" state={{ from: location }} replace /> :
+    windowSize.innerWidth < 1100 ? <Navigate to="/unsupported-device" state={{ from: location }} replace /> :
     user?.role === "teacher" && user?.userInfo?.status === false
       ? <Navigate to="/waiting-approval" state={{ from: location }} replace />
         : allowedRoles?.includes(user?.role)

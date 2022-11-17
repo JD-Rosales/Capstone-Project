@@ -108,8 +108,8 @@ const sendMail = async (otp, email) => {
     const mailOptions = {
       from: 'process.env.EMAIL',
       to: email,
-      subject: 'Test Email',
-      text : otp
+      subject: 'SLTG: Account OTP',
+      text : `Your One Time Pin is ${otp}`
     };
   
     transporter.sendMail(mailOptions, function(error, info){

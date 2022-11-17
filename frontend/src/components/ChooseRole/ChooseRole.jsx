@@ -60,7 +60,7 @@ const ChooseRole = (props) => {
             className="userRoleBtn"
             value="generaluser"
             variant="contained"
-            disableElevation="true"
+            disableElevation={true}
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);
@@ -81,7 +81,7 @@ const ChooseRole = (props) => {
             className="studentRoleBtn"
             value="student"
             variant="contained"
-            disableElevation="true"
+            disableElevation={true}
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);
@@ -102,7 +102,7 @@ const ChooseRole = (props) => {
             className="teacherRoleBtn"
             value="teacher"
             variant="contained"
-            disableElevation="true"
+            disableElevation={true}
             sx={buttonStyle}
             onClick={(e) => {
               props.setRole(e.target.value);

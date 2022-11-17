@@ -94,6 +94,8 @@ const Learn = () => {
         <div className="carousel-container">
           <Carousel
             autoPlay={false}
+            cycleNavigation={false}
+            infiniteLoop={false}
             navButtonsAlwaysVisible={true}
             fullHeightHover={false}
             animation="slide"
