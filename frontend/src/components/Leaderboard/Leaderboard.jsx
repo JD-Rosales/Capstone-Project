@@ -84,7 +84,7 @@ const Leaderboard = ({ difficulty, gameType, data }) => {
                 <Grid item={true} xs={2} sx={styles.gridStyle}>
                   <Avatar
                     alt="Remy Sharp"
-                    src={item.user.userInfo.image}
+                    src={item?.user?.userInfo?.image}
                     sx={{ width: 45, height: 45 }}
                   />
                 </Grid>
@@ -105,9 +105,9 @@ const Leaderboard = ({ difficulty, gameType, data }) => {
                         fontSize: "15px",
                       }}
                     >
-                      {item.user.userInfo.firstName +
+                      {item?.user?.userInfo?.firstName +
                         " " +
-                        item.user.userInfo.lastName}
+                        item?.user?.userInfo?.lastName}
                     </Typography>
 
                     <Typography
@@ -119,7 +119,7 @@ const Leaderboard = ({ difficulty, gameType, data }) => {
                         display: gameType === "fourpiconeword" ? "none" : "",
                       }}
                     >
-                      Time Left: {convertRemainingTime(item.time)}
+                      Time Left: {convertRemainingTime(item?.time)}
                     </Typography>
                   </Box>
                 </Grid>
