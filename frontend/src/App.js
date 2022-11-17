@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import SignUp from "./pages/SignUp/SignUp";
 import Forbidden from "./pages/Forbidden/Forbidden"
 
+//import Forbidden from "./pages/Forbidden/Forbidden"
 // Authenticated Pages
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import Dashboard from "./pages/Dashboard/Dashboard"
