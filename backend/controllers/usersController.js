@@ -270,6 +270,32 @@ const login = async (req, res) => {
   }
 }
 
+// const accounts = [
+//   "studentacc_1@gmail.com",
+//   "studentacc_2@gmail.com",
+//   "studentacc_3@gmail.com",
+//   "studentacc_4@gmail.com",
+//   "studentacc_5@gmail.com",
+//   "studentacc_6@gmail.com",
+//   "studentacc_7@gmail.com",
+//   "studentacc_8@gmail.com",
+//   "studentacc_9@gmail.com",
+//   "studentacc_10@gmail.com",
+// ]
+
+// let isDevelopersAccount
+
+// accounts.map((email) => {
+//   if(email === auth.email){
+//     return isDevelopersAccount = true
+//   }
+// })
+
+// if(isDevelopersAccount){
+//   return res.status(401).json({ message: "Unable to update password. This account does not meet update password privilege."})
+// }
+
+
 const updateProfile = async (req, res) => {
   try {
     //check if user exist in the database
@@ -286,6 +312,31 @@ const updateProfile = async (req, res) => {
     }
 
     const { lastName, firstName, middleInitial, school, email, image } = req.body
+    
+  const accounts = [
+    "studentacc_1@gmail.com",
+    "studentacc_2@gmail.com",
+    "studentacc_3@gmail.com",
+    "studentacc_4@gmail.com",
+    "studentacc_5@gmail.com",
+    "studentacc_6@gmail.com",
+    "studentacc_7@gmail.com",
+    "studentacc_8@gmail.com",
+    "studentacc_9@gmail.com",
+    "studentacc_10@gmail.com",
+  ]
+
+  let isDevelopersAccount
+
+   accounts.map((email) => {
+    if(email === auth.email){
+      return isDevelopersAccount = true
+    }
+  })
+
+  if(isDevelopersAccount){
+    return res.status(401).json({ message: "Unable to update credentials. This account does not meet update credentials privilege."})
+  }
 
     // if logged user is teacher or student, school field is required
     if(auth.role === "teacher" || auth.role === "student"){
