@@ -185,13 +185,7 @@ const AccountActivation = () => {
             Account <span>Activation</span>
           </h1>
 
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget
-            metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit
-            amet aliquet rutrum. Nunc quis massa a nunc finibus metus eu dui
-            ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet
-            rutrum.
-          </p>
+          <p>Pending teacher's account</p>
         </div>
         <div className="header-img">
           <img src={manageRequestIllustration} alt="Illustration" />
