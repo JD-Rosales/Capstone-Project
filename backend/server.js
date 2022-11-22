@@ -44,7 +44,7 @@ app.use('/verifyJWT', verifyJWT)
 
 //Serve frontend
 app.use(express.static(path.join(__dirname, '../frontend/build')))
-app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html')))
+app.get('*', (req, res) => res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build-deployment', 'index.html')))
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB')

@@ -100,10 +100,14 @@ const ManageGames = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  Words will appear on the screen, and the learner will sign
+                  each letter in the word.
+                  <br />
+                  <br />
+                  <i>
+                    <span style={{ color: "var(--aquaGreen)" }}>Note:</span> The
+                    learner’s camera must be turned on.
+                  </i>
                 </p>
 
                 <Button
@@ -154,10 +158,9 @@ const ManageGames = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  There are hand-signed words flashed in the screen. The
+                  learner’s goal is to deduce the word by typing in the box
+                  provided below.
                 </p>
 
                 <Button
@@ -208,10 +211,16 @@ const ManageGames = () => {
                 </h2>
 
                 <p>
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                  Voluptatibus vitae fugit aperiam assumenda enim odio tenetur
-                  quo provident. Sint voluptates, deserunt inventore magni culpa
-                  quas reprehenderit in placeat maiores beatae?
+                  This game displays four different images linked by a single
+                  word. The learner’s goal is to deduce the word from a set of
+                  letters provided below the pictures.
+                  <br />
+                  <br />
+                  <i>
+                    <span style={{ color: "var(--aquaGreen)" }}>Twist:</span>{" "}
+                    The set of letters that can be seen below the pictures are
+                    hand-signed alphabets using American Sign Language (ASL).
+                  </i>
                 </p>
 
                 <Button

@@ -11,7 +11,9 @@ const RightNav = (props) => {
       </div>
 
       <div className="text">
-        <p>{props.text}</p>
+        <p className="description">
+          {props.text} <br /> {props.description}
+        </p>
       </div>
     </div>
   );

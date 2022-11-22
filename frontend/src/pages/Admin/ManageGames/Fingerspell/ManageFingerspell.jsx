@@ -618,7 +618,9 @@ const ManageFingerspell = () => {
       <RightNav
         header="MANAGE"
         coloredText="FINGER SPELL THE WORD"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
+        text="Game Description: "
+        description="Words will appear on the screen, and the learner will sign
+        each letter in the word."
       />
     </div>
   );

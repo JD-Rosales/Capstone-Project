@@ -618,7 +618,10 @@ const ManageSpellHandSign = () => {
       <RightNav
         header="MANAGE"
         coloredText="SPELL THE HAND SIGN"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget metus eu dui ornare laoreet vitae ac nibh. Donec porttitor orci sit amet aliquet rutrum. Nunc quis massa a nunc finibus sollicitudin mollis eu nunc. Nullam lorem diam, fringilla pellentesque sodales ac, aliquam at ex. Nam vitae placerat risus, a ultricies ex. Nulla sagittis ut urna ac viverra. Vestibulum condimentum, leo placerat blandit consectetur, magna nisi porta lorem, a sagittis ex justo nec felis."
+        text="Game Description: "
+        description="There are hand-signed words flashed in the screen. The
+        learner’s goal is to deduce the word by typing in the box
+        provided below."
       />
     </div>
   );
