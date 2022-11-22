@@ -33,9 +33,8 @@ const ManageGames = () => {
             </h1>
 
             <p style={{ marginTop: "10px" }}>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore
-              voluptate maiores molestiae architecto magnam odio unde recusandae
-              vel ullam doloremque.
+              Ensure that the games are well-maintained in order to improve the
+              gaming experience of the users.
             </p>
           </Grid2>
 

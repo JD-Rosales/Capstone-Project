@@ -185,7 +185,10 @@ const AccountActivation = () => {
             Account <span>Activation</span>
           </h1>
 
-          <p>Pending teacher's account</p>
+          <p>
+            Manage and activate the user's accounts in an easy-peasy way, all in
+            one place.
+          </p>
         </div>
         <div className="header-img">
           <img src={manageRequestIllustration} alt="Illustration" />
