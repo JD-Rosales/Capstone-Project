@@ -109,7 +109,12 @@ const sendMail = async (otp, email) => {
       from: 'process.env.EMAIL',
       to: email,
       subject: 'SLTG: Account OTP',
-      text : `Your One Time Pin is ${otp}`
+      html : `
+        <span>Your OTP pin is: </span>
+        <h1>${otp}</h1>
+        <p>Do not share your OTP to anyone.</p> 
+        <p>OTP is only valid for 8 minutes.</p>
+      `
     };
   
     transporter.sendMail(mailOptions, function(error, info){
