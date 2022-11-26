@@ -245,7 +245,10 @@ const UpdateProfile = () => {
                     autoComplete="off"
                     fullWidth
                     sx={textfieldStyle}
-                    InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                    InputProps={{
+                      readOnly: true,
+                      sx: { height: 50, color: "#F0F0F0" },
+                    }}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);

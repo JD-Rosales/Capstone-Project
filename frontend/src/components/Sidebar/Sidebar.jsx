@@ -14,6 +14,7 @@ import { BiText } from "react-icons/bi";
 import { RiSettings3Fill } from "react-icons/ri";
 import { RiLightbulbFill } from "react-icons/ri";
 import { MdManageAccounts } from "react-icons/md";
+import { GiProgression } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
 import { Fade, Modal, Box, Backdrop, Button } from "@mui/material";
@@ -109,6 +110,13 @@ const Sidebar = () => {
             </li>
 
             <li>
+              <NavLink to="/test">
+                <GiProgression className="icon" />{" "}
+                <span>Students Progress</span>
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink to="/teacher/assignments">
                 <MdAssignment className="icon" /> <span>Assignments</span>
               </NavLink>
@@ -178,6 +186,20 @@ const Sidebar = () => {
                 <span>Account Activation</span>
               </NavLink>
             </li>
+
+            <li>
+              <NavLink to="/test">
+                <MdManageAccounts className="icon" />{" "}
+                <span>Teacher's Account</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/test">
+                <MdManageAccounts className="icon" />{" "}
+                <span>Student's Account</span>
+              </NavLink>
+            </li>
           </ul>
         ) : (
           <ul>
@@ -241,6 +263,13 @@ const Sidebar = () => {
                     <span>Edit Profile</span>
                   </NavLink>
                 </li>
+                {user?.role === "student" && (
+                  <li>
+                    <NavLink to="/update-profile">
+                      <span>Change Class</span>
+                    </NavLink>
+                  </li>
+                )}
 
                 <li>
                   <NavLink to="/change-password">

@@ -11,3 +11,21 @@
 .student-assignments main {
   max-width: 1000px;
 }
+
+.student-assignments main .no-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.student-assignments main .no-data > span {
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.student-assignments main .no-data > span span {
+  color: var(--aquaGreen);
+}

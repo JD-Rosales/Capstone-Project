@@ -12,6 +12,7 @@ import {
 } from "../../../features/assignment/assignmentSlice";
 import SkeletonLoader from "../../../components/Loader/SkeletonLoader";
 import moment from "moment";
+import noDataAvailable_illustration from "../../../assets/noDataAvailable_illustration.png";
 
 const styles = {
   gridContainer: {
@@ -192,6 +193,18 @@ const StudentAssignments = () => {
           }}
         >
           {isLoading ? <SkeletonLoader /> : data ? renderAssignments(data) : ""}
+          {data.length === 0 && (
+            <div className="no-data">
+              <span>
+                <span>Nothing's</span> here, check back later!
+              </span>
+              <img
+                height={200}
+                src={noDataAvailable_illustration}
+                alt="No Data Available"
+              />
+            </div>
+          )}
         </Box>
       </main>
     </div>

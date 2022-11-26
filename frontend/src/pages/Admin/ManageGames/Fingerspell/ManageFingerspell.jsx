@@ -628,7 +628,7 @@ const ManageFingerspell = () => {
                   ? ""
                   : isValidWordUpdate
                   ? "This word has a meaning"
-                  : "No definitions found (add with caution)"
+                  : "No definitions found (update with caution)"
               }
               InputProps={{ sx: { height: 50, color: "#000" } }}
               value={updateFormData.word}

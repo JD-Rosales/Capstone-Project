@@ -13,6 +13,7 @@ import { rightSigns } from "../../util/rightASL/rightSigns";
 import { leftSigns } from "../../util/leftASL/leftSigns";
 import { rightNumbers } from "../../util/rightNumberASL/rightNumberSign";
 import { leftNumbers } from "../../util/leftNumberASL/leftNumberSign";
+import { rightWordASL } from "../../util/wordASL/rightWordSign";
 import { toast } from "react-toastify";
 
 const ASLTranslator = () => {
@@ -138,6 +139,12 @@ const ASLTranslator = () => {
       } else {
         setASL(leftSigns);
       }
+    } else if (aslType === "WORDS") {
+      if (user.userSettings.hand) {
+        setASL(rightWordASL);
+      } else {
+        setASL(rightWordASL);
+      }
     } else {
       if (user.userSettings.hand) {
         setASL(rightNumbers);
@@ -172,6 +179,7 @@ const ASLTranslator = () => {
             <select onChange={changeType}>
               <option value="LETTERS">LETTERS</option>
               <option value="NUMBERS">NUMBERS</option>
+              <option value="WORDS">WORDS</option>
             </select>
           </span>
         </div>

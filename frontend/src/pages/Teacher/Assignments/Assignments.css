@@ -14,3 +14,21 @@
 .teacher-assignments main {
   width: 100%;
 }
+
+.teacher-assignments main .no-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.teacher-assignments main .no-data > span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.teacher-assignments main .no-data > span span {
+  color: var(--aquaGreen);
+}

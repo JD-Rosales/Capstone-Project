@@ -38,6 +38,7 @@ import {
 } from "../../../../features/gameWord/gameWordSlice";
 import { toast } from "react-toastify";
 import noDataAvailable_illustration from "../../../../assets/noDataAvailable_illustration.png";
+import axios from "axios";
 
 const styles = {
   button: {
@@ -288,6 +289,55 @@ const ManageSpellHandSign = () => {
     }
     // eslint-disable-next-line
   }, [data, isSuccess, isError, message]);
+
+  const [isValidWord, setIsValidWord] = useState(true);
+  const [isValidWordUpdate, setIsValidWordUpdate] = useState(true);
+
+  useEffect(() => {
+    const checkword = async () => {
+      axios
+        .get(
+          "https://api.dictionaryapi.dev/api/v2/entries/en/" + addFormData.word
+        )
+        .then((result) => {
+          console.log(result.data);
+          setIsValidWord(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsValidWord(false);
+        });
+    };
+
+    if (addFormData.word.length > 2 && addFormData.word !== "") {
+      checkword();
+    }
+    // eslint-disable-next-line
+  }, [addFormData.word]);
+
+  useEffect(() => {
+    const checkword = async () => {
+      axios
+        .get(
+          "https://api.dictionaryapi.dev/api/v2/entries/en/" +
+            updateFormData.word
+        )
+        .then((result) => {
+          console.log(result.data);
+          setIsValidWordUpdate(true);
+        })
+        .catch((err) => {
+          console.log(err);
+          setIsValidWordUpdate(false);
+        });
+    };
+
+    if (updateFormData.word.length > 2 && updateFormData.word !== "") {
+      checkword();
+    }
+    // eslint-disable-next-line
+  }, [updateFormData.word]);
+
   return (
     <div className="manage-spellhandsign">
       <Sidebar />
@@ -298,8 +348,20 @@ const ManageSpellHandSign = () => {
             <TextField
               label="Input a word"
               type="text"
+              helperText={
+                addFormData.word.length <= 2
+                  ? ""
+                  : isValidWord
+                  ? "This word has a meaning"
+                  : "No definitions found (add with caution)"
+              }
               fullWidth
-              sx={styles.textfieldStyle}
+              sx={{
+                ...styles.textfieldStyle,
+                ".MuiFormHelperText-root": {
+                  color: isValidWord ? "#fff" : "#d32f2f",
+                },
+              }}
               InputProps={{ sx: { height: 50, color: "#fff" } }}
               value={addFormData.word}
               onChange={(e) => {
@@ -551,7 +613,19 @@ const ManageSpellHandSign = () => {
               label="Input a word"
               type="text"
               fullWidth
-              sx={styles.modalTextfieldStyle}
+              sx={{
+                ...styles.modalTextfieldStyle,
+                ".MuiFormHelperText-root": {
+                  color: isValidWordUpdate ? "#000" : "#d32f2f",
+                },
+              }}
+              helperText={
+                updateFormData.word.length <= 2
+                  ? ""
+                  : isValidWordUpdate
+                  ? "This word has a meaning"
+                  : "No definitions found (update with caution)"
+              }
               InputProps={{ sx: { height: 50, color: "#000" } }}
               value={updateFormData.word}
               onChange={(e) => {

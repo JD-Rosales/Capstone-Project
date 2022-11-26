@@ -273,6 +273,7 @@ const Login = () => {
             />
 
             <LoadingButton
+              type="submit"
               onClick={submit}
               loading={isLoading}
               loadingIndicator={

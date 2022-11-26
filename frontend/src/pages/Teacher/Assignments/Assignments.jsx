@@ -31,6 +31,7 @@ import {
 } from "../../../features/assignment/assignmentSlice";
 import SkeletonLoader from "./Loader/SkeletonLoader";
 import AssignmentModal from "./Modal/AssignmentModal";
+import noDataAvailable_illustration from "../../../assets/noDataAvailable_illustration.png";
 
 const styles = {
   gridContainer: {
@@ -361,7 +362,18 @@ const Assignments = () => {
           ) : (
             ""
           )}
-          {}
+          {data.length === 0 && (
+            <div className="no-data">
+              <span>
+                You haven't <span>assign</span> anything
+              </span>
+              <img
+                height={200}
+                src={noDataAvailable_illustration}
+                alt="No Data Available"
+              />
+            </div>
+          )}
         </Box>
       </main>
 

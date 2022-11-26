@@ -14,6 +14,10 @@ const userSchema = mongoose.Schema({
     type: String,
     require: [true, 'Role is required']
   },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   userInfo: {
     image: {
       type: String,

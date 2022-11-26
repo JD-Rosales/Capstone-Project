@@ -174,7 +174,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ "role": "teacher", email }).lean().exec()
   
         if(!user){
-          res.status(404).json({ message: "Email not found"})
+          res.status(404).json({ message: "Account not found"})
         } else {
   
           //compare hash password
@@ -191,7 +191,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ "role": "student", email }).lean().exec()
 
         if(!user){
-          res.status(404).json({ message: "Email not found"})
+          res.status(404).json({ message: "Account not found"})
         } else {
 
           //compare hash password
@@ -207,7 +207,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ "role": "admin", email }).lean().exec()
 
         if (!user) {
-          res.status(404).json({ message: "Email not found"})
+          res.status(404).json({ message: "Account not found"})
         } else {
 
           //compare hash password
@@ -224,7 +224,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ "role": "generaluser", email }).lean().exec()
 
         if (!user) {
-          res.status(404).json({ message: "Email not found"})
+          res.status(404).json({ message: "Account not found"})
         } else {
 
           //compare hash password
@@ -245,32 +245,6 @@ const login = async (req, res) => {
     return res.status(400).json({message: "An error has occured"})
   }
 }
-
-// const accounts = [
-//   "studentacc_1@gmail.com",
-//   "studentacc_2@gmail.com",
-//   "studentacc_3@gmail.com",
-//   "studentacc_4@gmail.com",
-//   "studentacc_5@gmail.com",
-//   "studentacc_6@gmail.com",
-//   "studentacc_7@gmail.com",
-//   "studentacc_8@gmail.com",
-//   "studentacc_9@gmail.com",
-//   "studentacc_10@gmail.com",
-// ]
-
-// let isDevelopersAccount
-
-// accounts.map((email) => {
-//   if(email === auth.email){
-//     return isDevelopersAccount = true
-//   }
-// })
-
-// if(isDevelopersAccount){
-//   return res.status(401).json({ message: "Unable to update password. This account does not meet update password privilege."})
-// }
-
 
 const updateProfile = async (req, res) => {
   try {
