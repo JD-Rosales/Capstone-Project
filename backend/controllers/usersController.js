@@ -194,11 +194,16 @@ const login = async (req, res) => {
           .exec();
 
         if (!user) {
-          res.status(404).json({ message: "Account not found" });
+          return res.status(404).json({ message: "Account not found" });
         } else {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password);
           if (auth) {
+            // check if user acount is suspended
+            if (!user.isActive) {
+              return res.status(403).json({ message: "Account Suspended" });
+            }
+
             delete user.password; //removes the password key
             res.status(200).json({ user, token: generateToken(user._id) });
           } else {
@@ -211,13 +216,19 @@ const login = async (req, res) => {
           .exec();
 
         if (!user) {
-          res.status(404).json({ message: "Account not found" });
+          return res.status(404).json({ message: "Account not found" });
         } else {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password);
           if (auth) {
-            delete user.password; //removes the password key
-            res.status(200).json({ user, token: generateToken(user._id) });
+            // check if user acount is suspended
+            if (!user.isActive) {
+              return res.status(403).json({ message: "Account Suspended" });
+            }
+
+            return res
+              .status(200)
+              .json({ user, token: generateToken(user._id) });
           } else {
             res.status(401).json({ message: "Invalid password" });
           }
@@ -248,6 +259,11 @@ const login = async (req, res) => {
           //compare hash password
           const auth = await bcrypt.compare(password, user.password);
           if (auth) {
+            // check if user acount is suspended
+            if (!user.isActive) {
+              return res.status(403).json({ message: "Account Suspended" });
+            }
+
             delete user.password; //removes the password key
             res.status(200).json({ user, token: generateToken(user._id) });
           } else {
@@ -552,14 +568,6 @@ const updateProgress = async (req, res) => {
   }
 };
 
-const suspendAccount = async (req, res) => {
-  try {
-  } catch (error) {
-    console.log(error);
-    return res.status(400).json({ message: "An error has occured" });
-  }
-};
-
 module.exports = {
   signUp,
   login,
@@ -568,5 +576,4 @@ module.exports = {
   changePassword,
   deleteAccount,
   updateProgress,
-  suspendAccount,
 };

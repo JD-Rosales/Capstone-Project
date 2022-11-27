@@ -8,7 +8,6 @@ const {
   changePassword,
   deleteAccount,
   updateProgress,
-  suspendAccount,
 } = require("../../controllers/usersController");
 const { protected } = require("../../middlewares/authMiddleware");
 
@@ -18,7 +17,6 @@ router.patch("/update-profile/:id", protected, updateProfile);
 router.patch("/update-progress/:id", protected, updateProgress);
 router.patch("/update-userSettings/:id", protected, updateUserSettings);
 router.patch("/change-password/:id", protected, changePassword);
-router.patch("/suspend-account/:id", protected, suspendAccount);
 router.delete("/delete-account/:id", protected, deleteAccount);
 
 module.exports = router;

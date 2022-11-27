@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getEnrolledStudents,
+  suspendAccount,
+  unsuspendAccount,
   reset,
 } from "../../../../features/student/studentSlice";
 import {
@@ -18,6 +20,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Switch,
+  Tooltip,
 } from "@mui/material";
 import { AiOutlineClose } from "react-icons/ai";
 import noDataAvailable_illustration from "../../../../assets/noDataAvailable_illustration.png";
@@ -41,7 +45,7 @@ const styles = {
 
 const StudentListModal = ({ teacherData, handleTeacherData }) => {
   const dispatch = useDispatch();
-  const { data, isSuccess, isError, message } = useSelector(
+  const { data, isSuccess, isError, isLoading, message } = useSelector(
     (state) => state.student
   );
   const { token } = useSelector((state) => state.auth);
@@ -63,13 +67,15 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
   }, []);
 
   useEffect(() => {
-    if (isSuccess) dispatch(reset());
+    if (isSuccess) {
+      dispatch(reset());
+    }
+
     if (isError) {
       dispatch(reset());
-      console.log(message);
     }
     // eslint-disable-next-line
-  }, [data, isSuccess, isError, message]);
+  }, [data, isSuccess, isError, isLoading, message]);
 
   return (
     <>
@@ -186,7 +192,94 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
                                   {" " + student.userInfo.lastName}
                                 </TableCell>
                                 <TableCell align="center">
-                                  action here
+                                  <Tooltip
+                                    placement="left-start"
+                                    arrow
+                                    title={
+                                      student.isActive ? "Active" : "Suspended"
+                                    }
+                                  >
+                                    <Switch
+                                      checked={student.isActive}
+                                      onChange={() => {
+                                        const params = {
+                                          token,
+                                          id: student._id,
+                                          classCode:
+                                            teacherData.userInfo.classCode,
+                                        };
+                                        if (student.isActive) {
+                                          dispatch(suspendAccount(params));
+                                        } else {
+                                          dispatch(unsuspendAccount(params));
+                                        }
+                                      }}
+                                      // inputProps={{
+                                      //   "aria-label": "controlled",
+                                      // }}
+                                    />
+                                  </Tooltip>
+                                  {/* {student.isActive ? (
+                                    <LoadingButton
+                                      onClick={() => {
+                                        const params = {
+                                          token,
+                                          id: student._id,
+                                          classCode:
+                                            teacherData.userInfo.classCode,
+                                        };
+                                        dispatch(suspendAccount(params));
+                                      }}
+                                      loading={isLoading}
+                                      loadingIndicator={
+                                        <CircularProgress
+                                          size="2em"
+                                          sx={{ color: "#182240" }}
+                                        />
+                                      }
+                                      variant="contained"
+                                      sx={{
+                                        width: 120,
+                                        backgroundColor: "#d32f2f",
+                                        ":hover": {
+                                          backgroundColor: "#d32f2f",
+                                          opacity: 0.9,
+                                        },
+                                      }}
+                                    >
+                                      SUSPEND
+                                    </LoadingButton>
+                                  ) : (
+                                    <LoadingButton
+                                      onClick={() => {
+                                        const params = {
+                                          token,
+                                          id: student._id,
+                                          classCode:
+                                            teacherData.userInfo.classCode,
+                                        };
+                                        dispatch(unsuspendAccount(params));
+                                      }}
+                                      loading={isLoading}
+                                      loadingIndicator={
+                                        <CircularProgress
+                                          size="2em"
+                                          sx={{ color: "#182240" }}
+                                        />
+                                      }
+                                      variant="contained"
+                                      sx={{
+                                        width: 120,
+                                        backgroundColor: "var(--aquaGreen)",
+                                        ":hover": {
+                                          backgroundColor: "var(--aquaGreen)",
+                                          opacity: 0.9,
+                                        },
+                                      }}
+                                    >
+                                      UNSUSPEND
+                                    </LoadingButton>
+                                  )} */}
                                 </TableCell>
                               </TableRow>
                             );

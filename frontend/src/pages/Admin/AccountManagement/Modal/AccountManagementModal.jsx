@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Fade,
   Modal,
@@ -9,8 +9,17 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { CircularProgress } from "@mui/material";
 import { AiOutlineClose } from "react-icons/ai";
 import StudentListModal from "./StudentListModal";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  suspendAccount,
+  unsuspendAccount,
+  reset,
+} from "../../../../features/teacher/teacherSlice";
+import { toast } from "react-toastify";
 
 const styles = {
   modalStyle: {
@@ -30,9 +39,14 @@ const styles = {
 };
 
 const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
-  const [open, setOpen] = useState(true);
+  const dispatch = useDispatch();
+  const { isSuccess, isError, isLoading, message } = useSelector(
+    (state) => state.teacher
+  );
+  const { token } = useSelector((state) => state.auth);
 
-  const [data, setData] = useState(null);
+  const [open, setOpen] = useState(true);
+  const [modalData, setData] = useState(null);
 
   const handleData = (newValue) => {
     setData(newValue);
@@ -42,6 +56,38 @@ const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
     setOpen(false);
     handleTeacherData(null);
   };
+
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Please wait...", {
+      autoClose: 15000,
+      position: "top-right",
+    }));
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      toast.update(toastID.current, {
+        render: "Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
+      closeModal();
+    }
+
+    if (isError) {
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
+      dispatch(reset());
+    }
+    // eslint-disable-next-line
+  }, [isSuccess, isError, message]);
 
   return (
     <>
@@ -133,10 +179,25 @@ const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
                     VIEW STUDENTS
                   </Button>
 
-                  {teacherData.userInfo.status ? (
-                    <Button
+                  {teacherData.isActive ? (
+                    <LoadingButton
+                      onClick={() => {
+                        const params = {
+                          token,
+                          id: teacherData._id,
+                        };
+                        notify();
+                        dispatch(suspendAccount(params));
+                      }}
+                      loading={isLoading}
+                      loadingIndicator={
+                        <CircularProgress
+                          size="2em"
+                          sx={{ color: "#182240" }}
+                        />
+                      }
                       variant="contained"
-                      disableElevation={true}
+                      disableElevation
                       sx={{
                         width: 200,
                         height: 45,
@@ -149,12 +210,27 @@ const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
                         },
                       }}
                     >
-                      SUSPEND ACCOUNT
-                    </Button>
+                      SUSPEND
+                    </LoadingButton>
                   ) : (
-                    <Button
+                    <LoadingButton
+                      onClick={() => {
+                        const params = {
+                          token,
+                          id: teacherData._id,
+                        };
+                        notify();
+                        dispatch(unsuspendAccount(params));
+                      }}
+                      loading={isLoading}
+                      loadingIndicator={
+                        <CircularProgress
+                          size="2em"
+                          sx={{ color: "#182240" }}
+                        />
+                      }
                       variant="contained"
-                      disableElevation={true}
+                      disableElevation
                       sx={{
                         width: 200,
                         height: 45,
@@ -167,8 +243,8 @@ const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
                         },
                       }}
                     >
-                      ACTIVATE ACCOUNT
-                    </Button>
+                      UNSUSPEND
+                    </LoadingButton>
                   )}
                 </Grid>
               </Grid>
@@ -177,8 +253,11 @@ const AccountManagementModal = ({ teacherData, handleTeacherData }) => {
         </Fade>
       </Modal>
 
-      {data && (
-        <StudentListModal teacherData={data} handleTeacherData={handleData} />
+      {modalData && (
+        <StudentListModal
+          teacherData={modalData}
+          handleTeacherData={handleData}
+        />
       )}
     </>
   );

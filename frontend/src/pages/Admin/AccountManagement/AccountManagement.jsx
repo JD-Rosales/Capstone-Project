@@ -10,7 +10,10 @@ import {
   Box,
   Grid,
   Avatar,
+  Tooltip,
 } from "@mui/material";
+import WarningIcon from "@mui/icons-material/Warning";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import accountManagement_illustration from "../../../assets/accountManagement_illustration.png";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -119,7 +122,7 @@ const AccountManagement = () => {
                       border: "none",
                     }}
                   >
-                    Email
+                    EMAIL
                   </TableCell>
                   <TableCell
                     sx={{
@@ -128,9 +131,20 @@ const AccountManagement = () => {
                       border: "none",
                     }}
                   >
-                    School
+                    SCHOOL
                   </TableCell>
                   <TableCell
+                    sx={{
+                      background: "var(--navyBlue)",
+                      color: "#fff",
+                      border: "none",
+                    }}
+                  >
+                    FULL NAME
+                  </TableCell>
+
+                  <TableCell
+                    align="center"
                     sx={{
                       borderTopRightRadius: "20px",
                       borderBottomRightRadius: "20px",
@@ -139,7 +153,7 @@ const AccountManagement = () => {
                       border: "none",
                     }}
                   >
-                    Full Name
+                    STATUS
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -175,18 +189,39 @@ const AccountManagement = () => {
                       <TableCell sx={styles.text}>
                         {teacher.userInfo.school}
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          ...styles.text,
-                          borderTopRightRadius: "20px",
-                          borderBottomRightRadius: "20px",
-                        }}
-                      >
+                      <TableCell sx={styles.text}>
                         {teacher.userInfo.firstName + " "}
                         {teacher.userInfo.middleInitial
                           ? teacher.userInfo.middleInitial + "."
                           : ""}
                         {" " + teacher.userInfo.lastName}
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          ...styles.text,
+                          borderTopRightRadius: "20px",
+                          borderBottomRightRadius: "20px",
+                          maxWidth: 100,
+                        }}
+                      >
+                        {teacher.isActive ? (
+                          <Tooltip arrow title="Active">
+                            <FiberManualRecordIcon
+                              sx={{
+                                color: "var(--aquaGreen)",
+                              }}
+                            />
+                          </Tooltip>
+                        ) : (
+                          <Tooltip arrow title="Suspended">
+                            <WarningIcon
+                              sx={{
+                                color: "#d32f2f",
+                              }}
+                            />
+                          </Tooltip>
+                        )}
                       </TableCell>
                     </TableRow>
                   );

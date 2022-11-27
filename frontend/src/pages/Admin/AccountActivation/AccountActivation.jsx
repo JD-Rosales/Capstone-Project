@@ -1,18 +1,18 @@
-import './AccountActivation.css'
-import Sidebar from '../../../components/Sidebar/Sidebar'
-import manageRequestIllustration from '../../../assets/accountActivation_illustration.png'
-import noDataAvailable_illustration from '../../../assets/noDataAvailable_illustration.png'
-import { useState, useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import "./AccountActivation.css";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+import manageRequestIllustration from "../../../assets/accountActivation_illustration.png";
+import noDataAvailable_illustration from "../../../assets/noDataAvailable_illustration.png";
+import { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   getUnactivated,
   updateAccountStatus,
   reset,
-} from '../../../features/teacher/teacherSlice'
+} from "../../../features/teacher/teacherSlice";
 import {
   deleteAccount,
   reset as authReset,
-} from '../../../features/auth/authSlice'
+} from "../../../features/auth/authSlice";
 import {
   Typography,
   TableContainer,
@@ -23,61 +23,61 @@ import {
   TableCell,
   IconButton,
   Box,
-} from '@mui/material'
-import DoneIcon from '@mui/icons-material/Done'
-import CloseIcon from '@mui/icons-material/Close'
-import { toast } from 'react-toastify'
+} from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import CloseIcon from "@mui/icons-material/Close";
+import { toast } from "react-toastify";
 
 const textStyle = {
-  color: '#fff',
-}
+  color: "#fff",
+};
 
 const AccountActivation = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const toastID = useRef(null)
+  const toastID = useRef(null);
   const notify = () =>
-    (toastID.current = toast.loading('Activating Account...', {
+    (toastID.current = toast.loading("Activating Account...", {
       autoClose: false,
-      position: 'top-right',
-    }))
+      position: "top-right",
+    }));
 
-  const toastID2 = useRef(null)
+  const toastID2 = useRef(null);
   const notify2 = () =>
-    (toastID2.current = toast.loading('Deleting Teacher Account...', {
+    (toastID2.current = toast.loading("Deleting Teacher Account...", {
       autoClose: false,
-      position: 'top-right',
-    }))
+      position: "top-right",
+    }));
 
   // state from teacherSlice
   const { data, isSuccess, isError, isLoading, message } = useSelector(
-    (state) => state.teacher,
-  )
+    (state) => state.teacher
+  );
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(reset())
-      setTableData(data.teachers)
+      dispatch(reset());
+      setTableData(data.teachers);
       toast.update(toastID.current, {
-        render: 'Success',
-        type: 'success',
+        render: "Success",
+        type: "success",
         isLoading: false,
         autoClose: 2000,
-      })
+      });
     }
 
     if (isError) {
       toast.update(toastID.current, {
         render: message,
-        type: 'error',
+        type: "error",
         isLoading: false,
         autoClose: 2000,
-      })
-      dispatch(reset())
+      });
+      dispatch(reset());
     }
 
     // eslint-disable-next-line
-  }, [data, isSuccess, isError, isLoading, message])
+  }, [data, isSuccess, isError, isLoading, message]);
 
   // state from authSlice
   const {
@@ -87,90 +87,60 @@ const AccountActivation = () => {
     isError: authError,
     isLoading: authLoading,
     message: authMessage,
-  } = useSelector((state) => state.auth)
+  } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (authSuccess) {
       const params = {
         token,
-      }
-      dispatch(getUnactivated(params))
-      dispatch(authReset())
+      };
+      dispatch(getUnactivated(params));
+      dispatch(authReset());
       toast.update(toastID2.current, {
-        render: 'Success',
-        type: 'success',
+        render: "Success",
+        type: "success",
         isLoading: false,
         autoClose: 2000,
-      })
+      });
     }
 
     if (authError) {
-      dispatch(authReset())
+      dispatch(authReset());
       toast.update(toastID2.current, {
         render: authMessage,
-        type: 'error',
+        type: "error",
         isLoading: false,
         autoClose: 2000,
-      })
+      });
     }
 
     // eslint-disable-next-line
-  }, [auth, authSuccess, authError, authLoading, authMessage])
-
-  const [selectedID, setSelectedID] = useState(null)
+  }, [auth, authSuccess, authError, authLoading, authMessage]);
 
   // State for Table
-  const [tableData, setTableData] = useState([])
-  const [page, setPage] = useState(1)
-  const [rowsPerPage] = useState(5)
-  const [pageCount, setPageCount] = useState(0)
+  const [tableData, setTableData] = useState([]);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  useEffect(() => {
-    if (tableData.length > 0) {
-      const count = tableData.length / rowsPerPage
-
-      setPageCount(Math.ceil(count))
-    }
-    // eslint-disable-next-line
-  }, [tableData])
-
-  // State for Table
-
-  // State for Menu
-  const [anchorEl, setAnchorEl] = useState(null)
-  const menuOpen = Boolean(anchorEl)
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
-
-  const updateStatus = () => {
+  const updateStatus = (id) => {
     const params = {
-      id: selectedID,
+      id: id,
       token: token,
-    }
-    notify()
-    dispatch(updateAccountStatus(params))
-  }
+    };
+    notify();
+    dispatch(updateAccountStatus(params));
+  };
 
-  const deleteTeacherAccount = () => {
-    notify2()
-    dispatch(deleteAccount(selectedID))
-  }
+  const deleteTeacherAccount = (id) => {
+    notify2();
+    dispatch(deleteAccount(id));
+  };
 
   useEffect(() => {
     const params = {
       token,
-    }
-    dispatch(getUnactivated(params))
+    };
+    dispatch(getUnactivated(params));
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
     <div className="account-activation">
@@ -195,13 +165,13 @@ const AccountActivation = () => {
       <main>
         <TableContainer
           sx={{
-            borderTopRightRadius: '20px',
+            borderTopRightRadius: "20px",
 
-            borderTopLeftRadius: '20px',
+            borderTopLeftRadius: "20px",
 
             marginTop: 2,
             height: 410,
-            overflow: 'hidden',
+            overflow: "hidden",
           }}
         >
           <Table stickyHeader>
@@ -210,18 +180,18 @@ const AccountActivation = () => {
                 <TableCell
                   sx={{
                     // backgroundColor: 'var(--aquaGreen)',
-                    borderTopLeftRadius: '20px',
-                    borderBottomLeftRadius: '20px',
-                    background: 'var(--navyBlue)',
-                    color: '#fff',
-                    border: 'none',
+                    borderTopLeftRadius: "20px",
+                    borderBottomLeftRadius: "20px",
+                    background: "var(--navyBlue)",
+                    color: "#fff",
+                    border: "none",
                   }}
                 >
                   <Typography
                     sx={{
-                      background: 'var(--navyBlue)',
-                      color: '#fff',
-                      border: 'none',
+                      background: "var(--navyBlue)",
+                      color: "#fff",
+                      border: "none",
                     }}
                   >
                     Email
@@ -230,16 +200,16 @@ const AccountActivation = () => {
 
                 <TableCell
                   sx={{
-                    background: 'var(--navyBlue)',
-                    color: '#fff',
-                    border: 'none',
+                    background: "var(--navyBlue)",
+                    color: "#fff",
+                    border: "none",
                   }}
                 >
                   <Typography
                     sx={{
-                      background: 'var(--navyBlue)',
-                      color: '#fff',
-                      border: 'none',
+                      background: "var(--navyBlue)",
+                      color: "#fff",
+                      border: "none",
                     }}
                   >
                     School
@@ -248,16 +218,16 @@ const AccountActivation = () => {
 
                 <TableCell
                   sx={{
-                    background: 'var(--navyBlue)',
-                    color: '#fff',
-                    border: 'none',
+                    background: "var(--navyBlue)",
+                    color: "#fff",
+                    border: "none",
                   }}
                 >
                   <Typography
                     sx={{
-                      background: 'var(--navyBlue)',
-                      color: '#fff',
-                      border: 'none',
+                      background: "var(--navyBlue)",
+                      color: "#fff",
+                      border: "none",
                     }}
                   >
                     Full Name
@@ -267,18 +237,18 @@ const AccountActivation = () => {
                 <TableCell
                   align="center"
                   sx={{
-                    borderTopRightRadius: '20px',
-                    borderBottomRightRadius: '20px',
-                    background: 'var(--navyBlue)',
-                    color: '#fff',
-                    border: 'none',
+                    borderTopRightRadius: "20px",
+                    borderBottomRightRadius: "20px",
+                    background: "var(--navyBlue)",
+                    color: "#fff",
+                    border: "none",
                   }}
                 >
                   <Typography
                     sx={{
-                      background: 'var(--navyBlue)',
-                      color: '#fff',
-                      border: 'none',
+                      background: "var(--navyBlue)",
+                      color: "#fff",
+                      border: "none",
                     }}
                   >
                     Action
@@ -292,16 +262,17 @@ const AccountActivation = () => {
                   <TableCell colSpan={4}>
                     <Box
                       sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: '40px',
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: "40px",
+                        marginBottom: "30px",
                       }}
                     >
                       <Typography
                         variant="h4"
-                        sx={{ color: 'var(--aquaGreen)', margin: '10px 0' }}
+                        sx={{ color: "var(--aquaGreen)", margin: "10px 0" }}
                       >
                         No Data Available
                       </Typography>
@@ -315,93 +286,84 @@ const AccountActivation = () => {
                   </TableCell>
                 </TableRow>
               ) : (
-                tableData
-                  .slice(
-                    (page - 1) * rowsPerPage,
-                    (page - 1) * rowsPerPage + rowsPerPage,
-                  )
-                  .map((data) => {
-                    return (
-                      <TableRow key={data._id}>
-                        <TableCell
+                tableData.map((data) => {
+                  return (
+                    <TableRow key={data._id}>
+                      <TableCell
+                        sx={{
+                          padding: "0 0 0 5",
+                          width: "30%",
+                        }}
+                      >
+                        <Typography sx={textStyle}>{data.email}</Typography>
+                      </TableCell>
+
+                      <TableCell
+                        sx={{
+                          padding: "0 0 0 5",
+                          width: "30%",
+                        }}
+                      >
+                        <Typography sx={textStyle}>
+                          {data.userInfo.school}
+                        </Typography>
+                      </TableCell>
+
+                      <TableCell
+                        sx={{
+                          padding: "0 0 0 5",
+                          width: "30%",
+                        }}
+                      >
+                        <Typography sx={textStyle}>
+                          {data.userInfo.lastName + " "}
+                          {data.userInfo.firstName + " "}
+                          {data.userInfo.middleInitial}
+                        </Typography>
+                      </TableCell>
+
+                      <TableCell align="center" sx={{ padding: 1 }}>
+                        <IconButton
+                          onClick={() => {
+                            updateStatus(data._id);
+                          }}
                           sx={{
-                            padding: '0 0 0 5',
-                            width: '30%',
+                            color: "var(--aquaGreen)",
+                            transition: "0.3s",
+                            "&:hover": {
+                              backgroundColor: "var(--aquaGreen)",
+                              color: "#fff",
+                            },
                           }}
                         >
-                          <Typography sx={textStyle}>{data.email}</Typography>
-                        </TableCell>
-
-                        <TableCell
+                          <DoneIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            deleteTeacherAccount(data._id);
+                          }}
                           sx={{
-                            padding: '0 0 0 5',
-                            width: '30%',
+                            color: "#F06292",
+                            transition: "0.3s",
+                            "&:hover": {
+                              backgroundColor: "#F06292",
+                              color: "#fff",
+                            },
                           }}
                         >
-                          <Typography sx={textStyle}>
-                            {data.userInfo.school}
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell
-                          sx={{
-                            padding: '0 0 0 5',
-                            width: '30%',
-                          }}
-                        >
-                          <Typography sx={textStyle}>
-                            {data.userInfo.lastName + ' '}
-                            {data.userInfo.firstName + ' '}
-                            {data.userInfo.middleInitial}
-                          </Typography>
-                        </TableCell>
-
-                        <TableCell align="center" sx={{ padding: 1 }}>
-                          <IconButton
-                            sx={{
-                              color: 'var(--aquaGreen)',
-                              transition: '0.3s',
-                              '&:hover': {
-                                backgroundColor: 'var(--aquaGreen)',
-                                color: '#fff',
-                              },
-                            }}
-                          >
-                            <DoneIcon
-                              onClick={() => {
-                                handleMenuClose()
-                                updateStatus()
-                              }}
-                            />
-                          </IconButton>
-                          <IconButton
-                            sx={{
-                              color: '#F06292',
-                              transition: '0.3s',
-                              '&:hover': {
-                                backgroundColor: '#F06292',
-                                color: '#fff',
-                              },
-                            }}
-                          >
-                            <CloseIcon
-                              onClick={() => {
-                                handleMenuClose()
-                                deleteTeacherAccount()
-                              }}
-                            />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })
+                          <CloseIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
               )}
             </TableBody>
           </Table>
         </TableContainer>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default AccountActivation
+export default AccountActivation;

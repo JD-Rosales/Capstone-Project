@@ -80,6 +80,62 @@ export const getAllTeacher = createAsyncThunk(
   }
 );
 
+export const suspendAccount = createAsyncThunk(
+  "teacher/suspendAccount",
+  async (params, thunkAPI) => {
+    try {
+      console.log(params);
+      const response = await axios.patch(
+        "/api/teacher/suspend-account/" + params.id,
+        {},
+        {
+          headers: { authorization: `Bearer ${params.token}` },
+        }
+      );
+
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const unsuspendAccount = createAsyncThunk(
+  "teacher/unsuspendAccount",
+  async (params, thunkAPI) => {
+    try {
+      console.log(params);
+      const response = await axios.patch(
+        "/api/teacher/unsuspend-account/" + params.id,
+        {},
+        {
+          headers: { authorization: `Bearer ${params.token}` },
+        }
+      );
+
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const teacherSlice = createSlice({
   name: "teacher",
   initialState,
@@ -132,6 +188,36 @@ export const teacherSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getAllTeacher.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.data = [];
+      })
+
+      .addCase(suspendAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(suspendAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.data = action.payload;
+      })
+      .addCase(suspendAccount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.data = [];
+      })
+
+      .addCase(unsuspendAccount.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(unsuspendAccount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.data = action.payload;
+      })
+      .addCase(unsuspendAccount.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

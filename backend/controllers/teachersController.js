@@ -68,6 +68,68 @@ const getAllTeacher = async (req, res) => {
 
     const teachers = await User.find({
       role: "teacher",
+      "userInfo.status": true,
+    })
+      .select("-password")
+      .sort({ isActive: -1 })
+      .lean();
+
+    return res.status(200).json({ teachers });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
+  }
+};
+
+const suspendAccount = async (req, res) => {
+  try {
+    const auth = req.user;
+
+    if (auth.role !== "admin") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        isActive: false,
+      },
+      { new: true }
+    );
+
+    const teachers = await User.find({
+      role: "teacher",
+      "userInfo.status": true,
+    })
+      .select("-password")
+      .lean();
+
+    return res.status(200).json({ teachers });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
+  }
+};
+
+const unsuspendAccount = async (req, res) => {
+  try {
+    const auth = req.user;
+
+    if (auth.role !== "admin") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        isActive: true,
+      },
+      { new: true }
+    );
+
+    const teachers = await User.find({
+      role: "teacher",
+      "userInfo.status": true,
     })
       .select("-password")
       .lean();
@@ -83,4 +145,6 @@ module.exports = {
   getUnactivated,
   updateStatus,
   getAllTeacher,
+  suspendAccount,
+  unsuspendAccount,
 };

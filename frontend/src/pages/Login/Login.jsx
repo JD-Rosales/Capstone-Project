@@ -174,6 +174,13 @@ const Login = () => {
         isLoading: false,
         autoClose: 2000,
       });
+
+      if (message === "Account Suspended") {
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+
       dispatch(reset());
     }
     // eslint-disable-next-line
