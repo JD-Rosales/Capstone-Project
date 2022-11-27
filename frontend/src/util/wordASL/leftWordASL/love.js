@@ -9,11 +9,11 @@ export const love = new GestureDescription('love')
 
 //Thumb
 love.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0)
-love.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0)
+love.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 1.0)
 
 //Index
 love.addCurl(Finger.Index, FingerCurl.HalfCurl, 1.0)
-love.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0)
+love.addDirection(Finger.Index, FingerDirection.DiagonalUpRight, 1.0)
 
 // //Middle
 // love.addCurl(Finger.Middle, FingerCurl.FullCurl, 1.0);

@@ -11,10 +11,13 @@
 .account-activation header {
   display: flex;
   flex-direction: row;
+
+
 }
 
 .account-activation header .header-text {
   width: 50%;
+
   /* display: flex;
   flex-direction: column;
   justify-content: center; */

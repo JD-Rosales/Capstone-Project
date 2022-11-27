@@ -2,10 +2,11 @@ import "./EnrolledStudent.css";
 import SideBar from "../../../components/Sidebar/Sidebar";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
   getEnrolledStudents,
   reset,
-} from "../../../features/student/studentSlice";
+} from '../../../features/student/studentSlice'
 import {
   TableContainer,
   Table,
@@ -16,64 +17,64 @@ import {
   Box,
   Grid,
   Avatar,
-} from "@mui/material";
-import enrolledStudents_illustration from "../../../assets/enrolledStudents_illustration.png";
-import SkeletonLoader from "./Loader/SkeletonLoader";
-import StudentModal from "./Modal/StudentModal";
+} from '@mui/material'
+import enrolledStudents_illustration from '../../../assets/enrolledStudents_illustration.png'
+import SkeletonLoader from './Loader/SkeletonLoader'
+import StudentModal from './Modal/StudentModal'
 
 const styles = {
   header: {
     mt: 3,
-    backgroundColor: "var(--navyBlue)",
-    borderRadius: "20px",
+    backgroundColor: 'var(--navyBlue)',
+    borderRadius: '20px',
     padding: 2,
   },
   grid: {
-    height: "100%",
-    justifyContent: "center",
+    height: '100%',
+    justifyContent: 'center',
     pl: 3,
     pt: 2,
   },
   text: {
-    color: "#fff",
-    borderColor: "#ffffff11",
-    padding: "10px 0",
+    color: '#fff',
+    borderColor: '#ffffff11',
+    padding: '10px 0',
   },
-};
+}
 
 const EnrolledStudent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const { data, isSuccess, isError, isLoading, message } = useSelector(
-    (state) => state.student
-  );
-  const { user, token } = useSelector((state) => state.auth);
+    (state) => state.student,
+  )
+  const { user, token } = useSelector((state) => state.auth)
 
-  const [studentData, setStudentData] = useState(null);
+  const [studentData, setStudentData] = useState(null)
 
   const handleStudentData = (newValue) => {
-    setStudentData(newValue);
-  };
+    setStudentData(newValue)
+  }
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(reset());
+      dispatch(reset())
     }
 
     if (isError) {
-      dispatch(reset());
-      alert(message);
+      dispatch(reset())
+      alert(message)
     }
     // eslint-disable-next-line
-  }, [data, isSuccess, isError, isLoading, message]);
+  }, [data, isSuccess, isError, isLoading, message])
 
   useEffect(() => {
     const params = {
       classCode: user.userInfo.classCode,
       token: token,
-    };
-    dispatch(getEnrolledStudents(params));
+    }
+    dispatch(getEnrolledStudents(params))
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   return (
     <div className="enrolled-student">
@@ -83,8 +84,8 @@ const EnrolledStudent = () => {
           <Grid item={true} xs={6}>
             <Box sx={styles.grid}>
               <h1>
-                ENROLLED{" "}
-                <span style={{ color: "var(--aquaGreen)" }}>STUDENTS</span>
+                ENROLLED{' '}
+                <span style={{ color: 'var(--aquaGreen)' }}>STUDENTS</span>
               </h1>
               <p>
                 All your learners are listed below. Make sure to monitor them to
@@ -102,48 +103,48 @@ const EnrolledStudent = () => {
           </Grid>
         </Grid>
 
-        <Box sx={{ height: "380px", mt: 2 }}>
+        <Box sx={{ height: '380px', mt: 2 }}>
           {isLoading ? (
             <SkeletonLoader />
           ) : (
-            <TableContainer sx={{ height: "380px", mt: 2 }}>
+            <TableContainer sx={{ height: '380px', mt: 2 }}>
               <Table stickyHeader>
                 <TableHead>
                   <TableRow>
                     <TableCell
                       sx={{
-                        borderTopLeftRadius: "20px",
-                        borderBottomLeftRadius: "20px",
-                        background: "var(--navyBlue)",
-                        color: "#fff",
-                        border: "none",
+                        borderTopLeftRadius: '20px',
+                        borderBottomLeftRadius: '20px',
+                        background: 'var(--navyBlue)',
+                        color: '#fff',
+                        border: 'none',
                       }}
                     ></TableCell>
                     <TableCell
                       sx={{
-                        background: "var(--navyBlue)",
-                        color: "#fff",
-                        border: "none",
+                        background: 'var(--navyBlue)',
+                        color: '#fff',
+                        border: 'none',
                       }}
                     >
                       Email
                     </TableCell>
                     <TableCell
                       sx={{
-                        background: "var(--navyBlue)",
-                        color: "#fff",
-                        border: "none",
+                        background: 'var(--navyBlue)',
+                        color: '#fff',
+                        border: 'none',
                       }}
                     >
                       School
                     </TableCell>
                     <TableCell
                       sx={{
-                        borderTopRightRadius: "20px",
-                        borderBottomRightRadius: "20px",
-                        background: "var(--navyBlue)",
-                        color: "#fff",
-                        border: "none",
+                        borderTopRightRadius: '20px',
+                        borderBottomRightRadius: '20px',
+                        background: 'var(--navyBlue)',
+                        color: '#fff',
+                        border: 'none',
                       }}
                     >
                       Full Name
@@ -155,27 +156,27 @@ const EnrolledStudent = () => {
                     return (
                       <TableRow
                         onClick={() => {
-                          setStudentData(student);
+                          setStudentData(student)
                         }}
                         key={student._id}
                         sx={{
-                          cursor: "pointer",
-                          "&:hover": {
-                            backgroundColor: "#212b53",
+                          cursor: 'pointer',
+                          '&:hover': {
+                            backgroundColor: '#212b53',
                           },
                         }}
                       >
                         <TableCell
                           sx={{
                             ...styles.text,
-                            borderTopLeftRadius: "20px",
-                            borderBottomLeftRadius: "20px",
+                            borderTopLeftRadius: '20px',
+                            borderBottomLeftRadius: '20px',
                           }}
                         >
                           <Avatar
                             alt="Profile Image"
                             src={student.userInfo.image}
-                            sx={{ marginX: "auto", width: 50, height: 50 }}
+                            sx={{ marginX: 'auto', width: 50, height: 50 }}
                           />
                         </TableCell>
                         <TableCell sx={styles.text}>{student.email}</TableCell>
@@ -185,18 +186,18 @@ const EnrolledStudent = () => {
                         <TableCell
                           sx={{
                             ...styles.text,
-                            borderTopRightRadius: "20px",
-                            borderBottomRightRadius: "20px",
+                            borderTopRightRadius: '20px',
+                            borderBottomRightRadius: '20px',
                           }}
                         >
-                          {student.userInfo.firstName + " "}
+                          {student.userInfo.firstName + ' '}
                           {student.userInfo.middleInitial
-                            ? student.userInfo.middleInitial + "."
-                            : ""}
-                          {" " + student.userInfo.lastName}
+                            ? student.userInfo.middleInitial + '.'
+                            : ''}
+                          {' ' + student.userInfo.lastName}
                         </TableCell>
                       </TableRow>
-                    );
+                    )
                   })}
                 </TableBody>
               </Table>
@@ -211,7 +212,7 @@ const EnrolledStudent = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default EnrolledStudent;
+export default EnrolledStudent
