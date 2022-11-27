@@ -1,311 +1,333 @@
-const bcrypt = require('bcryptjs')
-const User = require('../models/userModel')
-const randomString = require('randomstring')
-const { cloudinary } = require('../config/cloudinary')
-const { generateToken } = require('../utils/generateToken');
+const bcrypt = require("bcryptjs");
+const User = require("../models/userModel");
+const randomString = require("randomstring");
+const { cloudinary } = require("../config/cloudinary");
+const { generateToken } = require("../utils/generateToken");
 
 //api/users
 const signUp = async (req, res) => {
   try {
-    let { email , password, userInfo} = req.body
-    const role = req.body.role
+    let { email, password, userInfo } = req.body;
+    const role = req.body.role;
 
     //check if all required fields are present
-    if (!email){
-      res.status(400).json({ message: 'Email is required'})
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
     } else if (!password) {
-      res.status(400).json({ message: 'Password is required'})
-    } else if (role !== "admin" && role !== "teacher" && role !== "student" && role !== "generaluser") {
-      res.status(400).json({ message: 'Invalid user role'})
+      res.status(400).json({ message: "Password is required" });
+    } else if (
+      role !== "admin" &&
+      role !== "teacher" &&
+      role !== "student" &&
+      role !== "generaluser"
+    ) {
+      res.status(400).json({ message: "Invalid user role" });
     } else if (!userInfo.firstName) {
-      res.status(400).json({ message: 'First name is required'})
+      res.status(400).json({ message: "First name is required" });
     } else if (!userInfo.lastName) {
-      res.status(400).json({ message: 'Last name is required'})
-    } else if(!userInfo.middleInitial){
-      return res.status(400).json({ message: 'M.I is required'})
+      res.status(400).json({ message: "Last name is required" });
+    } else if (!userInfo.middleInitial) {
+      return res.status(400).json({ message: "M.I is required" });
     } else {
-
-      password = password.trim()
-      email = email.trim()
+      password = password.trim();
+      email = email.trim();
 
       //hash the password
-      const salt = await bcrypt.genSalt(10)
-      const hashPassword = await bcrypt.hash(password, salt)
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);
 
       //check if email is already registered
-      const emailExists = await User.findOne({"email": email}).lean().exec()
+      const emailExists = await User.findOne({ email: email }).lean().exec();
 
       if (emailExists) {
-        res.status(409).json({ message: 'Email is already registered'})
+        res.status(409).json({ message: "Email is already registered" });
       } else {
+        if (role === "admin") {
+          const secretCode = req.body.secretCode;
 
-        if(role === "admin"){
-          const secretCode = req.body.secretCode
-
-          if(secretCode !== process.env.ADMIN_SECRET_CODE) {
-            return res.status(403).json({ message: 'Invalid Secret Code' })
+          if (secretCode !== process.env.ADMIN_SECRET_CODE) {
+            return res.status(403).json({ message: "Invalid Secret Code" });
           }
 
           const user = await User.create({
             email: email,
             password: hashPassword,
             role: role,
-            userInfo: userInfo
-          })
+            userInfo: userInfo,
+          });
 
           //return user data if success
-          if(user) {
-            return res.status(201).json({ user, token: generateToken(user._id)})
+          if (user) {
+            return res
+              .status(201)
+              .json({ user, token: generateToken(user._id) });
           } else {
-            return res.status(400).json({ message: 'An error has occured'})
+            return res.status(400).json({ message: "An error has occured" });
           }
         } else if (role === "teacher") {
-
           //check if school field if present
           if (!userInfo.school) {
-            return res.status(400).json({ message: 'School is required'})
+            return res.status(400).json({ message: "School is required" });
           }
 
           //generate a classCode and check if classCode has a duplicate
           let classCode;
-          while(true){
+          while (true) {
             classCode = randomString.generate({
               length: 8,
-              readable: true
+              readable: true,
+            });
+            const codeExists = await User.findOne({
+              role: role,
+              "userInfo.classCode": classCode,
             })
-            const codeExists = await User.findOne({"role": role, "userInfo.classCode": classCode}).lean().exec()
+              .lean()
+              .exec();
             //if generated code do not exists break the loop
-            if(!codeExists){
-              break
+            if (!codeExists) {
+              break;
             }
           }
-          userInfo.classCode = classCode
+          userInfo.classCode = classCode;
 
           const user = await User.create({
             email: email,
             password: hashPassword,
             role: role,
-            userInfo: userInfo
-          })
-          
+            userInfo: userInfo,
+          });
+
           //return user data if success
-          if(user) {
-            return res.status(201).json({ user, token: generateToken(user._id)})
+          if (user) {
+            return res
+              .status(201)
+              .json({ user, token: generateToken(user._id) });
           } else {
-            return res.status(400).json({ message: 'An error has occured'})
+            return res.status(400).json({ message: "An error has occured" });
           }
-
         } else if (role === "student") {
-
           //check if school field if present
           if (!userInfo.school) {
-            return res.status(400).json({ message: 'School is required'})
+            return res.status(400).json({ message: "School is required" });
           }
 
           //search class code in teacher role
-          const codeExists = await User.findOne({"role": "teacher", "userInfo.classCode": userInfo.classCode}).lean().exec()
+          const codeExists = await User.findOne({
+            role: "teacher",
+            "userInfo.classCode": userInfo.classCode,
+          })
+            .lean()
+            .exec();
 
           //return if cannot find class code
-          if(!codeExists) {
-            return res.status(400).json({ message: "Invalid class code"})
+          if (!codeExists) {
+            return res.status(400).json({ message: "Invalid class code" });
           }
 
           const user = await User.create({
             email: email,
             password: hashPassword,
             role: role,
-            userInfo: userInfo
-          })
+            userInfo: userInfo,
+          });
 
           //return user data if success
-          if(user) {
-            return res.status(201).json({ user, token: generateToken(user._id)})
+          if (user) {
+            return res
+              .status(201)
+              .json({ user, token: generateToken(user._id) });
           } else {
-            return res.status(400).json({ message: 'An error has occured'})
+            return res.status(400).json({ message: "An error has occured" });
           }
-
-        } else {  //generalUser
+        } else {
+          //generalUser
 
           const user = await User.create({
             email: email,
             password: hashPassword,
             role: role,
-            userInfo: userInfo
-          })
+            userInfo: userInfo,
+          });
 
           //return user data if success
-          if(user) {
-            return res.status(201).json({ user, token: generateToken(user._id)})
+          if (user) {
+            return res
+              .status(201)
+              .json({ user, token: generateToken(user._id) });
           } else {
-            return res.status(400).json({ message: 'An error has occured'})
+            return res.status(400).json({ message: "An error has occured" });
           }
-
         }
-
       }
-
     }
-
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({message: "An error has occured"})
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
   }
-}
+};
 
 //api/users/login
 const login = async (req, res) => {
   try {
-    const { email, password, role } = req.body
+    const { email, password, role } = req.body;
 
     if (!email) {
-      res.status(400).json({ message: 'Email is required'})
+      res.status(400).json({ message: "Email is required" });
     } else if (!password) {
-      res.status(400).json({ message: 'Password is required'})
+      res.status(400).json({ message: "Password is required" });
     } else if (!role) {
-      res.status(400).json({ message: 'Role is required'})
-    } else if (role !== "admin" && role !== "teacher" && role !== "student" && role !== "generaluser") {
-      res.status(400).json({ message: 'Invalid user role'})
+      res.status(400).json({ message: "Role is required" });
+    } else if (
+      role !== "admin" &&
+      role !== "teacher" &&
+      role !== "student" &&
+      role !== "generaluser"
+    ) {
+      res.status(400).json({ message: "Invalid user role" });
     } else {
+      password.trim();
+      email.trim();
 
-      password.trim()
-      email.trim()
+      if (role === "teacher") {
+        const user = await User.findOne({ role: "teacher", email })
+          .lean()
+          .exec();
 
-      if(role === "teacher"){
-        const user = await User.findOne({ "role": "teacher", email }).lean().exec()
-  
-        if(!user){
-          res.status(404).json({ message: "Account not found"})
+        if (!user) {
+          res.status(404).json({ message: "Account not found" });
         } else {
-  
           //compare hash password
-          const auth = await bcrypt.compare(password, user.password)
+          const auth = await bcrypt.compare(password, user.password);
           if (auth) {
-            delete user.password  //removes the password key
-            res.status(200).json({ user, token: generateToken(user._id) })
+            delete user.password; //removes the password key
+            res.status(200).json({ user, token: generateToken(user._id) });
           } else {
-            res.status(401).json({ message: "Invalid password"})
+            res.status(401).json({ message: "Invalid password" });
           }
         }
-  
-      } else if (role === 'student') {
-        const user = await User.findOne({ "role": "student", email }).lean().exec()
+      } else if (role === "student") {
+        const user = await User.findOne({ role: "student", email })
+          .lean()
+          .exec();
 
-        if(!user){
-          res.status(404).json({ message: "Account not found"})
+        if (!user) {
+          res.status(404).json({ message: "Account not found" });
         } else {
-
           //compare hash password
-          const auth = await bcrypt.compare(password, user.password)
+          const auth = await bcrypt.compare(password, user.password);
           if (auth) {
-            delete user.password  //removes the password key
-            res.status(200).json({ user, token: generateToken(user._id) })
+            delete user.password; //removes the password key
+            res.status(200).json({ user, token: generateToken(user._id) });
           } else {
-            res.status(401).json({ message: "Invalid password"})
+            res.status(401).json({ message: "Invalid password" });
           }
         }
       } else if (role === "admin") {
-        const user = await User.findOne({ "role": "admin", email }).lean().exec()
+        const user = await User.findOne({ role: "admin", email }).lean().exec();
 
         if (!user) {
-          res.status(404).json({ message: "Account not found"})
+          res.status(404).json({ message: "Account not found" });
         } else {
-
           //compare hash password
-          const auth = await bcrypt.compare(password, user.password)
-          if(auth) {
-            delete user.password  //removes the password key
-            res.status(200).json({ user, token: generateToken(user._id) })
+          const auth = await bcrypt.compare(password, user.password);
+          if (auth) {
+            delete user.password; //removes the password key
+            res.status(200).json({ user, token: generateToken(user._id) });
           } else {
-            res.status(401).json({ message: "Invalid password"})
+            res.status(401).json({ message: "Invalid password" });
           }
         }
-
       } else {
-        const user = await User.findOne({ "role": "generaluser", email }).lean().exec()
+        const user = await User.findOne({ role: "generaluser", email })
+          .lean()
+          .exec();
 
         if (!user) {
-          res.status(404).json({ message: "Account not found"})
+          res.status(404).json({ message: "Account not found" });
         } else {
-
           //compare hash password
-          const auth = await bcrypt.compare(password, user.password)
-          if(auth) {
-            delete user.password  //removes the password key
-            res.status(200).json({ user, token: generateToken(user._id) })
+          const auth = await bcrypt.compare(password, user.password);
+          if (auth) {
+            delete user.password; //removes the password key
+            res.status(200).json({ user, token: generateToken(user._id) });
           } else {
-            res.status(401).json({ message: "Invalid password"})
+            res.status(401).json({ message: "Invalid password" });
           }
         }
       }
-
     }
-
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({message: "An error has occured"})
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
   }
-}
+};
 
 const updateProfile = async (req, res) => {
   try {
     //check if user exist in the database
-    const user = await User.findById(req.params.id).lean().exec()
-    if(!user){
-      return res.status(404).json({ message: 'User not found!'})
+    const user = await User.findById(req.params.id).lean().exec();
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
 
-    const auth = req.user
+    const auth = req.user;
 
     // check if user from request header match the user that is currently logged
-    if(!auth._id.equals(user._id)){
-      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    if (!auth._id.equals(user._id)) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized, invalid credentials" });
     }
 
-    const { lastName, firstName, middleInitial, school, email, image } = req.body
-    
-  const accounts = [
-    "studentacc_1@gmail.com",
-    "studentacc_2@gmail.com",
-    "studentacc_3@gmail.com",
-    "studentacc_4@gmail.com",
-    "studentacc_5@gmail.com",
-    "studentacc_6@gmail.com",
-    "studentacc_7@gmail.com",
-    "studentacc_8@gmail.com",
-    "studentacc_9@gmail.com",
-    "studentacc_10@gmail.com",
-  ]
+    const { lastName, firstName, middleInitial, school, email, image } =
+      req.body;
 
-  let isDevelopersAccount
+    const accounts = [
+      "studentacc_1@gmail.com",
+      "studentacc_2@gmail.com",
+      "studentacc_3@gmail.com",
+      "studentacc_4@gmail.com",
+      "studentacc_5@gmail.com",
+      "studentacc_6@gmail.com",
+      "studentacc_7@gmail.com",
+      "studentacc_8@gmail.com",
+      "studentacc_9@gmail.com",
+      "studentacc_10@gmail.com",
+    ];
 
-   accounts.map((email) => {
-    if(email === auth.email){
-      return isDevelopersAccount = true
+    let isDevelopersAccount;
+
+    accounts.map((email) => {
+      if (email === auth.email) {
+        return (isDevelopersAccount = true);
+      }
+    });
+
+    if (isDevelopersAccount) {
+      return res.status(401).json({
+        message:
+          "Unable to update credentials. This account does not meet update credentials privilege.",
+      });
     }
-  })
-
-  if(isDevelopersAccount){
-    return res.status(401).json({ message: "Unable to update credentials. This account does not meet update credentials privilege."})
-  }
 
     // if logged user is teacher or student, school field is required
-    if(auth.role === "teacher" || auth.role === "student"){
-      if(!school || school === ""){
-        return res.status(400).json({ message: 'School is required'})
+    if (auth.role === "teacher" || auth.role === "student") {
+      if (!school || school === "") {
+        return res.status(400).json({ message: "School is required" });
       }
     }
 
     if (!lastName || lastName === "") {
-      res.status(400).json({ message: 'Last Name is required'})
+      res.status(400).json({ message: "Last Name is required" });
     } else if (!firstName || firstName === "") {
-      res.status(400).json({ message: 'First Name is required'})
+      res.status(400).json({ message: "First Name is required" });
     } else if (!middleInitial || middleInitial === "") {
-      res.status(400).json({ message: 'Middle Initial is required'})
+      res.status(400).json({ message: "Middle Initial is required" });
     } else if (!email || email === "") {
-      res.status(400).json({ message: 'Email is required'})
+      res.status(400).json({ message: "Email is required" });
     } else {
-
-      if(!image) {  //retain prev image if there is no image
+      if (!image) {
+        //retain prev image if there is no image
         const updatedUser = await User.findByIdAndUpdate(
           req.params.id,
           {
@@ -313,20 +335,22 @@ const updateProfile = async (req, res) => {
             "userInfo.firstName": firstName,
             "userInfo.middleInitial": middleInitial,
             "userInfo.school": school,
-            "email": email 
+            email: email,
           },
-          {new: true}
-        )
+          { new: true }
+        );
 
-        delete updatedUser.password  //remove the password key
-        return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
+        delete updatedUser.password; //remove the password key
+        return res
+          .status(200)
+          .json({ user: updatedUser, token: generateToken(updatedUser._id) });
       } else {
-
         const uploadResponse = await cloudinary.uploader.upload(image, {
-          upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET
-        })
+          upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET,
+        });
 
-        if (uploadResponse.url) { //check if image upload return an image url
+        if (uploadResponse.url) {
+          //check if image upload return an image url
 
           const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
@@ -335,89 +359,89 @@ const updateProfile = async (req, res) => {
               "userInfo.firstName": firstName,
               "userInfo.middleInitial": middleInitial,
               "userInfo.school": school,
-              "email": email,
-              "userInfo.image": uploadResponse.url
+              email: email,
+              "userInfo.image": uploadResponse.url,
             },
-            {new: true}
-          )
-  
-          delete updatedUser.password  //remove the password key
-          return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
+            { new: true }
+          );
 
+          delete updatedUser.password; //remove the password key
+          return res
+            .status(200)
+            .json({ user: updatedUser, token: generateToken(updatedUser._id) });
         } else {
-          return res.status(400).json({ message: "An error has occured!" })
+          return res.status(400).json({ message: "An error has occured!" });
         }
-
       }
-
     }
-
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({message: "An error has occured"})
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
   }
-}
+};
 
 const updateUserSettings = async (req, res) => {
-  try {    
-
+  try {
     //check if user exist in the database
-    const user = await User.findById(req.params.id).lean().exec()
-    if(!user){
-      return res.status(404).json({ message: 'User not found!'})
-    } else { 
-
-      const auth = req.user
+    const user = await User.findById(req.params.id).lean().exec();
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    } else {
+      const auth = req.user;
 
       // check if user from request header match the user that is currently logged
-      if(!auth._id.equals(user._id)){
-        return res.status(401).json({message: "Unauthorized, invalid credentials"})
+      if (!auth._id.equals(user._id)) {
+        return res
+          .status(401)
+          .json({ message: "Unauthorized, invalid credentials" });
       }
 
-
-      if(req.body.hand === undefined){
-        return res.status(400).json({ message: 'Please choose hand'})
+      if (req.body.hand === undefined) {
+        return res.status(400).json({ message: "Please choose hand" });
       }
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
-          "userSettings.hand" : req.body.hand 
+          "userSettings.hand": req.body.hand,
         },
-        {new: true}
-      )
-      delete updatedUser.password  //remove the password key
-      return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id)})
+        { new: true }
+      );
+      delete updatedUser.password; //remove the password key
+      return res
+        .status(200)
+        .json({ user: updatedUser, token: generateToken(updatedUser._id) });
     }
-    
   } catch (error) {
-    console.log(error)
-    return res.status(400).json({message: "An error has occured"})
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
   }
-}
+};
 
 const changePassword = async (req, res) => {
   try {
-    let { currentPassword, newPassword , newPassword2} = req.body
+    let { currentPassword, newPassword, newPassword2 } = req.body;
 
     if (!currentPassword || !newPassword || !newPassword2) {
-      return res.status(400).json({ message: 'Input all required fields'})
+      return res.status(400).json({ message: "Input all required fields" });
     }
 
-    currentPassword = currentPassword.trim()
-    newPassword = newPassword.trim()
-    newPassword2 = newPassword2.trim()
+    currentPassword = currentPassword.trim();
+    newPassword = newPassword.trim();
+    newPassword2 = newPassword2.trim();
 
-    const user = await User.findById(req.params.id).lean().exec()
+    const user = await User.findById(req.params.id).lean().exec();
 
-    if(!user){
-      return res.status(404).json({ message: 'User not found!'})
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
 
-    const auth = req.user
+    const auth = req.user;
 
     // check if user from request header match the user that is currently logged
-    if(!auth._id.equals(user._id)){
-      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    if (!auth._id.equals(user._id)) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized, invalid credentials" });
     }
 
     // prevent changing password on special account
@@ -432,99 +456,109 @@ const changePassword = async (req, res) => {
       "studentacc_8@gmail.com",
       "studentacc_9@gmail.com",
       "studentacc_10@gmail.com",
-    ]
+    ];
 
-    let isDevelopersAccount
+    let isDevelopersAccount;
 
     accounts.map((email) => {
-      if(email === auth.email){
-        return isDevelopersAccount = true
+      if (email === auth.email) {
+        return (isDevelopersAccount = true);
       }
-    })
+    });
 
-    if(isDevelopersAccount){
-      return res.status(401).json({ message: "Unable to update password. This account does not meet update password privilege."})
+    if (isDevelopersAccount) {
+      return res.status(401).json({
+        message:
+          "Unable to update password. This account does not meet update password privilege.",
+      });
     }
 
     // Check if input password match the old password
-    const isMatch = await bcrypt.compare(currentPassword, user.password)
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: "Invalid Current Password!"})
+      return res.status(401).json({ message: "Invalid Current Password!" });
     }
 
     //hash the password
-    const salt = await bcrypt.genSalt(10)
-    const hashPassword = await bcrypt.hash(newPassword, salt)
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(newPassword, salt);
 
     await User.findByIdAndUpdate(
       req.params.id,
       {
-        "password": hashPassword
+        password: hashPassword,
       },
-      {new: true}
-    )
-   
-    delete user.password  //removes the password field
-    return res.status(200).json({ message: "Password Updated Successfully" })
-    
+      { new: true }
+    );
+
+    delete user.password; //removes the password field
+    return res.status(200).json({ message: "Password Updated Successfully" });
   } catch (error) {
-    console.log(error)
-    res.status(400).json({message: "An error has occured"})
+    console.log(error);
+    res.status(400).json({ message: "An error has occured" });
   }
-}
+};
 
 //DELETE api/deleteAccount/:id
 const deleteAccount = async (req, res) => {
   try {
+    const user = await User.findById(req.params.id);
 
-    const user = await User.findById(req.params.id)
-
-    if(!user) {
-      return res.status(404).json({message: "Account not found!"})
+    if (!user) {
+      return res.status(404).json({ message: "Account not found!" });
     }
 
-    await user.remove()
-    return res.status(200).json({message: "Account has been deleted"})
-
+    await user.remove();
+    return res.status(200).json({ message: "Account has been deleted" });
   } catch (error) {
-    return res.status(400).json({message: "An error has occured"})
+    return res.status(400).json({ message: "An error has occured" });
   }
-  
-}
+};
 
 const updateProgress = async (req, res) => {
   try {
     //check if user exist in the database
-    const user = await User.findById(req.params.id).lean().exec()
-    if(!user){
-      return res.status(404).json({ message: 'User not found!'})
+    const user = await User.findById(req.params.id).lean().exec();
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
     }
 
-    const auth = req.user
+    const auth = req.user;
 
     // check if user from request header match the user that is currently logged
-    if(!auth._id.equals(user._id)){
-      return res.status(401).json({message: "Unauthorized, invalid credentials"})
+    if (!auth._id.equals(user._id)) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized, invalid credentials" });
     }
 
-    const { lesson } = req.body
+    const { lesson } = req.body;
 
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
-        "lesson.progress": lesson
+        "lesson.progress": lesson,
       },
-      {new: true}
-    )
+      { new: true }
+    );
 
-    delete updatedUser.password  //remove the password key
-    return res.status(200).json({ user: updatedUser, token: generateToken(updatedUser._id) })
-
+    delete updatedUser.password; //remove the password key
+    return res
+      .status(200)
+      .json({ user: updatedUser, token: generateToken(updatedUser._id) });
   } catch (error) {
-    return res.status(400).json({message: "An error has occured"})
+    return res.status(400).json({ message: "An error has occured" });
   }
-}
+};
+
+const suspendAccount = async (req, res) => {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
+  }
+};
 
 module.exports = {
   signUp,
@@ -533,5 +567,6 @@ module.exports = {
   updateUserSettings,
   changePassword,
   deleteAccount,
-  updateProgress
-}
+  updateProgress,
+  suspendAccount,
+};

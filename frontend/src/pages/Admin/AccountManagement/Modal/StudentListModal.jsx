@@ -1,0 +1,208 @@
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getEnrolledStudents,
+  reset,
+} from "../../../../features/student/studentSlice";
+import {
+  Fade,
+  Modal,
+  Box,
+  Backdrop,
+  Grid,
+  Avatar,
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
+import { AiOutlineClose } from "react-icons/ai";
+import noDataAvailable_illustration from "../../../../assets/noDataAvailable_illustration.png";
+
+const styles = {
+  modalStyle: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 800,
+    background: "#fff",
+    color: "var(--navyBlue)",
+    borderRadius: "15px",
+    boxShadow: 20,
+    outline: "none",
+    p: 4,
+    pb: 4,
+  },
+};
+
+const StudentListModal = ({ teacherData, handleTeacherData }) => {
+  const dispatch = useDispatch();
+  const { data, isSuccess, isError, message } = useSelector(
+    (state) => state.student
+  );
+  const { token } = useSelector((state) => state.auth);
+
+  const [open, setOpen] = useState(true);
+
+  const closeModal = () => {
+    setOpen(false);
+    handleTeacherData(null);
+  };
+
+  useEffect(() => {
+    const params = {
+      token,
+      classCode: teacherData.userInfo.classCode,
+    };
+    dispatch(getEnrolledStudents(params));
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (isSuccess) dispatch(reset());
+    if (isError) {
+      dispatch(reset());
+      console.log(message);
+    }
+    // eslint-disable-next-line
+  }, [data, isSuccess, isError, message]);
+
+  return (
+    <>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={closeModal}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={styles.modalStyle}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography
+                  onClick={closeModal}
+                  sx={{
+                    position: "absolute",
+                    right: 20,
+                    top: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.3rem",
+                    padding: "10px",
+                    borderRadius: "50%",
+                    transition: "all 0.3s",
+                    ":hover": {
+                      color: "red",
+                      cursor: "pointer",
+                      backgroundColor: "lightgray",
+                    },
+                  }}
+                >
+                  <AiOutlineClose />
+                </Typography>
+
+                <Typography align="center" variant="h5">
+                  {teacherData.userInfo.firstName + " "}
+                  {teacherData.userInfo.middleInitial
+                    ? teacherData.userInfo.middleInitial + "."
+                    : ""}
+                  {" " + teacherData.userInfo.lastName}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Box sx={{ height: 350 }}>
+                  <TableContainer sx={{ height: 350 }}>
+                    <Table stickyHeader>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell></TableCell>
+                          <TableCell></TableCell>
+                          <TableCell>Email</TableCell>
+                          <TableCell>Full Name</TableCell>
+                          <TableCell align="center">Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {data?.students?.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={5}>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Typography sx={{ fontSize: "1.8rem", mb: 1 }}>
+                                  No Enrolled{" "}
+                                  <span style={{ color: "var(--aquaGreen)" }}>
+                                    Student
+                                  </span>
+                                </Typography>
+                                <img
+                                  height={200}
+                                  src={noDataAvailable_illustration}
+                                  alt="No Data Available"
+                                />
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          data?.students?.map((student, i) => {
+                            return (
+                              <TableRow key={student._id}>
+                                <TableCell sx={{ width: "15px" }}>
+                                  {i + 1}
+                                </TableCell>
+                                <TableCell sx={{ width: "100px" }}>
+                                  <Avatar
+                                    alt="Profile Image"
+                                    src={student.userInfo.image}
+                                    sx={{
+                                      marginX: "auto",
+                                      width: 50,
+                                      height: 50,
+                                    }}
+                                  />
+                                </TableCell>
+                                <TableCell>{student.email}</TableCell>
+                                <TableCell>
+                                  {student.userInfo.firstName + " "}
+                                  {student.userInfo.middleInitial
+                                    ? student.userInfo.middleInitial + "."
+                                    : ""}
+                                  {" " + student.userInfo.lastName}
+                                </TableCell>
+                                <TableCell align="center">
+                                  action here
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
+        </Fade>
+      </Modal>
+    </>
+  );
+};
+
+export default StudentListModal;

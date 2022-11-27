@@ -1,8 +1,8 @@
-import './EnrolledStudent.css'
-import { useState } from 'react'
-import SideBar from '../../../components/Sidebar/Sidebar'
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import "./EnrolledStudent.css";
+import SideBar from "../../../components/Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import {
   getEnrolledStudents,
   reset,

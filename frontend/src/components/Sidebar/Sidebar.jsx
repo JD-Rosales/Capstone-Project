@@ -13,7 +13,8 @@ import { FaGamepad } from "react-icons/fa";
 import { BiText } from "react-icons/bi";
 import { RiSettings3Fill } from "react-icons/ri";
 import { RiLightbulbFill } from "react-icons/ri";
-import { MdManageAccounts } from "react-icons/md";
+import { FaUsersCog } from "react-icons/fa";
+import { ImUsers } from "react-icons/im";
 import { GiProgression } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
@@ -182,22 +183,14 @@ const Sidebar = () => {
 
             <li>
               <NavLink to="/account-activation">
-                <MdManageAccounts className="icon" />{" "}
-                <span>Account Activation</span>
+                <ImUsers className="icon" /> <span>Account Activation</span>
               </NavLink>
             </li>
 
             <li>
-              <NavLink to="/test">
-                <MdManageAccounts className="icon" />{" "}
-                <span>Teacher's Account</span>
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/test">
-                <MdManageAccounts className="icon" />{" "}
-                <span>Student's Account</span>
+              <NavLink to="/account-management">
+                <FaUsersCog className="icon" />{" "}
+                <span style={{ fontSize: ".9rem" }}>Account Management</span>
               </NavLink>
             </li>
           </ul>
