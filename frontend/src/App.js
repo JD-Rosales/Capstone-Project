@@ -42,6 +42,7 @@ import ManageFingerspell from "./pages/Admin/ManageGames/Fingerspell/ManageFinge
 import ManageSpellHandSign from  "./pages/Admin/ManageGames/SpellHandSign/ManageSpellHandSign";
 import FourPic from  "./pages/Admin/ManageGames/FourPic/FourPic";
 import TextToASL from "./pages/TextToASL/TextToASL";
+import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement"
 
 function App() {
 
@@ -101,6 +102,7 @@ function App() {
           {/* Admin Routes */}
           <Route element={<RequireAuth allowedRoles={["admin"]} />}>
             <Route path="account-activation" element={<AccountActivation />} />
+            <Route path="account-management" element={<AccountManagement />} />
             <Route path="manage-games" element={<ManageGames />} />
             <Route path="manage-fingerspell" element={<ManageFingerspell />} />
             <Route path="manage-spellhandsign" element={<ManageSpellHandSign />} />
