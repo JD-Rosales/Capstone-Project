@@ -9,7 +9,7 @@ export const telephone = new GestureDescription('Telephone')
 
 //Thumb
 telephone.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0)
-telephone.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0)
+telephone.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 1.0)
 
 //Index
 // telephone.addCurl(Finger.Index, FingerCurl.HalfCurl, 1.0)
@@ -25,4 +25,4 @@ telephone.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0)
 
 //Pinky
 telephone.addCurl(Finger.Pinky, FingerCurl.NoCurl, 1.0)
-telephone.addDirection(Finger.Pinky, FingerDirection.HorizontalLeft, 1.0)
+telephone.addDirection(Finger.Pinky, FingerDirection.HorizontalRight, 1.0)

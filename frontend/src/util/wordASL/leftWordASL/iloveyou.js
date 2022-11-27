@@ -9,11 +9,11 @@ export const iloveyou = new GestureDescription('I love you')
 
 //Thumb
 iloveyou.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0)
-iloveyou.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0)
+iloveyou.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 1.0)
 
 //Index
 iloveyou.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0)
-iloveyou.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 0.7)
+iloveyou.addDirection(Finger.Index, FingerDirection.DiagonalUpRight, 0.7)
 
 //Middle
 iloveyou.addCurl(Finger.Middle, FingerCurl.FullCurl, 1.0)

@@ -9,11 +9,11 @@ export const ihateyou = new GestureDescription('I hate you')
 
 //Thumb
 ihateyou.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0)
-ihateyou.addDirection(Finger.Thumb, FingerDirection.DiagonalUpLeft, 1.0)
+ihateyou.addDirection(Finger.Thumb, FingerDirection.DiagonalUpRight, 1.0)
 
 //Index
 ihateyou.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0)
-ihateyou.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0)
+ihateyou.addDirection(Finger.Index, FingerDirection.DiagonalUpRight, 1.0)
 
 //Middle
 ihateyou.addCurl(Finger.Middle, FingerCurl.NoCurl, 1.0)
