@@ -445,6 +445,25 @@ const changePassword = async (req, res) => {
     newPassword = newPassword.trim();
     newPassword2 = newPassword2.trim();
 
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const passRegex = /^([\w\-]{8,16})$/;
+
+    const validateEmail = email.match(emailRegex);
+    const validatePass = password.match(passRegex);
+
+    if (!validateEmail) {
+      return res
+        .status(400)
+        .json({ message: "Please provide a valid email address" });
+    }
+
+    if (!validatePass) {
+      return res
+        .status(400)
+        .json({ message: "Password must be atleast 8 to 16 characters" });
+    }
+
     const user = await User.findById(req.params.id).lean().exec();
 
     if (!user) {

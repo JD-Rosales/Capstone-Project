@@ -35,6 +35,32 @@ export const getEnrolledStudents = createAsyncThunk(
   }
 );
 
+export const getActiveEnrolledStudents = createAsyncThunk(
+  "student/getActiveEnrolledStudents",
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        "/api/student/get-active-students/" + params.classCode,
+        {
+          headers: { authorization: `Bearer ${params.token}` },
+        }
+      );
+
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const suspendAccount = createAsyncThunk(
   "student/suspendAccount",
   async (params, thunkAPI) => {
@@ -113,6 +139,21 @@ export const studentSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getEnrolledStudents.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.data = [];
+      })
+
+      .addCase(getActiveEnrolledStudents.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getActiveEnrolledStudents.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.data = action.payload;
+      })
+      .addCase(getActiveEnrolledStudents.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -19,6 +19,25 @@ const getEnrolledStudents = async (req, res) => {
   }
 };
 
+const getActiveEnrolledStudents = async (req, res) => {
+  try {
+    const auth = req.user;
+
+    const students = await User.find({
+      "userInfo.classCode": req.params.classCode,
+      role: "student",
+      isActive: true,
+    })
+      .select("-password")
+      .lean()
+      .exec();
+
+    return res.status(200).json({ students });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const suspendAccount = async (req, res) => {
   try {
     const { classCode } = req.body;
@@ -87,6 +106,7 @@ const unsuspendAccount = async (req, res) => {
 
 module.exports = {
   getEnrolledStudents,
+  getActiveEnrolledStudents,
   suspendAccount,
   unsuspendAccount,
 };

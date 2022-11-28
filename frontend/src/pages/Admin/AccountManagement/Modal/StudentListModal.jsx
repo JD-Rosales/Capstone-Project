@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getEnrolledStudents,
@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import { AiOutlineClose } from "react-icons/ai";
 import noDataAvailable_illustration from "../../../../assets/noDataAvailable_illustration.png";
+import { toast } from "react-toastify";
 
 const styles = {
   modalStyle: {
@@ -57,6 +58,14 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
     handleTeacherData(null);
   };
 
+  const toastID = useRef(null);
+
+  const notify = () =>
+    (toastID.current = toast.loading("Please wait...", {
+      autoClose: 15000,
+      position: "top-right",
+    }));
+
   useEffect(() => {
     const params = {
       token,
@@ -69,9 +78,21 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
+      toast.update(toastID.current, {
+        render: "Success",
+        type: "success",
+        isLoading: false,
+        autoClose: 2000,
+      });
     }
 
     if (isError) {
+      toast.update(toastID.current, {
+        render: message,
+        type: "error",
+        isLoading: false,
+        autoClose: 2000,
+      });
       dispatch(reset());
     }
     // eslint-disable-next-line
@@ -208,10 +229,15 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
                                           classCode:
                                             teacherData.userInfo.classCode,
                                         };
-                                        if (student.isActive) {
-                                          dispatch(suspendAccount(params));
-                                        } else {
-                                          dispatch(unsuspendAccount(params));
+                                        // only allow dispatch when no action is pending
+                                        if (!isLoading) {
+                                          if (student.isActive) {
+                                            notify();
+                                            dispatch(suspendAccount(params));
+                                          } else {
+                                            notify();
+                                            dispatch(unsuspendAccount(params));
+                                          }
                                         }
                                       }}
                                       // inputProps={{
@@ -219,67 +245,6 @@ const StudentListModal = ({ teacherData, handleTeacherData }) => {
                                       // }}
                                     />
                                   </Tooltip>
-                                  {/* {student.isActive ? (
-                                    <LoadingButton
-                                      onClick={() => {
-                                        const params = {
-                                          token,
-                                          id: student._id,
-                                          classCode:
-                                            teacherData.userInfo.classCode,
-                                        };
-                                        dispatch(suspendAccount(params));
-                                      }}
-                                      loading={isLoading}
-                                      loadingIndicator={
-                                        <CircularProgress
-                                          size="2em"
-                                          sx={{ color: "#182240" }}
-                                        />
-                                      }
-                                      variant="contained"
-                                      sx={{
-                                        width: 120,
-                                        backgroundColor: "#d32f2f",
-                                        ":hover": {
-                                          backgroundColor: "#d32f2f",
-                                          opacity: 0.9,
-                                        },
-                                      }}
-                                    >
-                                      SUSPEND
-                                    </LoadingButton>
-                                  ) : (
-                                    <LoadingButton
-                                      onClick={() => {
-                                        const params = {
-                                          token,
-                                          id: student._id,
-                                          classCode:
-                                            teacherData.userInfo.classCode,
-                                        };
-                                        dispatch(unsuspendAccount(params));
-                                      }}
-                                      loading={isLoading}
-                                      loadingIndicator={
-                                        <CircularProgress
-                                          size="2em"
-                                          sx={{ color: "#182240" }}
-                                        />
-                                      }
-                                      variant="contained"
-                                      sx={{
-                                        width: 120,
-                                        backgroundColor: "var(--aquaGreen)",
-                                        ":hover": {
-                                          backgroundColor: "var(--aquaGreen)",
-                                          opacity: 0.9,
-                                        },
-                                      }}
-                                    >
-                                      UNSUSPEND
-                                    </LoadingButton>
-                                  )} */}
                                 </TableCell>
                               </TableRow>
                             );
