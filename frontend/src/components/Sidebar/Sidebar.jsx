@@ -258,7 +258,7 @@ const Sidebar = () => {
                 </li>
                 {user?.role === "student" && (
                   <li>
-                    <NavLink to="/update-profile">
+                    <NavLink to="/change-class">
                       <span>Change Class</span>
                     </NavLink>
                   </li>

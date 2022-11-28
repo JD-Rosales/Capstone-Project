@@ -1,68 +1,80 @@
-import "./UpdateProfile.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import { useState, useEffect, useRef } from "react";
-import { FormControl, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { CircularProgress } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { reset, updateProfile } from "../../features/auth/authSlice";
-import { toast } from "react-toastify";
-import Spinner from "../../components/Spinner/Spinner";
-import editProfile from "../../assets/edit_profile.png";
+import './UpdateProfile.css'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { FormControl, TextField } from '@mui/material'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import Button from '@mui/material/Button'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { CircularProgress } from '@mui/material'
+import { useSelector, useDispatch } from 'react-redux'
+import { reset, updateProfile } from '../../features/auth/authSlice'
+import { toast } from 'react-toastify'
+import Spinner from '../../components/Spinner/Spinner'
+import editProfile from '../../assets/edit_profile.png'
 
 const textfieldStyle = {
   mt: 2,
-  backgroundColor: "#182240",
-  color: "#F0F0F0",
-  "& .MuiFormLabel-root": {
+  backgroundColor: '#182240',
+  color: '#F0F0F0',
+  '& .MuiFormLabel-root': {
     //textfield label
-    color: "#42C9A3",
+    color: '#42C9A3',
   },
-  "& .MuiFormLabel-root.Mui-focused": {
+  '& .MuiFormLabel-root.Mui-focused': {
     //textfield label on focused
-    color: "#42C9A3",
+    color: '#42C9A3',
   },
-  "& .MuiOutlinedInput-root": {
+  '& .MuiOutlinedInput-root': {
     //textfield boder
-    "& > fieldset": { borderColor: "#42C9A3" },
+    '& > fieldset': { borderColor: '#42C9A3' },
   },
-  "& .MuiOutlinedInput-root.Mui-focused": {
+  '& .MuiOutlinedInput-root.Mui-focused': {
     //textfield boder color on focused
-    "& > fieldset": { borderColor: "#42C9A3" },
+    '& > fieldset': { borderColor: '#42C9A3' },
   },
-  "& .MuiOutlinedInput-root:hover": {
-    "& > fieldset": {
-      borderColor: "#F0F0F0",
+  '& .MuiOutlinedInput-root:hover': {
+    '& > fieldset': {
+      borderColor: '#F0F0F0',
     },
   },
-};
+}
 
 const UpdateProfile = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { user, token, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+    (state) => state.auth,
+  )
 
-  const inputFile = useRef(null);
-  const toastID = useRef(null);
+  const inputFile = useRef(null)
+  const toastID = useRef(null)
 
-  const [lastName, setLastName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [middleInitial, setMiddleInitial] = useState("");
-  const [school, setSchool] = useState("");
-  const [email, setEmail] = useState("");
-  const [selectedImage, setSelectedImage] = useState("");
+  const [lastName, setLastName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [middleInitial, setMiddleInitial] = useState('')
+  const [school, setSchool] = useState('')
+  const [email, setEmail] = useState('')
+  const [selectedImage, setSelectedImage] = useState('')
 
   const notify = () =>
-    (toastID.current = toast.loading("Updating Profile...", {
+    (toastID.current = toast.loading('Updating Profile...', {
       autoClose: 10000,
-      position: "top-right",
-    }));
+      position: 'top-right',
+    }))
+  const cancel = async (e) => {
+    e.preventDefault()
 
+    if (user.role === 'student') {
+      navigate('/dashboard')
+    } else if (user.role === 'teacher') {
+      navigate('/teacher-dashboard')
+    } else if (user.role === 'generaluser') {
+      navigate('/dashboard')
+    }
+  }
   const submit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const userInputs = {
       lastName,
@@ -70,77 +82,77 @@ const UpdateProfile = () => {
       middleInitial,
       school,
       email,
-      image: !selectedImage || selectedImage === "" ? null : selectedImage,
-    };
+      image: !selectedImage || selectedImage === '' ? null : selectedImage,
+    }
 
     const userData = {
       id: user._id,
       token: token,
-    };
+    }
 
     const params = {
       userInputs,
       userData,
-    };
+    }
 
-    notify();
-    dispatch(updateProfile(params));
-  };
+    notify()
+    dispatch(updateProfile(params))
+  }
 
   useEffect(() => {
     if (isSuccess) {
       toast.update(toastID.current, {
-        render: "Profile Updated Successfully",
-        type: "success",
+        render: 'Profile Updated Successfully',
+        type: 'success',
         isLoading: false,
         autoClose: 2000,
-      });
-      setFirstName("");
-      setLastName("");
-      setMiddleInitial("");
-      setSchool("");
-      setEmail("");
-      setSelectedImage("");
-      dispatch(reset());
+      })
+      setFirstName('')
+      setLastName('')
+      setMiddleInitial('')
+      setSchool('')
+      setEmail('')
+      setSelectedImage('')
+      dispatch(reset())
     }
 
     if (isError) {
       toast.update(toastID.current, {
         render: message,
-        type: "error",
+        type: 'error',
         isLoading: false,
         autoClose: 2000,
-      });
-      dispatch(reset());
+      })
+      dispatch(reset())
     }
     // eslint-disable-next-line
-  }, [user, isError, isSuccess, message]);
+  }, [user, isError, isSuccess, message])
 
   const chooseFile = () => {
-    inputFile.current.click();
-  };
+    inputFile.current.click()
+  }
 
   const previewImage = (e) => {
     if (e.target.files[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
+      const reader = new FileReader()
+      reader.readAsDataURL(e.target.files[0])
       reader.onloadend = () => {
-        setSelectedImage(reader.result);
-      };
+        setSelectedImage(reader.result)
+      }
       reader.onerror = () => {
-        toast.error("An error has occured!");
-      };
+        toast.error('An error has occured!')
+      }
     }
-  };
+  }
 
   useEffect(() => {
-    setFirstName(user.userInfo.firstName);
-    setLastName(user.userInfo.lastName);
-    setMiddleInitial(user.userInfo.middleInitial);
-    setSchool(user.userInfo.school);
-    setEmail(user.email);
+    setFirstName(user.userInfo.firstName)
+    setLastName(user.userInfo.lastName)
+    setMiddleInitial(user.userInfo.middleInitial)
+    setSchool(user.userInfo.school)
+    setEmail(user.email)
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   return (
     <div className="update-profile">
@@ -152,10 +164,10 @@ const UpdateProfile = () => {
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <h1>
@@ -164,16 +176,16 @@ const UpdateProfile = () => {
               <p>
                 Want to edit you profile? Change your email? School University?
                 Found an error in your inputs? Don't worry! You can do it all
-                here.{" "}
+                here.{' '}
               </p>
             </Grid2>
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <img src={editProfile} alt="Edit Profile Logo" />
@@ -210,7 +222,7 @@ const UpdateProfile = () => {
                   <input
                     type="file"
                     ref={inputFile}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     accept="image/x-png,image/gif,image/jpeg"
                     onChange={previewImage}
                   />
@@ -218,7 +230,7 @@ const UpdateProfile = () => {
               </Grid2>
               <Grid2 xs={9}>
                 <Grid2 xs={12}>
-                  {user.role === "teacher" || user.role === "student" ? (
+                  {user.role === 'teacher' || user.role === 'student' ? (
                     <TextField
                       label="School/University"
                       type="text"
@@ -226,14 +238,14 @@ const UpdateProfile = () => {
                       fullWidth
                       autoComplete="off"
                       sx={textfieldStyle}
-                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                      InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                       value={school}
                       onChange={(e) => {
-                        setSchool(e.target.value);
+                        setSchool(e.target.value)
                       }}
                     />
                   ) : (
-                    ""
+                    ''
                   )}
                 </Grid2>
 
@@ -247,11 +259,11 @@ const UpdateProfile = () => {
                     sx={textfieldStyle}
                     InputProps={{
                       readOnly: true,
-                      sx: { height: 50, color: "#F0F0F0" },
+                      sx: { height: 50, color: '#F0F0F0' },
                     }}
                     value={email}
                     onChange={(e) => {
-                      setEmail(e.target.value);
+                      setEmail(e.target.value)
                     }}
                   />
                 </Grid2>
@@ -265,10 +277,10 @@ const UpdateProfile = () => {
                       autoComplete="off"
                       fullWidth
                       sx={textfieldStyle}
-                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                      InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                       value={lastName}
                       onChange={(e) => {
-                        setLastName(e.target.value);
+                        setLastName(e.target.value)
                       }}
                     />
                   </Grid2>
@@ -281,10 +293,10 @@ const UpdateProfile = () => {
                       autoComplete="off"
                       fullWidth
                       sx={textfieldStyle}
-                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                      InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                       value={firstName}
                       onChange={(e) => {
-                        setFirstName(e.target.value);
+                        setFirstName(e.target.value)
                       }}
                     />
                   </Grid2>
@@ -299,11 +311,11 @@ const UpdateProfile = () => {
                       sx={textfieldStyle}
                       inputProps={{ maxLength: 1 }} //Set the input max length to 1
                       InputProps={{
-                        sx: { height: 50, color: "#F0F0F0" },
+                        sx: { height: 50, color: '#F0F0F0' },
                       }}
                       value={middleInitial}
                       onChange={(e) => {
-                        setMiddleInitial(e.target.value.toUpperCase());
+                        setMiddleInitial(e.target.value.toUpperCase())
                       }}
                     />
                   </Grid2>
@@ -311,24 +323,24 @@ const UpdateProfile = () => {
                   <Grid2
                     xs={12}
                     sx={{
-                      display: "flex",
+                      display: 'flex',
                       // display: user.role === "student"
-                      justifyContent: "flex-end",
+                      justifyContent: 'flex-end',
                     }}
                   >
                     <Button
-                      // onClick={}
+                      onClick={cancel}
                       variant="contained"
                       sx={{
-                        background: "var(--backgroundColor)",
-                        boxShadow: "none",
-                        color: "#F0F0F0",
+                        background: 'var(--backgroundColor)',
+                        boxShadow: 'none',
+                        color: '#F0F0F0',
                         height: 40,
                         mt: 2,
                         mr: 1,
-                        width: "150px",
-                        borderRadius: "20px",
-                        fontSize: "14px",
+                        width: '150px',
+                        borderRadius: '20px',
+                        fontSize: '14px',
                       }}
                     >
                       Cancel
@@ -341,17 +353,17 @@ const UpdateProfile = () => {
                       loadingIndicator={
                         <CircularProgress
                           size="1.5em"
-                          sx={{ color: "#182240" }}
+                          sx={{ color: '#182240' }}
                         />
                       }
                       sx={{
-                        background: "#42C9A3",
-                        color: "#F0F0F0",
+                        background: '#42C9A3',
+                        color: '#F0F0F0',
                         height: 40,
                         mt: 2,
-                        width: "150px",
-                        borderRadius: "20px",
-                        fontSize: "14px",
+                        width: '150px',
+                        borderRadius: '20px',
+                        fontSize: '14px',
                       }}
                     >
                       Update
@@ -411,9 +423,9 @@ const UpdateProfile = () => {
         </form>
       </main>
 
-      {isLoading ? <Spinner /> : ""}
+      {isLoading ? <Spinner /> : ''}
     </div>
-  );
-};
+  )
+}
 
-export default UpdateProfile;
+export default UpdateProfile
