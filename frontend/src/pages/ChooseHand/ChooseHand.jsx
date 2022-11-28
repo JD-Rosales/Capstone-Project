@@ -1,35 +1,47 @@
-import "./ChooseHand.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { reset, updateUserSettings } from "../../features/auth/authSlice";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { CircularProgress } from "@mui/material";
-import choose_hand from "../../assets/choose_hand_illustration.png";
-import left_hand from "../../assets/left_hand.png";
-import right_hand from "../../assets/right_hand.png";
-import left_hand_selected from "../../assets/left_hand_selected.png";
-import right_hand_selected from "../../assets/right_hand_selected.png";
+import './ChooseHand.css'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { reset, updateUserSettings } from '../../features/auth/authSlice'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import Button from '@mui/material/Button'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { CircularProgress } from '@mui/material'
+import choose_hand from '../../assets/choose_hand_illustration.png'
+import left_hand from '../../assets/left_hand.png'
+import right_hand from '../../assets/right_hand.png'
+import left_hand_selected from '../../assets/left_hand_selected.png'
+import right_hand_selected from '../../assets/right_hand_selected.png'
 
 const ChooseHand = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const { user, token, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+    (state) => state.auth,
+  )
 
-  const [isHandActive, setIsHandActive] = useState(user.userSettings.hand);
+  const [isHandActive, setIsHandActive] = useState(user.userSettings.hand)
 
-  const toastID = useRef(null);
+  const toastID = useRef(null)
 
   const notify = () =>
-    (toastID.current = toast.loading("Updating User Settings...", {
+    (toastID.current = toast.loading('Updating User Settings...', {
       autoClose: 15000,
-      position: "top-right",
-    }));
+      position: 'top-right',
+    }))
+  const cancel = async (e) => {
+    e.preventDefault()
 
+    if (user.role === 'student') {
+      navigate('/dashboard')
+    } else if (user.role === 'teacher') {
+      navigate('/teacher-dashboard')
+    } else if (user.role === 'generaluser') {
+      navigate('/dashboard')
+    }
+  }
   const submit = () => {
     const params = {
       userInputs: {
@@ -39,33 +51,33 @@ const ChooseHand = () => {
         id: user._id,
         token: token,
       },
-    };
-    notify();
-    dispatch(updateUserSettings(params));
-  };
+    }
+    notify()
+    dispatch(updateUserSettings(params))
+  }
 
   useEffect(() => {
     if (isSuccess) {
       toast.update(toastID.current, {
-        render: "Success",
-        type: "success",
+        render: 'Success',
+        type: 'success',
         isLoading: false,
         autoClose: 2000,
-      });
-      dispatch(reset());
+      })
+      dispatch(reset())
     }
 
     if (isError) {
       toast.update(toastID.current, {
         render: message,
-        type: "error",
+        type: 'error',
         isLoading: false,
         autoClose: 2000,
-      });
-      dispatch(reset());
+      })
+      dispatch(reset())
     }
     // eslint-disable-next-line
-  }, [user, isSuccess, isError, message]);
+  }, [user, isSuccess, isError, message])
 
   return (
     <div className="choose-hand">
@@ -77,10 +89,10 @@ const ChooseHand = () => {
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <h1>
@@ -94,10 +106,10 @@ const ChooseHand = () => {
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <img src={choose_hand} alt="Choose hand Logo" />
@@ -139,23 +151,23 @@ const ChooseHand = () => {
         <Grid2
           xs={12}
           sx={{
-            display: "flex",
-            justifyContent: "flex-end",
+            display: 'flex',
+            justifyContent: 'flex-end',
           }}
         >
           <Button
-            // onClick={}
+            onClick={cancel}
             variant="contained"
             sx={{
-              background: "var(--backgroundColor)",
-              boxShadow: "none",
-              color: "#F0F0F0",
+              background: 'var(--backgroundColor)',
+              boxShadow: 'none',
+              color: '#F0F0F0',
               height: 40,
               mt: 2,
               mr: 1,
-              width: "150px",
-              borderRadius: "20px",
-              fontSize: "14px",
+              width: '150px',
+              borderRadius: '20px',
+              fontSize: '14px',
             }}
           >
             Cancel
@@ -166,16 +178,16 @@ const ChooseHand = () => {
             loading={isLoading}
             variant="contained"
             loadingIndicator={
-              <CircularProgress size="1.5em" sx={{ color: "#182240" }} />
+              <CircularProgress size="1.5em" sx={{ color: '#182240' }} />
             }
             sx={{
-              background: "#42C9A3",
-              color: "#F0F0F0",
+              background: '#42C9A3',
+              color: '#F0F0F0',
               height: 40,
               mt: 2,
-              width: "150px",
-              borderRadius: "20px",
-              fontSize: "14px",
+              width: '150px',
+              borderRadius: '20px',
+              fontSize: '14px',
             }}
           >
             Update
@@ -183,7 +195,7 @@ const ChooseHand = () => {
         </Grid2>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default ChooseHand;
+export default ChooseHand
