@@ -1,76 +1,90 @@
-import "./ChangePassword.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import { useState, useEffect, useRef } from "react";
-import { FormControl, TextField } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import Button from "@mui/material/Button";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { CircularProgress } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { reset, changePassword } from "../../features/auth/authSlice";
-import { toast } from "react-toastify";
-import Spinner from "../../components/Spinner/Spinner";
-import change_password from "../../assets/change_password.png";
+import './ChangePassword.css'
+import Sidebar from '../../components/Sidebar/Sidebar'
+import { useNavigate} from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react'
+import { FormControl, TextField } from '@mui/material'
+import Grid2 from '@mui/material/Unstable_Grid2'
+import Button from '@mui/material/Button'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { CircularProgress } from '@mui/material'
+import { useSelector, useDispatch } from 'react-redux'
+import { reset, changePassword } from '../../features/auth/authSlice'
+import { toast } from 'react-toastify'
+import Spinner from '../../components/Spinner/Spinner'
+import change_password from '../../assets/change_password.png'
 
 const textfieldStyle = {
   mt: 2,
-  backgroundColor: "#182240",
-  color: "#F0F0F0",
-  "& .MuiFormLabel-root": {
+  backgroundColor: '#182240',
+  color: '#F0F0F0',
+  '& .MuiFormLabel-root': {
     //textfield label
-    color: "#42C9A3",
+    color: '#42C9A3',
   },
-  "& .MuiFormLabel-root.Mui-focused": {
+  '& .MuiFormLabel-root.Mui-focused': {
     //textfield label on focused
-    color: "#42C9A3",
+    color: '#42C9A3',
   },
-  "& .MuiOutlinedInput-root": {
+  '& .MuiOutlinedInput-root': {
     //textfield boder
-    "& > fieldset": { borderColor: "#42C9A3" },
+    '& > fieldset': { borderColor: '#42C9A3' },
   },
-  "& .MuiOutlinedInput-root.Mui-focused": {
+  '& .MuiOutlinedInput-root.Mui-focused': {
     //textfield boder color on focused
-    "& > fieldset": { borderColor: "#42C9A3" },
+    '& > fieldset': { borderColor: '#42C9A3' },
   },
-  "& .MuiOutlinedInput-root:hover": {
-    "& > fieldset": {
-      borderColor: "#F0F0F0",
+  '& .MuiOutlinedInput-root:hover': {
+    '& > fieldset': {
+      borderColor: '#F0F0F0',
     },
   },
-};
+}
 
 const ChangePassword = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const { user, token, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+    (state) => state.auth,
+  )
 
-  const toastID = useRef(null);
+  const toastID = useRef(null)
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [newPassword2, setNewPassword2] = useState("");
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [newPassword2, setNewPassword2] = useState('')
 
   const notify = () =>
-    (toastID.current = toast.loading("Updating Password...", {
+    (toastID.current = toast.loading('Updating Password...', {
       autoClose: 10000,
-      position: "top-right",
-    }));
+      position: 'top-right',
+    }))
 
+  const cancel = async (e) => {
+    e.preventDefault()
+
+    if (user.role === 'student') {
+      navigate('/dashboard')
+    } else if (user.role === 'teacher') {
+      navigate('/teacher-dashboard')
+    } else if (user.role === 'generaluser') {
+      navigate('/dashboard')
+    }
+  }
   const submit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const userInputs = {
       currentPassword: currentPassword,
       newPassword: newPassword,
       newPassword2: newPassword2,
-    };
+    }
 
     if (newPassword.trim() !== newPassword2.trim()) {
-      toast.warning("Password do not match!", {
+      toast.warning('Password do not match!', {
         autoClose: 2000,
-        position: "top-right",
-      });
+        position: 'top-right',
+      })
     } else {
       const params = {
         userInputs,
@@ -78,38 +92,38 @@ const ChangePassword = () => {
           id: user._id,
           token: token,
         },
-      };
+      }
 
-      notify();
-      dispatch(changePassword(params));
+      notify()
+      dispatch(changePassword(params))
     }
-  };
+  }
 
   useEffect(() => {
     if (isSuccess) {
       toast.update(toastID.current, {
-        render: "Password Change!",
-        type: "success",
+        render: 'Password Change!',
+        type: 'success',
         isLoading: false,
         autoClose: 2000,
-      });
-      setCurrentPassword("");
-      setNewPassword("");
-      setNewPassword2("");
-      dispatch(reset());
+      })
+      setCurrentPassword('')
+      setNewPassword('')
+      setNewPassword2('')
+      dispatch(reset())
     }
 
     if (isError) {
       toast.update(toastID.current, {
         render: message,
-        type: "error",
+        type: 'error',
         isLoading: false,
         autoClose: 2000,
-      });
-      dispatch(reset());
+      })
+      dispatch(reset())
     }
     // eslint-disable-next-line
-  }, [user, isError, isSuccess, message]);
+  }, [user, isError, isSuccess, message])
 
   return (
     <div className="change-password">
@@ -121,10 +135,10 @@ const ChangePassword = () => {
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <h1>
@@ -133,16 +147,16 @@ const ChangePassword = () => {
               <p>
                 Be confident that your account is protected and secured, make
                 sure your password: • is longer than 8 characters <br />• is a
-                combination of numbers, letters, and special characters
+                combination of numbers and letters.
               </p>
             </Grid2>
             <Grid2
               xs={6}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <img src={change_password} alt="Change Password Logo" />
@@ -164,14 +178,14 @@ const ChangePassword = () => {
                     ></div>
                   </div>
 
-                  <span style={{ marginTop: "8px" }}>
+                  <span style={{ marginTop: '8px' }}>
                     School/University: <span>{user?.userInfo.school}</span>
                   </span>
                   <span>
-                    Name:{" "}
+                    Name:{' '}
                     <span>
-                      {user?.userInfo.firstName + " "}
-                      {user?.userInfo.middleInitial + " "}
+                      {user?.userInfo.firstName + ' '}
+                      {user?.userInfo.middleInitial + ' '}
                       {user?.userInfo.lastName}
                     </span>
                   </span>
@@ -189,10 +203,10 @@ const ChangePassword = () => {
                     fullWidth
                     autoComplete="off"
                     sx={textfieldStyle}
-                    InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                    InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                     value={currentPassword}
                     onChange={(e) => {
-                      setCurrentPassword(e.target.value);
+                      setCurrentPassword(e.target.value)
                     }}
                   />
                 </Grid2>
@@ -205,10 +219,10 @@ const ChangePassword = () => {
                     autoComplete="off"
                     fullWidth
                     sx={textfieldStyle}
-                    InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                    InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                     value={newPassword}
                     onChange={(e) => {
-                      setNewPassword(e.target.value);
+                      setNewPassword(e.target.value)
                     }}
                   />
                 </Grid2>
@@ -222,10 +236,10 @@ const ChangePassword = () => {
                       autoComplete="off"
                       fullWidth
                       sx={textfieldStyle}
-                      InputProps={{ sx: { height: 50, color: "#F0F0F0" } }}
+                      InputProps={{ sx: { height: 50, color: '#F0F0F0' } }}
                       value={newPassword2}
                       onChange={(e) => {
-                        setNewPassword2(e.target.value);
+                        setNewPassword2(e.target.value)
                       }}
                     />
                   </Grid2>
@@ -237,23 +251,23 @@ const ChangePassword = () => {
             <Grid2
               xs={12}
               sx={{
-                display: "flex",
-                justifyContent: "flex-end",
+                display: 'flex',
+                justifyContent: 'flex-end',
               }}
             >
               <Button
-                // onClick={}
+                onClick={cancel}
                 variant="contained"
                 sx={{
-                  background: "var(--backgroundColor)",
-                  boxShadow: "none",
-                  color: "#F0F0F0",
+                  background: 'var(--backgroundColor)',
+                  boxShadow: 'none',
+                  color: '#F0F0F0',
                   height: 40,
                   mt: 2,
                   mr: 1,
-                  width: "150px",
-                  borderRadius: "20px",
-                  fontSize: "14px",
+                  width: '150px',
+                  borderRadius: '20px',
+                  fontSize: '14px',
                 }}
               >
                 Cancel
@@ -264,16 +278,16 @@ const ChangePassword = () => {
                 loading={isLoading}
                 variant="contained"
                 loadingIndicator={
-                  <CircularProgress size="1.5em" sx={{ color: "#182240" }} />
+                  <CircularProgress size="1.5em" sx={{ color: '#182240' }} />
                 }
                 sx={{
-                  background: "#42C9A3",
-                  color: "#F0F0F0",
+                  background: '#42C9A3',
+                  color: '#F0F0F0',
                   height: 40,
                   mt: 2,
-                  width: "150px",
-                  borderRadius: "20px",
-                  fontSize: "14px",
+                  width: '150px',
+                  borderRadius: '20px',
+                  fontSize: '14px',
                 }}
               >
                 Update
@@ -283,9 +297,9 @@ const ChangePassword = () => {
         </form>
       </main>
 
-      {isLoading ? <Spinner /> : ""}
+      {isLoading ? <Spinner /> : ''}
     </div>
-  );
-};
+  )
+}
 
-export default ChangePassword;
+export default ChangePassword
