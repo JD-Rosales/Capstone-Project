@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import axios from "axios"
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 // Get user from local storage
 const localUser = JSON.parse(localStorage.getItem('user'))
@@ -10,135 +10,230 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: ""
+  message: '',
 }
 
 // Register user
-export const register = createAsyncThunk('auth/register', async (userData, thunkAPI) => {
-  try {
+export const register = createAsyncThunk(
+  'auth/register',
+  async (userData, thunkAPI) => {
+    try {
       const response = await axios.post('/api/users', userData)
 
-      if(response.data) {
+      if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
         return response.data
       }
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
 
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+      return thunkAPI.rejectWithValue(message)
+    }
+  },
+)
 
 //Login user
-export const login = createAsyncThunk('auth/login', async (userData, thunkAPI) => {
-  try {
-    const response = await axios.post('/api/users/login', userData)
+export const login = createAsyncThunk(
+  'auth/login',
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post('/api/users/login', userData)
 
-    if(response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        return response.data
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
     }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+  },
+)
 
 //Update user profile
-export const updateProfile = createAsyncThunk('auth/updateProfile', async (params, thunkAPI) => {
-  try {
-    console.log(params)
-    const response = await axios.patch('/api/users/update-profile/' + params.userData.id, params.userInputs, {
-      headers: { Authorization: `Bearer ${params.userData.token}` },
-    })
-    
-    if(response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data
-    }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (params, thunkAPI) => {
+    try {
+      console.log(params)
+      const response = await axios.patch(
+        '/api/users/update-profile/' + params.userData.id,
+        params.userInputs,
+        {
+          headers: { Authorization: `Bearer ${params.userData.token}` },
+        },
+      )
 
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        return response.data
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  },
+)
 
 //Update user settings
-export const updateUserSettings = createAsyncThunk('auth/updateUserSettings', async (params, thunkAPI) => {
-  try {
-    const response = await axios.patch('/api/users/update-userSettings/' + params.userData.id, params.userInputs, {
-      headers: { Authorization: `Bearer ${params.userData.token}` },
-    })
+export const updateUserSettings = createAsyncThunk(
+  'auth/updateUserSettings',
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        '/api/users/update-userSettings/' + params.userData.id,
+        params.userInputs,
+        {
+          headers: { Authorization: `Bearer ${params.userData.token}` },
+        },
+      )
 
-    if(response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        return response.data
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
     }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+  },
+)
 
 //Change user password
-export const changePassword = createAsyncThunk('auth/changePassword', async (params, thunkAPI) => {
-  try {
-    const response = await axios.patch('/api/users/change-password/' + params.userData.id, params.userInputs, {
-      headers: { Authorization: `Bearer ${params.userData.token}` },
-    })
+export const changePassword = createAsyncThunk(
+  'auth/changePassword',
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        '/api/users/change-password/' + params.userData.id,
+        params.userInputs,
+        {
+          headers: { Authorization: `Bearer ${params.userData.token}` },
+        },
+      )
 
-    if(response.data) {
-      return response.data.user
+      if (response.data) {
+        return response.data.user
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
     }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+  },
+)
 
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+//Change Student classcode
+export const changeClassCode = createAsyncThunk(
+  'auth/changeClassCode',
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        '/api/users/change-class/' + params.userData.id,
+        params.userInputs,
+        {
+          headers: { Authorization: `Bearer ${params.userData.token}` },
+        },
+      )
 
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        return response.data.user
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  },
+)
 //Delete user account
-export const deleteAccount = createAsyncThunk('auth/deleteAccount', async (id, thunkAPI) => {
-  try {
-    const response = await axios.delete('/api/users/delete-account/' + id, {
-      headers: { authorization: `Bearer ${localUser.token}` },
-    })
+export const deleteAccount = createAsyncThunk(
+  'auth/deleteAccount',
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.delete('/api/users/delete-account/' + id, {
+        headers: { authorization: `Bearer ${localUser.token}` },
+      })
 
-    if(response.data) {
-      return response.data
+      if (response.data) {
+        return response.data
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
     }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
-
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+  },
+)
 
 //Update user  lesson progress
-export const updateProgress = createAsyncThunk('auth/updateProgress', async (params, thunkAPI) => {
-  try {
-    const response = await axios.patch('/api/users/update-progress/' + params.id, params, {
-      headers: { Authorization: `Bearer ${params.token}` },
-    })
-    
-    if(response.data) {
-      localStorage.setItem('user', JSON.stringify(response.data))
-      return response.data
-    }
-    
-  } catch (error) {
-    const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+export const updateProgress = createAsyncThunk(
+  'auth/updateProgress',
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        '/api/users/update-progress/' + params.id,
+        params,
+        {
+          headers: { Authorization: `Bearer ${params.token}` },
+        },
+      )
 
-    return thunkAPI.rejectWithValue(message)
-  }
-})
+      if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        return response.data
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+    }
+  },
+)
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -148,14 +243,14 @@ export const authSlice = createSlice({
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
-      state.message = ""
+      state.message = ''
     },
     resetAll: (state) => {
       state.user = null
       state.isLoading = false
       state.isSuccess = false
       state.isError = false
-      state.message = ""
+      state.message = ''
     },
     logOut: (state, action) => {
       localStorage.clear()
@@ -164,7 +259,7 @@ export const authSlice = createSlice({
     },
     updateMessage: (state, action) => {
       state.message = action.payload
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -183,7 +278,7 @@ export const authSlice = createSlice({
         state.message = action.payload
         state.user = null
       })
-      
+
       .addCase(login.pending, (state) => {
         state.isLoading = true
       })
@@ -224,6 +319,20 @@ export const authSlice = createSlice({
         state.message = action.payload
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+
+      .addCase(changeClassCode.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(changeClassCode.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.message = action.payload
+      })
+      .addCase(changeClassCode.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.message = action.payload
@@ -274,7 +383,7 @@ export const authSlice = createSlice({
         state.isError = true
         state.message = action.payload
       })
-  }
+  },
 })
 
 export const { reset, resetAll, updateMessage } = authSlice.actions
