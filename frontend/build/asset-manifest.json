@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e46bc713.css",
-    "main.js": "/static/js/main.99c6904d.js",
+    "main.css": "/static/css/main.e7e2de9c.css",
+    "main.js": "/static/js/main.8e30a0df.js",
     "static/media/illustration2.png": "/static/media/illustration2.39d7d710ca4e7c4816e3.png",
     "static/media/illustration1.png": "/static/media/illustration1.e88d887a91ac5ce0f2f8.png",
     "static/media/spellHandSign_illustration.png": "/static/media/spellHandSign_illustration.67a9b0de266a05d0cd60.png",
@@ -85,12 +85,14 @@
     "static/media/classwork_illustration.png": "/static/media/classwork_illustration.c1c00ca3904c4491a7ac.png",
     "static/media/edit_profile.png": "/static/media/edit_profile.b1e07fb2d30e1691962f.png",
     "static/media/logo2.png": "/static/media/logo2.25d213b8fe8ed340adf8.png",
+    "static/media/accountManagement_illustration.png": "/static/media/accountManagement_illustration.57bb99bf713bf6e6cfcb.png",
     "static/media/lesson5_vocab_1.jpg": "/static/media/lesson5_vocab_1.ea6e1f59815af42ded37.jpg",
     "static/media/lesson5_vocab_6.jpg": "/static/media/lesson5_vocab_6.dce944a80e1251cbca18.jpg",
+    "static/media/accountActivation_illustration.png": "/static/media/accountActivation_illustration.005576ea9b6b106e6d02.png",
     "static/media/lesson3_vocab_4.jpg": "/static/media/lesson3_vocab_4.3db6be1d918283feba77.jpg",
     "static/media/lesson5_vocab_3.jpg": "/static/media/lesson5_vocab_3.774072976a4baaf8e24c.jpg",
     "static/media/lesson3_vocab_2.jpg": "/static/media/lesson3_vocab_2.63808e4fed9650941170.jpg",
-    "static/media/manageRequest.png": "/static/media/manageRequest.e0c53d4a30b59a523bfe.png",
+    "static/media/changeClasscode_illustration.png": "/static/media/changeClasscode_illustration.1c7a50d500ee443917bb.png",
     "static/media/lesson5_vocab_2.jpg": "/static/media/lesson5_vocab_2.b710d09e78cc60b42b5f.jpg",
     "static/media/leadershipBoard_icon.png": "/static/media/leadershipBoard_icon.e1a417792dc08a981d91.png",
     "static/media/lesson3_vocab_6.jpg": "/static/media/lesson3_vocab_6.a410fa15bf9404ef02bb.jpg",
@@ -138,11 +140,11 @@
     "static/media/landing.svg": "/static/media/landing.711fe97be3d120bfca6a.svg",
     "static/media/login-signup.svg": "/static/media/login-signup.87faaee5d469e259258a.svg",
     "index.html": "/index.html",
-    "main.e46bc713.css.map": "/static/css/main.e46bc713.css.map",
-    "main.99c6904d.js.map": "/static/js/main.99c6904d.js.map"
+    "main.e7e2de9c.css.map": "/static/css/main.e7e2de9c.css.map",
+    "main.8e30a0df.js.map": "/static/js/main.8e30a0df.js.map"
   },
   "entrypoints": [
-    "static/css/main.e46bc713.css",
-    "static/js/main.99c6904d.js"
+    "static/css/main.e7e2de9c.css",
+    "static/js/main.8e30a0df.js"
   ]
 }
