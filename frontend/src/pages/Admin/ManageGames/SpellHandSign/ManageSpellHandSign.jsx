@@ -262,7 +262,7 @@ const ManageSpellHandSign = () => {
       token: token,
       gameType: gameType,
     };
-    return () => dispatch(getGameWord(params));
+    dispatch(getGameWord(params));
     // eslint-disable-next-line
   }, []);
 

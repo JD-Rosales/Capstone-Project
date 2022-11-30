@@ -149,7 +149,8 @@ const AccountActivation = () => {
       <header>
         <div className="header-text">
           <h1>
-            Account <span>Activation</span>
+            Account{" "}
+            <span style={{ color: "var(--aquaGreen)" }}>Activation</span>
           </h1>
 
           <p>

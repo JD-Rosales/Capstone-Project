@@ -6,3 +6,7 @@
   min-height: 100vh;
   padding: 0 30px;
 }
+
+.admin-account-management main {
+  width: 100%;
+}

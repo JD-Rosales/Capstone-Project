@@ -11,27 +11,24 @@
 .account-activation header {
   display: flex;
   flex-direction: row;
+}
 
-
+.account-activation header .header-text h1 {
+  margin-top: 50px;
 }
 
 .account-activation header .header-text {
   width: 50%;
-
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
 }
 
 .account-activation header .header-img {
-  /* background-color: red; */
   width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.account-activation header .header-img img{
+.account-activation header .header-img img {
   height: 200px;
 }
 
@@ -45,7 +42,7 @@
   margin-top: 20px;
 }
 
-.account-activation main .tbl-contianer .tbl-header{
+.account-activation main .tbl-contianer .tbl-header {
   width: 100%;
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -54,7 +51,7 @@
   font-weight: bold;
 }
 
-.account-activation main .tbl-contianer .tbl-data{
+.account-activation main .tbl-contianer .tbl-data {
   width: 100%;
   display: grid;
   grid-template-columns: 3fr 2fr;
