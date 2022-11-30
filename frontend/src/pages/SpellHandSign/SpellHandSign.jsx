@@ -141,7 +141,7 @@ const SpellHandSign = () => {
 
     for (let i = 0; i < num; i++) {
       let index = Math.floor(Math.random() * arrCopy.length);
-      res.push(arrCopy[index].word);
+      res.push(arrCopy[index]?.word);
       arrCopy.splice(index, 1);
     }
     return res;

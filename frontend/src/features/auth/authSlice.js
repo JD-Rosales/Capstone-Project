@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
 // Get user from local storage
-const localUser = JSON.parse(localStorage.getItem('user'))
+const localUser = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
   user: localUser ? localUser.user : null,
@@ -10,19 +10,19 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: '',
-}
+  message: "",
+};
 
 // Register user
 export const register = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post('/api/users', userData)
+      const response = await axios.post("/api/users", userData);
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -30,23 +30,23 @@ export const register = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Login user
 export const login = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (userData, thunkAPI) => {
     try {
-      const response = await axios.post('/api/users/login', userData)
+      const response = await axios.post("/api/users/login", userData);
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -54,30 +54,30 @@ export const login = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Update user profile
 export const updateProfile = createAsyncThunk(
-  'auth/updateProfile',
+  "auth/updateProfile",
   async (params, thunkAPI) => {
     try {
-      console.log(params)
+      console.log(params);
       const response = await axios.patch(
-        '/api/users/update-profile/' + params.userData.id,
+        "/api/users/update-profile/" + params.userData.id,
         params.userInputs,
         {
           headers: { Authorization: `Bearer ${params.userData.token}` },
-        },
-      )
+        }
+      );
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -85,29 +85,29 @@ export const updateProfile = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Update user settings
 export const updateUserSettings = createAsyncThunk(
-  'auth/updateUserSettings',
+  "auth/updateUserSettings",
   async (params, thunkAPI) => {
     try {
       const response = await axios.patch(
-        '/api/users/update-userSettings/' + params.userData.id,
+        "/api/users/update-userSettings/" + params.userData.id,
         params.userInputs,
         {
           headers: { Authorization: `Bearer ${params.userData.token}` },
-        },
-      )
+        }
+      );
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -115,28 +115,28 @@ export const updateUserSettings = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Change user password
 export const changePassword = createAsyncThunk(
-  'auth/changePassword',
+  "auth/changePassword",
   async (params, thunkAPI) => {
     try {
       const response = await axios.patch(
-        '/api/users/change-password/' + params.userData.id,
+        "/api/users/change-password/" + params.userData.id,
         params.userInputs,
         {
           headers: { Authorization: `Bearer ${params.userData.token}` },
-        },
-      )
+        }
+      );
 
       if (response.data) {
-        return response.data.user
+        return response.data.user;
       }
     } catch (error) {
       const message =
@@ -144,29 +144,29 @@ export const changePassword = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Change Student classcode
 export const changeClassCode = createAsyncThunk(
-  'auth/changeClassCode',
+  "auth/changeClassCode",
   async (params, thunkAPI) => {
     try {
       const response = await axios.patch(
-        '/api/users/change-class/' + params.userData.id,
+        "/api/users/change-class/" + params.userData.id,
         params.userInputs,
         {
           headers: { Authorization: `Bearer ${params.userData.token}` },
-        },
-      )
+        }
+      );
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data.user
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -174,23 +174,23 @@ export const changeClassCode = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 //Delete user account
 export const deleteAccount = createAsyncThunk(
-  'auth/deleteAccount',
+  "auth/deleteAccount",
   async (id, thunkAPI) => {
     try {
-      const response = await axios.delete('/api/users/delete-account/' + id, {
+      const response = await axios.delete("/api/users/delete-account/" + id, {
         headers: { authorization: `Bearer ${localUser.token}` },
-      })
+      });
 
       if (response.data) {
-        return response.data
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -198,29 +198,29 @@ export const deleteAccount = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 //Update user  lesson progress
 export const updateProgress = createAsyncThunk(
-  'auth/updateProgress',
+  "auth/updateProgress",
   async (params, thunkAPI) => {
     try {
       const response = await axios.patch(
-        '/api/users/update-progress/' + params.id,
+        "/api/users/update-progress/" + params.id,
         params,
         {
           headers: { Authorization: `Bearer ${params.token}` },
-        },
-      )
+        }
+      );
 
       if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        return response.data
+        localStorage.setItem("user", JSON.stringify(response.data));
+        return response.data;
       }
     } catch (error) {
       const message =
@@ -228,163 +228,165 @@ export const updateProgress = createAsyncThunk(
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
+        error.toString();
 
-      return thunkAPI.rejectWithValue(message)
+      return thunkAPI.rejectWithValue(message);
     }
-  },
-)
+  }
+);
 
 export const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     reset: (state) => {
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
     },
     resetAll: (state) => {
-      state.user = null
-      state.isLoading = false
-      state.isSuccess = false
-      state.isError = false
-      state.message = ''
+      state.user = null;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
     },
     logOut: (state, action) => {
-      localStorage.clear()
-      state.user = null
-      state.token = null
+      localStorage.clear();
+      state.user = null;
+      state.token = null;
     },
     updateMessage: (state, action) => {
-      state.message = action.payload
+      state.message = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload.user
-        state.token = action.payload.token
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(register.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-        state.user = null
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
       })
 
       .addCase(login.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload.user
-        state.token = action.payload.token
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(login.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-        state.user = null
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.user = null;
       })
 
       .addCase(updateProfile.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.user = action.payload.user
-        state.token = action.payload.token
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(updateProfile.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(changePassword.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(changePassword.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
       })
       .addCase(changePassword.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(changeClassCode.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(changeClassCode.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(changeClassCode.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(updateUserSettings.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(updateUserSettings.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.message = action.payload
-        state.user = action.payload.user
-        state.token = action.payload.token
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(updateUserSettings.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(deleteAccount.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(deleteAccount.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.message = action.payload.message
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload.message;
       })
       .addCase(deleteAccount.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
 
       .addCase(updateProgress.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(updateProgress.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.message = action.payload
-        state.user = action.payload.user
-        state.token = action.payload.token
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(updateProgress.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-      })
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
-})
+});
 
-export const { reset, resetAll, updateMessage } = authSlice.actions
-export default authSlice.reducer
+export const { reset, resetAll, updateMessage } = authSlice.actions;
+export default authSlice.reducer;

@@ -33,6 +33,8 @@ const Lesson1 = () => {
   const handleScroll = (e) => {
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    console.log("scrollHeight", e.target.scrollHeight);
+    console.log("scrollTop", e.target.scrollTop);
     if (bottom) {
       if (user.lesson.progress < 1) {
         const params = {

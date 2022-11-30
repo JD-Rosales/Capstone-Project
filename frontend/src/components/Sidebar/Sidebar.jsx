@@ -111,7 +111,7 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <NavLink to="/test">
+              <NavLink to="/teacher/student-progress">
                 <GiProgression className="icon" />{" "}
                 <span>Students Progress</span>
               </NavLink>

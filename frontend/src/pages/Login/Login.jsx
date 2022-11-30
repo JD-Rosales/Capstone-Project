@@ -286,7 +286,7 @@ const Login = () => {
               loadingIndicator={
                 <CircularProgress size="2em" sx={{ color: "#182240" }} />
               }
-              disableElevation="true"
+              disableElevation={true}
               variant="contained"
               sx={{
                 background: "#42C9A3",

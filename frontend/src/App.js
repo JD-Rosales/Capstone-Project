@@ -1,49 +1,50 @@
-import { Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout'
-import RequireAuth from './components/RequireAuth'
-import 'react-toastify/dist/ReactToastify.css'
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import RequireAuth from "./components/RequireAuth";
+import "react-toastify/dist/ReactToastify.css";
 
 // Public Pages
-import Landing from './pages/Landing/Landing'
-import Login from './pages/Login/Login'
-import SignUp from './pages/SignUp/SignUp'
-import Forbidden from './pages/Forbidden/Forbidden'
+import Landing from "./pages/Landing/Landing";
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+import Forbidden from "./pages/Forbidden/Forbidden";
 
 // Authenticated Pages
-import Unauthorized from './pages/Unauthorized/Unauthorized'
-import Dashboard from './pages/Dashboard/Dashboard'
-import ASLTranslator from './pages/ASLTranslator/ASLTranslator'
-import Play from './pages/Play/Play'
-import Practice from './pages/Practice/Practice'
-import GuessHandSign from './pages/GuessHandSign/GuessHandSign'
-import FingerSpell from './pages/FingerSpell/FingerSpell'
-import SpellHandSign from './pages/SpellHandSign/SpellHandSign'
-import FourPicOneWord from './pages/FourPicOneWord/FourPicOneWord'
-import Learn from './pages/Learn/Learn'
-import UpdateProfile from './pages/UpdateProfile/UpdateProfile'
-import ChangePassword from './pages/ChangePassword/ChangePassword'
-import ChangeClass from './pages/ChangeClass/ChangeClass'
-import ChooseHand from './pages/ChooseHand/ChooseHand'
-import Lesson1 from './pages/Lessons/Lesson1/Lesson1'
-import Lesson2 from './pages/Lessons/Lesson2/Lesson2'
-import Lesson3 from './pages/Lessons/Lesson3/Lesson3'
-import Lesson4 from './pages/Lessons/Lesson4/Lesson4'
-import Lesson5 from './pages/Lessons/Lesson5/Lesson5'
-import TeacherDashboard from './pages/Teacher/TeacherDashboard/TeacherDashboard'
-import EnrolledStudent from './pages/Teacher/EnrolledStudent/EnrolledStudent'
-import WaitingApproval from './pages/WaitingApproval/WaitingApproval'
-import Assignments from './pages/Teacher/Assignments/Assignments'
-import StudentAssignments from './pages/Student/StudentAssignments/StudentAssignments'
-import Classwork from './pages/Student/StudentAssignments/Classwork/Classwork'
-import AdminSignUp from './pages/Admin/SignUp/SignUp'
-import AdminLogin from './pages/Admin/Login/Login'
-import AccountActivation from './pages/Admin/AccountActivation/AccountActivation'
-import ManageGames from './pages/Admin/ManageGames/ManageGames'
-import ManageFingerspell from './pages/Admin/ManageGames/Fingerspell/ManageFingerspell'
-import ManageSpellHandSign from './pages/Admin/ManageGames/SpellHandSign/ManageSpellHandSign'
-import FourPic from './pages/Admin/ManageGames/FourPic/FourPic'
-import TextToASL from './pages/TextToASL/TextToASL'
-import AccountManagement from './pages/Admin/AccountManagement/AccountManagement'
+import Unauthorized from "./pages/Unauthorized/Unauthorized";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import ASLTranslator from "./pages/ASLTranslator/ASLTranslator";
+import Play from "./pages/Play/Play";
+import Practice from "./pages/Practice/Practice";
+import GuessHandSign from "./pages/GuessHandSign/GuessHandSign";
+import FingerSpell from "./pages/FingerSpell/FingerSpell";
+import SpellHandSign from "./pages/SpellHandSign/SpellHandSign";
+import FourPicOneWord from "./pages/FourPicOneWord/FourPicOneWord";
+import Learn from "./pages/Learn/Learn";
+import UpdateProfile from "./pages/UpdateProfile/UpdateProfile";
+import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import ChangeClass from "./pages/ChangeClass/ChangeClass";
+import ChooseHand from "./pages/ChooseHand/ChooseHand";
+import Lesson1 from "./pages/Lessons/Lesson1/Lesson1";
+import Lesson2 from "./pages/Lessons/Lesson2/Lesson2";
+import Lesson3 from "./pages/Lessons/Lesson3/Lesson3";
+import Lesson4 from "./pages/Lessons/Lesson4/Lesson4";
+import Lesson5 from "./pages/Lessons/Lesson5/Lesson5";
+import TeacherDashboard from "./pages/Teacher/TeacherDashboard/TeacherDashboard";
+import EnrolledStudent from "./pages/Teacher/EnrolledStudent/EnrolledStudent";
+import WaitingApproval from "./pages/WaitingApproval/WaitingApproval";
+import Assignments from "./pages/Teacher/Assignments/Assignments";
+import StudentAssignments from "./pages/Student/StudentAssignments/StudentAssignments";
+import Classwork from "./pages/Student/StudentAssignments/Classwork/Classwork";
+import AdminSignUp from "./pages/Admin/SignUp/SignUp";
+import AdminLogin from "./pages/Admin/Login/Login";
+import AccountActivation from "./pages/Admin/AccountActivation/AccountActivation";
+import ManageGames from "./pages/Admin/ManageGames/ManageGames";
+import ManageFingerspell from "./pages/Admin/ManageGames/Fingerspell/ManageFingerspell";
+import ManageSpellHandSign from "./pages/Admin/ManageGames/SpellHandSign/ManageSpellHandSign";
+import FourPic from "./pages/Admin/ManageGames/FourPic/FourPic";
+import TextToASL from "./pages/TextToASL/TextToASL";
+import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
+import StudentProgress from "./pages/Teacher/StudentProgress/StudentProgress";
 
 function App() {
   return (
@@ -60,7 +61,7 @@ function App() {
 
         {/* Student and General User Routes */}
         <Route
-          element={<RequireAuth allowedRoles={['student', 'generaluser']} />}
+          element={<RequireAuth allowedRoles={["student", "generaluser"]} />}
         >
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="asl-translator" element={<ASLTranslator />} />
@@ -77,7 +78,7 @@ function App() {
         <Route
           element={
             <RequireAuth
-              allowedRoles={['teacher', 'student', 'generaluser', 'admin']}
+              allowedRoles={["teacher", "student", "generaluser", "admin"]}
             />
           }
         >
@@ -94,21 +95,25 @@ function App() {
         </Route>
 
         {/* Teacher Routes */}
-        <Route element={<RequireAuth allowedRoles={['teacher']} />}>
+        <Route element={<RequireAuth allowedRoles={["teacher"]} />}>
           <Route path="teacher-dashboard" element={<TeacherDashboard />} />
           <Route path="enrolled-students" element={<EnrolledStudent />} />
           <Route path="teacher/assignments" element={<Assignments />} />
+          <Route
+            path="teacher/student-progress"
+            element={<StudentProgress />}
+          />
         </Route>
 
         {/* Student Routes */}
-        <Route element={<RequireAuth allowedRoles={['student']} />}>
+        <Route element={<RequireAuth allowedRoles={["student"]} />}>
           <Route path="student-assignments" element={<StudentAssignments />} />
           <Route path="student-classwork" element={<Classwork />} />
           <Route path="change-class" element={<ChangeClass />} />
         </Route>
 
         {/* Admin Routes */}
-        <Route element={<RequireAuth allowedRoles={['admin']} />}>
+        <Route element={<RequireAuth allowedRoles={["admin"]} />}>
           <Route path="account-activation" element={<AccountActivation />} />
           <Route path="account-management" element={<AccountManagement />} />
           <Route path="manage-games" element={<ManageGames />} />
@@ -121,7 +126,7 @@ function App() {
         </Route>
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

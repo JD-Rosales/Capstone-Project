@@ -308,7 +308,7 @@ const GuessHandSign = () => {
         <div className="asl-container">
           {!gameEnded && !isLoadingLeaderboard && renderAsl()}
 
-          {!gameStart && !isLoadingLeaderboard && (
+          {!gameStart && !isLoadingLeaderboard && !gameEnded && (
             <GuessHandSignStart start={startGame} />
           )}
 
