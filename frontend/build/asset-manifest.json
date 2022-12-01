@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.3ab4b228.css",
-    "main.js": "/static/js/main.41ccd5d1.js",
+    "main.js": "/static/js/main.8bdec699.js",
     "static/media/illustration2.png": "/static/media/illustration2.39d7d710ca4e7c4816e3.png",
     "static/media/illustration1.png": "/static/media/illustration1.e88d887a91ac5ce0f2f8.png",
     "static/media/spellHandSign_illustration.png": "/static/media/spellHandSign_illustration.67a9b0de266a05d0cd60.png",
@@ -141,10 +141,10 @@
     "static/media/login-signup.svg": "/static/media/login-signup.87faaee5d469e259258a.svg",
     "index.html": "/index.html",
     "main.3ab4b228.css.map": "/static/css/main.3ab4b228.css.map",
-    "main.41ccd5d1.js.map": "/static/js/main.41ccd5d1.js.map"
+    "main.8bdec699.js.map": "/static/js/main.8bdec699.js.map"
   },
   "entrypoints": [
     "static/css/main.3ab4b228.css",
-    "static/js/main.41ccd5d1.js"
+    "static/js/main.8bdec699.js"
   ]
 }
