@@ -1,23 +1,28 @@
-import {Finger, FingerCurl, FingerDirection, GestureDescription} from 'fingerpose';
+import {
+  Finger,
+  FingerCurl,
+  FingerDirection,
+  GestureDescription,
+} from 'fingerpose'
 
-export const l = new GestureDescription("L");
+export const l = new GestureDescription('L')
 
 //Thumb
-l.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0);
-l.addDirection(Finger.Thumb, FingerDirection.HorizontalLeft, 1.0); 
+l.addCurl(Finger.Thumb, FingerCurl.NoCurl, 1.0)
+l.addDirection(Finger.Thumb, FingerDirection.HorizontalLeft, 1.0)
 
 //Index
-l.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0);
-l.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0);
+l.addCurl(Finger.Index, FingerCurl.NoCurl, 1.0)
+l.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0)
 
 //Middle
-l.addCurl(Finger.Middle, FingerCurl.FullCurl, 1.0);
-l.addDirection(Finger.Index, FingerDirection.DiagonalUpLeft, 1.0);
+l.addCurl(Finger.Middle, FingerCurl.FullCurl, 1.0)
+l.addDirection(Finger.Middle, FingerDirection.DiagonalUpLeft, 1.0)
 
 //Ring
-l.addCurl(Finger.Ring, FingerCurl.FullCurl, 1.0);
-l.addDirection(Finger.Index, FingerDirection.VerticalUp, 1.0);
+l.addCurl(Finger.Ring, FingerCurl.FullCurl, 1.0)
+l.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0)
 
 //Pinky
-l.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
-l.addDirection(Finger.Index, FingerDirection.VerticalUp, 1.0);
+l.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0)
+l.addDirection(Finger.Pinky, FingerDirection.VerticalUp, 1.0)

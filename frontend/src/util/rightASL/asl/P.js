@@ -20,4 +20,4 @@ p.addDirection(Finger.Ring, FingerDirection.DiagonalDownLeft, 1.0);
 
 //Pinky
 p.addCurl(Finger.Pinky, FingerCurl.HalfCurl, 1.0);
-p.addDirection(Finger.Ring, FingerDirection.HorizontalLeft, 1.0);
+p.addDirection(Finger.Pinky, FingerDirection.HorizontalLeft, 1.0);
