@@ -20,4 +20,4 @@ w.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0);
 
 //Pinky
 w.addCurl(Finger.Pinky, FingerCurl.HalfCurl, 1.0);
-w.addDirection(Finger.Ring, FingerDirection.VerticalUp, 1.0);
+w.addDirection(Finger.Pinky, FingerDirection.VerticalUp, 1.0);
