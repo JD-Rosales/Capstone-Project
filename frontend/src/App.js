@@ -45,6 +45,7 @@ import FourPic from "./pages/Admin/ManageGames/FourPic/FourPic";
 import TextToASL from "./pages/TextToASL/TextToASL";
 import AccountManagement from "./pages/Admin/AccountManagement/AccountManagement";
 import StudentProgress from "./pages/Teacher/StudentProgress/StudentProgress";
+import Semester from "./pages/Teacher/Semester/Semester";
 
 function App() {
   return (
@@ -103,6 +104,7 @@ function App() {
             path="teacher/student-progress"
             element={<StudentProgress />}
           />
+          <Route path="teacher/semester" element={<Semester />} />
         </Route>
 
         {/* Student Routes */}

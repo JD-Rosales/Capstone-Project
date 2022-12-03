@@ -1,13 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit"
-import authReducer from "../features/auth/authSlice"
-import teacherReducer from "../features/teacher/teacherSlice"
-import studentReducer from "../features/student/studentSlice"
-import adminReducer from "../features/admin/adminSlice"
-import assignmentReducer from "../features/assignment/assignmentSlice"
-import gameWordReducer from "../features/gameWord/gameWordSlice"
-import submissionReducer from "../features/submission/submissionSlice"
-import leaderboardReducer from "../features/leaderboard/leaderboardSlice"
-import gameLogsReducer from "../features/gameLogs/gameLogsSlice"
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "../features/auth/authSlice";
+import teacherReducer from "../features/teacher/teacherSlice";
+import studentReducer from "../features/student/studentSlice";
+import adminReducer from "../features/admin/adminSlice";
+import assignmentReducer from "../features/assignment/assignmentSlice";
+import gameWordReducer from "../features/gameWord/gameWordSlice";
+import submissionReducer from "../features/submission/submissionSlice";
+import leaderboardReducer from "../features/leaderboard/leaderboardSlice";
+import gameLogsReducer from "../features/gameLogs/gameLogsSlice";
+import semesterReducer from "../features/semester/semesterSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
     assignment: assignmentReducer,
     gameWord: gameWordReducer,
     submission: submissionReducer,
-    leaderboard:leaderboardReducer,
-    gameLogs: gameLogsReducer
-  }
-})
+    leaderboard: leaderboardReducer,
+    gameLogs: gameLogsReducer,
+    semester: semesterReducer,
+  },
+});

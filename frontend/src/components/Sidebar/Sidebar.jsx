@@ -16,6 +16,7 @@ import { RiLightbulbFill } from "react-icons/ri";
 import { FaUsersCog } from "react-icons/fa";
 import { ImUsers } from "react-icons/im";
 import { GiProgression } from "react-icons/gi";
+import { FaRegCalendarCheck } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { resetAll } from "../../features/auth/authSlice";
 import { Fade, Modal, Box, Backdrop, Button } from "@mui/material";
@@ -105,8 +106,20 @@ const Sidebar = () => {
             </li>
 
             <li>
+              <NavLink to="/teacher/semester">
+                <FaRegCalendarCheck className="icon" /> <span>Semester</span>
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink to="/enrolled-students">
                 <MdPeopleAlt className="icon" /> <span>My Students</span>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/teacher/assignments">
+                <MdAssignment className="icon" /> <span>Assignments</span>
               </NavLink>
             </li>
 
@@ -114,12 +127,6 @@ const Sidebar = () => {
               <NavLink to="/teacher/student-progress">
                 <GiProgression className="icon" />{" "}
                 <span>Students Progress</span>
-              </NavLink>
-            </li>
-
-            <li>
-              <NavLink to="/teacher/assignments">
-                <MdAssignment className="icon" /> <span>Assignments</span>
               </NavLink>
             </li>
 

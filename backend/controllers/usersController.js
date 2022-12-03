@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
+const Semester = require("../models/semesterModel");
 const randomString = require("randomstring");
 const { cloudinary } = require("../config/cloudinary");
 const { generateToken } = require("../utils/generateToken");
@@ -40,7 +41,7 @@ const signUp = async (req, res) => {
       const emailExists = await User.findOne({ email: email }).lean().exec();
 
       if (emailExists) {
-        res.status(409).json({ message: "Email is already registered" });
+        return res.status(409).json({ message: "Email is already registered" });
       } else {
         if (role === "admin") {
           const secretCode = req.body.secretCode;
@@ -124,11 +125,22 @@ const signUp = async (req, res) => {
             return res.status(400).json({ message: "Invalid class code" });
           }
 
+          // here
+          const activeSemester = await Semester.findOne({
+            user: codeExists._id,
+            isActive: true,
+          });
+
+          if (!activeSemester?.name) {
+            return res.status(400).json({ message: "Class not yet started" });
+          }
+
           const user = await User.create({
             email: email,
             password: hashPassword,
             role: role,
             userInfo: userInfo,
+            enrolledSem: activeSemester.name,
           });
 
           //return user data if success

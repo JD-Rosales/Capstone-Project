@@ -41,6 +41,8 @@ app.use("/api/game-logs", require("./routes/api/gameLogRoutes"));
 
 app.use("/api/otp", require("./routes/api/otpRoutes"));
 
+app.use("/api/semester", require("./routes/api/semesterRoutes"));
+
 //frontend protected routes
 app.use("/verifyJWT", verifyJWT);
 
