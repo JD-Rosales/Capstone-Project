@@ -362,7 +362,7 @@ const Assignments = () => {
           ) : (
             ""
           )}
-          {data.length === 0 && (
+          {data.length === 0 && !isLoading && (
             <div className="no-data">
               <span>
                 You haven't <span>assign</span> anything

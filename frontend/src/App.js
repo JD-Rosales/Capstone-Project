@@ -12,6 +12,7 @@ import Forbidden from "./pages/Forbidden/Forbidden";
 // Authenticated Pages
 import Unauthorized from "./pages/Unauthorized/Unauthorized";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import StudentDashboard from "./pages/Student/StudentDashboard/StudentDashboard";
 import ASLTranslator from "./pages/ASLTranslator/ASLTranslator";
 import Play from "./pages/Play/Play";
 import Practice from "./pages/Practice/Practice";
@@ -109,6 +110,7 @@ function App() {
 
         {/* Student Routes */}
         <Route element={<RequireAuth allowedRoles={["student"]} />}>
+          <Route path="student-dashboard" element={<StudentDashboard />} />
           <Route path="student-assignments" element={<StudentAssignments />} />
           <Route path="student-classwork" element={<Classwork />} />
           <Route path="change-class" element={<ChangeClass />} />

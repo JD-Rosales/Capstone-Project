@@ -106,8 +106,8 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <NavLink to="/teacher/semester">
-                <FaRegCalendarCheck className="icon" /> <span>Semester</span>
+              <NavLink to="/teacher/student-progress">
+                <GiProgression className="icon" /> <span>Progress</span>
               </NavLink>
             </li>
 
@@ -124,9 +124,8 @@ const Sidebar = () => {
             </li>
 
             <li>
-              <NavLink to="/teacher/student-progress">
-                <GiProgression className="icon" />{" "}
-                <span>Students Progress</span>
+              <NavLink to="/teacher/semester">
+                <FaRegCalendarCheck className="icon" /> <span>Semester</span>
               </NavLink>
             </li>
 
@@ -139,7 +138,7 @@ const Sidebar = () => {
         ) : user?.role === "student" ? (
           <ul>
             <li>
-              <NavLink to="/dashboard">
+              <NavLink to="/student-dashboard">
                 <RiDashboardFill className="icon" /> <span>Dashboard</span>
               </NavLink>
             </li>

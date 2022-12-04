@@ -1,160 +1,160 @@
-import './ASLTranslator.css'
-import Sidebar from '../../components/Sidebar/Sidebar'
-import RightNav from '../../components/RightNav/RightNav'
-import Camera from 'react-webcam'
-import { useRef, useState, useEffect } from 'react'
-import * as handPose from '@tensorflow-models/handpose'
-import '@tensorflow/tfjs-backend-webgl'
-import * as fingerpose from 'fingerpose'
-import { drawHand } from '../../util/Drawing'
-import GameLoader from '../../components/GameLoader/GameLoader'
-import { useSelector } from 'react-redux'
-import { rightSigns } from '../../util/rightASL/rightSigns'
-import { leftSigns } from '../../util/leftASL/leftSigns'
-import { rightNumbers } from '../../util/rightNumberASL/rightNumberSign'
-import { leftNumbers } from '../../util/leftNumberASL/leftNumberSign'
-import { rightWordASL } from '../../util/wordASL/rightWordSign'
-import { leftWordASL } from '../../util/wordASL/leftWordSign'
-import { toast } from 'react-toastify'
+import "./ASLTranslator.css";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import RightNav from "../../components/RightNav/RightNav";
+import Camera from "react-webcam";
+import { useRef, useState, useEffect } from "react";
+import * as handPose from "@tensorflow-models/handpose";
+import "@tensorflow/tfjs-backend-webgl";
+import * as fingerpose from "fingerpose";
+import { drawHand } from "../../util/Drawing";
+import GameLoader from "../../components/GameLoader/GameLoader";
+import { useSelector } from "react-redux";
+import { rightSigns } from "../../util/rightASL/rightSigns";
+import { leftSigns } from "../../util/leftASL/leftSigns";
+import { rightNumbers } from "../../util/rightNumberASL/rightNumberSign";
+import { leftNumbers } from "../../util/leftNumberASL/leftNumberSign";
+import { rightWordASL } from "../../util/wordASL/rightWordSign";
+import { leftWordASL } from "../../util/wordASL/leftWordSign";
+import { toast } from "react-toastify";
 
 const ASLTranslator = () => {
-  const { user } = useSelector((state) => state.auth)
+  const { user } = useSelector((state) => state.auth);
 
-  const cameraRef = useRef(null)
-  const canvasRef = useRef(null)
+  const cameraRef = useRef(null);
+  const canvasRef = useRef(null);
 
-  const [asl, setASL] = useState([])
-  const aslRef = useRef()
-  aslRef.current = asl
+  const [asl, setASL] = useState([]);
+  const aslRef = useRef();
+  aslRef.current = asl;
 
-  const [handsign, setHandsign] = useState('')
-  const [gestureConfidence, setGestureConfidence] = useState(null)
-  const [cameraEnable, setCameraEnable] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [handsign, setHandsign] = useState("");
+  const [gestureConfidence, setGestureConfidence] = useState(null);
+  const [cameraEnable, setCameraEnable] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const [aslType, setAslType] = useState('LETTERS')
+  const [aslType, setAslType] = useState("LETTERS");
 
-  let hasHand = 0
+  let hasHand = 0;
 
   //check Camera permission
   const checkCamera = async () => {
     try {
-      await navigator.mediaDevices.getUserMedia({ video: true })
-      setCameraEnable(true)
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      setCameraEnable(true);
     } catch (error) {
-      setCameraEnable(false)
-      toast.error('Cannot Access Camera!')
+      setCameraEnable(false);
+      toast.error("Cannot Access Camera!");
     }
-  }
+  };
 
   const detectHand = async (model) => {
     if (
       cameraRef.current !== null &&
       cameraRef.current.video.readyState === 4
     ) {
-      const video = cameraRef.current.video
-      const videoHeight = cameraRef.current.video.videoHeight
-      const videoWidth = cameraRef.current.video.videoWidth
+      const video = cameraRef.current.video;
+      const videoHeight = cameraRef.current.video.videoHeight;
+      const videoWidth = cameraRef.current.video.videoWidth;
 
-      cameraRef.current.video.width = videoWidth
-      cameraRef.current.video.height = videoHeight
+      cameraRef.current.video.width = videoWidth;
+      cameraRef.current.video.height = videoHeight;
 
-      canvasRef.current.width = videoWidth
-      canvasRef.current.height = videoHeight
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
 
-      const hand = await model.estimateHands(video, true)
+      const hand = await model.estimateHands(video, true);
 
-      if (loading) setLoading(false)
+      if (loading) setLoading(false);
 
       if (hand.length === 0) {
-        hasHand++
+        hasHand++;
       }
 
       if (hasHand === 20) {
-        setHandsign(null)
-        setGestureConfidence(null)
-        hasHand = 0
+        setHandsign(null);
+        setGestureConfidence(null);
+        hasHand = 0;
       }
 
       if (hand.length > 0) {
-        const canvas = canvasRef.current.getContext('2d')
-        drawHand(hand, canvas)
+        const canvas = canvasRef.current.getContext("2d");
+        drawHand(hand, canvas);
 
-        const estimateGesture = new fingerpose.GestureEstimator(aslRef.current)
+        const estimateGesture = new fingerpose.GestureEstimator(aslRef.current);
 
-        const gesture = await estimateGesture.estimate(hand[0].landmarks, 8.5)
-        console.log(gesture.poseData)
+        const gesture = await estimateGesture.estimate(hand[0].landmarks, 8.5);
+        // console.log(gesture.poseData)
 
         if (gesture.gestures !== undefined && gesture.gestures.length > 0) {
           const arrConfidence = gesture.gestures.map(
-            (confidence) => confidence.score,
-          )
+            (confidence) => confidence.score
+          );
 
-          const max = Math.max(...arrConfidence)
+          const max = Math.max(...arrConfidence);
 
-          const highestConfidence = arrConfidence.indexOf(max)
+          const highestConfidence = arrConfidence.indexOf(max);
           // console.log(gesture.gestures[highestConfidence].name)
 
-          setHandsign(gesture.gestures[highestConfidence].name)
+          setHandsign(gesture.gestures[highestConfidence].name);
           setGestureConfidence(
-            gesture.gestures[highestConfidence].score.toFixed(2) * 10 + '%',
-          )
+            gesture.gestures[highestConfidence].score.toFixed(2) * 10 + "%"
+          );
         }
       }
     }
-  }
+  };
 
   async function startDetection() {
-    const model = await handPose.load()
+    const model = await handPose.load();
 
     setInterval(() => {
-      detectHand(model)
-    }, 100)
+      detectHand(model);
+    }, 100);
   }
 
   useEffect(() => {
     if (cameraEnable) {
-      startDetection()
+      startDetection();
     }
     // eslint-disable-next-line
-  }, [cameraEnable])
+  }, [cameraEnable]);
 
   useEffect(() => {
     if (user.userSettings.hand) {
-      setASL(rightSigns)
+      setASL(rightSigns);
     } else {
-      setASL(leftSigns)
+      setASL(leftSigns);
     }
-    checkCamera()
+    checkCamera();
     // eslint-disable-next-line
-  }, [cameraEnable])
+  }, [cameraEnable]);
 
   function changeType(e) {
-    setAslType(e.target.value)
+    setAslType(e.target.value);
   }
 
   useEffect(() => {
-    if (aslType === 'LETTERS') {
+    if (aslType === "LETTERS") {
       if (user.userSettings.hand) {
-        setASL(rightSigns)
+        setASL(rightSigns);
       } else {
-        setASL(leftSigns)
+        setASL(leftSigns);
       }
-    } else if (aslType === 'WORDS') {
+    } else if (aslType === "WORDS") {
       if (user.userSettings.hand) {
-        setASL(rightWordASL)
+        setASL(rightWordASL);
       } else {
-        setASL(leftWordASL)
+        setASL(leftWordASL);
       }
     } else {
       if (user.userSettings.hand) {
-        setASL(rightNumbers)
+        setASL(rightNumbers);
       } else {
-        setASL(leftNumbers)
+        setASL(leftNumbers);
       }
     }
     // eslint-disable-next-line
-  }, [aslType])
+  }, [aslType]);
 
   return (
     <div className="asl-translator">
@@ -165,7 +165,7 @@ const ASLTranslator = () => {
           <span>
             Web Camera:
             <span onClick={checkCamera}>
-              {' '}
+              {" "}
               {cameraEnable ? `Enabled` : `Disable`}
             </span>
           </span>
@@ -176,7 +176,7 @@ const ASLTranslator = () => {
           </span>
 
           <span className="detection-type">
-            Translate:{' '}
+            Translate:{" "}
             <select onChange={changeType}>
               <option value="LETTERS">LETTERS</option>
               <option value="NUMBERS">NUMBERS</option>
@@ -192,8 +192,8 @@ const ASLTranslator = () => {
             ref={cameraRef}
             mirrored={true}
             style={{
-              height: '100%',
-              width: '100%',
+              height: "100%",
+              width: "100%",
             }}
           />
 
@@ -201,12 +201,12 @@ const ASLTranslator = () => {
             className="canvas"
             ref={canvasRef}
             style={{
-              height: '100%',
-              width: '100%',
+              height: "100%",
+              width: "100%",
             }}
           />
 
-          {loading ? <GameLoader /> : ''}
+          {loading ? <GameLoader /> : ""}
         </div>
         {/* </div> */}
 
@@ -228,7 +228,7 @@ const ASLTranslator = () => {
         "
       />
     </div>
-  )
-}
+  );
+};
 
-export default ASLTranslator
+export default ASLTranslator;

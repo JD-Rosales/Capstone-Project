@@ -1,4 +1,4 @@
-import "./TeacherDashboard.css";
+import "./StudentDashboard.css";
 import { useEffect, useRef } from "react";
 import teacher2 from "../../../assets/Teacher2.png";
 import Sidebar from "../../../components/Sidebar/Sidebar";
@@ -9,13 +9,14 @@ import {
   getEnrolledStudents,
 } from "../../../features/student/studentSlice";
 import { getAssignments } from "../../../features/assignment/assignmentSlice";
-import { getSemesters } from "../../../features/semester/semesterSlice";
 import { toast } from "react-toastify";
 import GameLogs from "../../../components/GameLogs/GameLogs";
 import { useNavigate } from "react-router-dom";
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import axios from "axios";
+import { useState } from "react";
 
-const TeacherDashboard = () => {
+const StudentDashboard = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -25,18 +26,18 @@ const TeacherDashboard = () => {
   const { data, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.student
   );
+  const [teacher, setTeacher] = useState("");
 
   const { data: allAssignment } = useSelector((state) => state.assignment);
-  const { data: activeSemester } = useSelector((state) => state.semester);
 
   useEffect(() => {
     const params = {
       classCode: user.userInfo.classCode,
       token: token,
     };
+    getTeacher();
     dispatch(getEnrolledStudents(params));
     dispatch(getAssignments(params));
-    dispatch(getSemesters(params));
     // eslint-disable-next-line
   }, []);
 
@@ -52,8 +53,25 @@ const TeacherDashboard = () => {
     // eslint-disable-next-line
   }, [data, isLoading, isError, isSuccess, message]);
 
+  const getTeacher = async () => {
+    await axios
+      .get("/api/teacher/get-teacher", {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((result) => {
+        setTeacher(
+          result.data.teacher.userInfo.firstName +
+            " " +
+            result.data.teacher.userInfo.lastName
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
-    <div className="teacher-dashboard">
+    <div className="student-dashboard">
       <Sidebar />
 
       <main>
@@ -77,15 +95,15 @@ const TeacherDashboard = () => {
             }}
           >
             <h1>
-              Hi, Teacher{" "}
+              Hi, Student{" "}
               <span style={{ color: "var(--aquaGreen)" }}>
                 {user.userInfo.firstName + "!"}
               </span>
             </h1>
 
             <p>
-              It's great to have you here. Ensure that the learners are actively
-              engaged with their coursework.
+              It's great to have you here. Ensure that you are actively engaged
+              with your classwork/s.
             </p>
           </Grid>
           <Grid item={true} xs={6} align="center">
@@ -150,10 +168,10 @@ const TeacherDashboard = () => {
                   wordWrap: "break-word",
                 }}
               >
-                ENROLLED STUDENTS
+                ENROLLED TEACHER
               </span>
 
-              <h2>{data?.students?.length}</h2>
+              <h2 style={{ lineHeight: "1.2rem" }}>{teacher}</h2>
             </div>
             <div
               className="container3"
@@ -186,16 +204,7 @@ const TeacherDashboard = () => {
                 Active Semester
               </span>
 
-              <h2 style={{ lineHeight: "1.2rem" }}>
-                {
-                  // eslint-disable-next-line
-                  activeSemester.map((semester) => {
-                    if (semester.isActive) {
-                      return semester.name;
-                    }
-                  })
-                }
-              </h2>
+              <h2 style={{ lineHeight: "1.2rem" }}>{user.enrolledSem}</h2>
             </div>
           </Grid>
         </Grid>
@@ -203,4 +212,4 @@ const TeacherDashboard = () => {
     </div>
   );
 };
-export default TeacherDashboard;
+export default StudentDashboard;

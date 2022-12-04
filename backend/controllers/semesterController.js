@@ -5,13 +5,22 @@ const addSemester = async (req, res) => {
   try {
     const auth = req.user;
 
-    const { name } = req.body;
+    const { name, startDate, endDate } = req.body;
 
     if (!name || name === "") {
       return res.status(400).json({ message: "Semester name is required" });
     }
 
+    if (!startDate || startDate === "") {
+      return res.status(400).json({ message: "Start Date is required" });
+    }
+
+    if (!endDate || endDate === "") {
+      return res.status(400).json({ message: "End Date is required" });
+    }
+
     const semesterExists = await Semester.find({
+      user: auth.id,
       name: name,
     });
 
@@ -22,6 +31,8 @@ const addSemester = async (req, res) => {
     await Semester.create({
       user: auth.id,
       name: name,
+      startDate: startDate,
+      endDate: endDate,
     });
 
     const semesters = await Semester.find({
@@ -29,6 +40,7 @@ const addSemester = async (req, res) => {
     })
       .lean()
       .exec();
+
     return res.status(200).json(semesters);
   } catch (error) {
     console.log(error);
@@ -45,6 +57,7 @@ const getSemesters = async (req, res) => {
     })
       .lean()
       .exec();
+
     return res.status(200).json(semesters);
   } catch (error) {
     console.log(error);

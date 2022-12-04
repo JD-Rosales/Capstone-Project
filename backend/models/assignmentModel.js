@@ -10,9 +10,8 @@ const assignmentSchema = mongoose.Schema(
       ref: User,
     },
     semester: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: "Semester",
     },
     classCode: {
       type: String,

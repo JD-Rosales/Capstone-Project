@@ -55,6 +55,30 @@ export const getSemesters = createAsyncThunk(
   }
 );
 
+export const changeActiveSemester = createAsyncThunk(
+  "semester/changeActiveSemester",
+  async (params, thunkAPI) => {
+    try {
+      const response = await axios.patch("/api/semester/" + params.id, params, {
+        headers: { Authorization: `Bearer ${params.token}` },
+      });
+
+      if (response.data) {
+        return response.data;
+      }
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const semesterSlice = createSlice({
   name: "semester",
   initialState,
@@ -92,6 +116,21 @@ export const semesterSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(getSemesters.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+        state.data = [];
+      })
+
+      .addCase(changeActiveSemester.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(changeActiveSemester.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.data = action.payload;
+      })
+      .addCase(changeActiveSemester.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

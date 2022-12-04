@@ -1,7 +1,8 @@
 const Assignment = require("../models/assignmentModel");
 const Submission = require("../models/submissionModel");
+const Semester = require("../models/semesterModel");
+const User = require("../models/userModel");
 const moment = require("moment");
-// const User = require('../models/userModel')
 
 //
 const addAssignment = async (req, res) => {
@@ -40,8 +41,18 @@ const addAssignment = async (req, res) => {
       return res.status(400).json({ message: "Invalid Date/Time" });
     }
 
+    const activeSemester = await Semester.findOne({
+      user: auth._id,
+      isActive: true,
+    });
+
+    if (!activeSemester?.name) {
+      return res.status(400).json({ message: "No Active Semester" });
+    }
+
     await Assignment.create({
       user: auth.id,
+      semester: activeSemester.name,
       classCode: auth.userInfo.classCode,
       words: wordsArray,
       title: title,
@@ -103,8 +114,15 @@ const getAssignments = async (req, res) => {
       }
     );
 
+    const activeSemester = await Semester.findOne({
+      user: auth._id,
+      isActive: true,
+    });
+
     const assignments = await Assignment.find({
       classCode: auth.userInfo.classCode,
+      semester:
+        auth.role === "teacher" ? activeSemester.name : auth.enrolledSem,
     })
       .populate({
         path: "submissions",

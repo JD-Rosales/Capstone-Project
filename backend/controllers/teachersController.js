@@ -141,10 +141,27 @@ const unsuspendAccount = async (req, res) => {
   }
 };
 
+const getEnrolledTeacher = async (req, res) => {
+  try {
+    const auth = req.user;
+
+    const teacher = await User.findOne({
+      role: "teacher",
+      "userInfo.classCode": auth.userInfo.classCode,
+    });
+
+    return res.status(200).json({ teacher });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ message: "An error has occured" });
+  }
+};
+
 module.exports = {
   getUnactivated,
   updateStatus,
   getAllTeacher,
   suspendAccount,
   unsuspendAccount,
+  getEnrolledTeacher,
 };

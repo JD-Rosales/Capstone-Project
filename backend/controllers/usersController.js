@@ -598,7 +598,7 @@ const updateProgress = async (req, res) => {
 
 const changeClassCode = async (req, res) => {
   try {
-    let { newClassCode, classCode } = req.body;
+    let { newClassCode } = req.body;
 
     if (!newClassCode) {
       return res
@@ -623,10 +623,20 @@ const changeClassCode = async (req, res) => {
       return res.status(404).json({ message: "Invalid Class Code" });
     }
 
+    const activeSemester = await Semester.findOne({
+      user: checkClassCode._id,
+      isActive: true,
+    });
+
+    if (!activeSemester?.name) {
+      return res.status(400).json({ message: "Class not yet started" });
+    }
+
     const updatedClassCode = await User.findByIdAndUpdate(
       req.params.id,
       {
         "userInfo.classCode": newClassCode,
+        enrolledSem: activeSemester.name,
       },
       { new: true }
     );

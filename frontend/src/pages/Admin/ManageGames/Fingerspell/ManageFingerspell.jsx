@@ -237,7 +237,6 @@ const ManageFingerspell = () => {
           "https://api.dictionaryapi.dev/api/v2/entries/en/" + addFormData.word
         )
         .then((result) => {
-          console.log(result.data);
           setIsValidWord(true);
         })
         .catch((err) => {
@@ -260,7 +259,6 @@ const ManageFingerspell = () => {
             updateFormData.word
         )
         .then((result) => {
-          console.log(result.data);
           setIsValidWordUpdate(true);
         })
         .catch((err) => {

@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const Semester = require("../models/semesterModel");
 
 const getEnrolledStudents = async (req, res) => {
   try {
@@ -23,10 +24,20 @@ const getActiveEnrolledStudents = async (req, res) => {
   try {
     const auth = req.user;
 
+    const activeSemester = await Semester.findOne({
+      user: auth._id,
+      isActive: true,
+    });
+
+    if (!activeSemester?.name) {
+      return res.status(400).json({ message: "No Active Semester" });
+    }
+
     const students = await User.find({
       "userInfo.classCode": req.params.classCode,
       role: "student",
       isActive: true,
+      enrolledSem: activeSemester.name,
     })
       .select("-password")
       .lean()
