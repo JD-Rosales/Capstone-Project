@@ -157,10 +157,7 @@ const StudentDashboard = () => {
                 }}
               />
             </div>
-            <div
-              className="container2"
-              onClick={() => navigate("/enrolled-students")}
-            >
+            <div className="container2">
               <span
                 style={{
                   display: "block",
@@ -175,7 +172,7 @@ const StudentDashboard = () => {
             </div>
             <div
               className="container3"
-              onClick={() => navigate("/teacher/assignments")}
+              onClick={() => navigate("/student-assignments")}
             >
               <span
                 style={{
@@ -190,10 +187,7 @@ const StudentDashboard = () => {
               <h2>{allAssignment?.length}</h2>
             </div>
 
-            <div
-              className="container3"
-              onClick={() => navigate("/teacher/semester")}
-            >
+            <div className="container3">
               <span
                 style={{
                   display: "block",
